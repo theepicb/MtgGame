@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://crqmyywyg36sw"]
+
+[ext_resource type="Shader" path="res://new_shader_material.gdshader" id="1_rauop"]
+
+[resource]
+shader = ExtResource("1_rauop")
+shader_parameter/time = null

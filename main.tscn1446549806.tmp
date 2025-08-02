@@ -1,0 +1,79 @@
+[gd_scene load_steps=15 format=3 uid="uid://flgnxqv25dpr"]
+
+[ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://bhxagi2bqjbin" path="res://money_clicker.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://biwfb1tu5j62k" path="res://click_screen_button.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://bune4xmr3n333" path="res://upgrades.gd" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://drhjsdrlah301" path="res://pack_clicker.gd" id="4_kek77"]
+[ext_resource type="Script" uid="uid://b8dv6q1006iqp" path="res://pack_screen.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://du5yhnoioa0bo" path="res://upgrades_button.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://2gyk724rn3l7" path="res://pack_screen_button.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://d1fx4s8p2ui3n" path="res://card.gd" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://cqnrykeuofbg5" path="res://open_packs_screen.gd" id="10_dg77c"]
+[ext_resource type="Script" uid="uid://du8slyj84pk6e" path="res://mat_data.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://1qmwryctuwk2" path="res://pack_data.gd" id="12_ycdy4"]
+[ext_resource type="Script" uid="uid://c1fb08nxpa3fi" path="res://http_data.gd" id="14_w48qg"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_h2yge")
+
+[node name="Player" type="Node2D" parent="."]
+script = ExtResource("2_1bvp3")
+
+[node name="Card" type="Sprite2D" parent="."]
+script = ExtResource("10_4c57u")
+
+[node name="Money_Clicker" type="Button" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_lquwl")
+
+[node name="Pack_Clicker" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("4_kek77")
+
+[node name="Upgrades" type="Node2D" parent="."]
+script = ExtResource("4_7mycd")
+
+[node name="Pack_Screen" type="Node2D" parent="."]
+script = ExtResource("5_272bh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Click_Screen_button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("4_1bvp3")
+
+[node name="Upgrades_Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("6_272bh")
+
+[node name="Pack_Screen_Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("8_5vw27")
+
+[node name="Open_Packs_Screen" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("10_dg77c")
+
+[node name="Pack_Data" type="Node2D" parent="."]
+script = ExtResource("12_ycdy4")
+
+[node name="Mat_data" type="Node2D" parent="Pack_Data"]
+script = ExtResource("11_efxa6")
+
+[node name="HttpData" type="Node2D" parent="."]
+script = ExtResource("14_w48qg")
