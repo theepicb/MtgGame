@@ -46,7 +46,11 @@ func updateText():
 func claimButtonPressed():
 	print("worked");
 	completion = completion - 100;
+	if completion < 100:
+		deleteChildren()
+		
 	getCommonPack();
+	updateText()
 	pass
 	
 func getRarePack():
@@ -83,3 +87,7 @@ func getCommonPack():
 			print(pack.id + ": " + str(pack.owned));
 		pass
 	pass
+
+func deleteChildren ():
+	for child in get_children():
+		child.queue_free()
