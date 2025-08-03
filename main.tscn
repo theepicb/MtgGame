@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=17 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://du8slyj84pk6e" path="res://mat_data.gd" id="11_efxa6"]
 [ext_resource type="Script" uid="uid://bie7vfhuyifeg" path="res://back_button.gd" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://1qmwryctuwk2" path="res://pack_data.gd" id="12_ycdy4"]
+[ext_resource type="Script" uid="uid://3rjap2rupt4c" path="res://Inventory_Button.gd" id="13_2cqfq"]
 [ext_resource type="Script" uid="uid://c1fb08nxpa3fi" path="res://http_data.gd" id="14_w48qg"]
 
 [node name="Main" type="Node2D"]
@@ -75,6 +76,11 @@ offset_right = 45.0
 offset_bottom = 40.0
 text = "back"
 script = ExtResource("12_vivmo")
+
+[node name="Inventory_Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("13_2cqfq")
 
 [node name="Pack_Data" type="Node2D" parent="."]
 script = ExtResource("12_ycdy4")

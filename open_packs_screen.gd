@@ -13,6 +13,7 @@ func _pressed() -> void:
 	$"../../Pack_Clicker".visible = false;
 	$"../../Upgrades".deleteChildren();
 	$"../../Pack_Screen".deleteChildren();
+	$"../Inventory_Button".leaveInventory();
 	display_owned_packs();
 	pass
 

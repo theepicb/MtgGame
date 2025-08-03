@@ -105,6 +105,7 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 	new_card.position = self.pos;
 	Player.add_child(new_card)
 	Player.cardsToShow.push_back(new_card);
+	Player.cardInventory.push_back(new_card);
 	finished();
 	queue_free();
 	pass

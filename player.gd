@@ -4,4 +4,5 @@ var money = 500;
 var luck = 1;
 
 var inventory = [];
+var cardInventory = [];
 var cardsToShow = [];
