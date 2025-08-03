@@ -11,4 +11,5 @@ func _pressed() -> void:
 	$"../../Pack_Clicker".visible = false;
 	$"../../Upgrades".deleteChildren();
 	$"../../Pack_Screen".layout_pack_buttons();
+	$"../Open_Packs_Screen".deleteChildren();
 	pass

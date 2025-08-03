@@ -9,6 +9,7 @@ func _ready() -> void:
 func _pressed() -> void:
 	$"../../Money_Clicker".visible = false;
 	$"../../Pack_Clicker".visible = false;
+	$"../Open_Packs_Screen".deleteChildren();
 	$"../../Upgrades".create_upgrade_buttons();
 	$"../../Pack_Screen".deleteChildren();
 	pass

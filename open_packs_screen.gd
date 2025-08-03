@@ -94,27 +94,33 @@ func _on_pack_opened(pack):
 
 func open_pack_contents(pack_id: String):
 	print("Opening pack: ", pack_id)
-	# Add your pack opening logic here
-	# This could show cards, add items to inventory, etc.
-	
-	# Example card rewards - replace with your actual logic
+	hideUI();
 	match pack_id:
 		"mat_ep":
-			hideUI();
+			
 			$"../../Pack_Data/Mat_data".createDraftPack();
 			pass
 		"mat_col":
-			print("You got 5 premium cards!")
+			
+			pass
+	
 	
 	# You might call something like:
 	# card_reward_system.generate_rewards(pack_id)
 func deleteChildren():
-	for child in get_children():
-		if child is Button:
+	var keep_node = $Back_Button
+	for child in get_children().duplicate():
+		if child != keep_node:
 			child.queue_free()
 
 func hideUI () -> void:
 	deleteChildren()
 	for child in $"..".get_children():
 		child.visible = false
-		
+	print("children: ", get_children())
+
+func showUI () -> void:
+	for child in $"..".get_children():
+		child.visible = true
+	
+	display_owned_packs();

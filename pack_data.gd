@@ -15,3 +15,15 @@ func ensure_directory_exists(dir_path: String) -> void:
 			print("Failed to create directory:", err)
 	else:
 		print("Directory already exists:", dir_path)
+		
+func getPosition(x) -> Vector2:
+	var pos = Vector2(100 + ((x % 10) * 200), 200 + (290 *(floor(x/ 10))))
+	return pos
+
+func getLuck() -> int:
+	var num = randi_range(0, 100)
+	num = num * Player.luck
+	return num
+	
+func drawBackButton ():
+	$"../CanvasLayer/Back_Button".draw()

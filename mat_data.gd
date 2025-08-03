@@ -27,11 +27,31 @@ func _ready() -> void:
 	pass
 
 func createDraftPack () -> void:
-	for x in 18:
-		if x != 17:
-			grabCard(uncommon, 1, 100 + ((x % 9) * 200), 200 + (290 *(floor(x/ 9))), false)
-		else:
-			grabCard(uncommon, 0, 100 + ((x % 9) * 200), 200 + (290 *(floor(x/ 9))), true)
+	var counter = 0
+	for x in 2:
+			grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+			counter += 1
+	
+	
+	if ($"..".getLuck() > 84):
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	grabCard(getRarity(mythic, rare, uncommon), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter+= 1
+	
+	
+	
+	
+	var foil = 0;
+	if ($"..".getLuck() > 84):
+		foil = 1; 
+	
+	grabCard(getRarity(specialMythic, specialRare, specialUncommon), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	
+	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -41,3 +61,13 @@ func createDraftPack () -> void:
 		y.showCard(y.pos.x, y.pos.y)
 		y.displayPrice();
 		pass
+	$"..".drawBackButton();
+
+func getRarity (mythic: Array, rare: Array, uncommon: Array) -> Array:
+	if ($"..".getLuck() > 84):
+		if ($"..".getLuck() > 84):
+			return mythic
+		else:
+			return rare
+	else:
+		return uncommon
