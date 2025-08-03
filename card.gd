@@ -2,7 +2,7 @@ extends Sprite2D
 class_name Card
 
 var shader_material 
-var shader_time = 0.0
+var shader_time = randi_range(0, 10)
 
 var count: int
 var price: float
@@ -63,7 +63,7 @@ func showCard (posX, posY) -> void:
 
 func _process(delta):
 	if self.foil == 1:
-		shader_time += delta
+		shader_time += delta / 2
 		if self.material:
 			self.material.set_shader_parameter("time", shader_time)
 	pass

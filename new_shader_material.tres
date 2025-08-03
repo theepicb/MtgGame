@@ -1,7 +1,11 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://crqmyywyg36sw"]
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://crqmyywyg36sw"]
 
-[ext_resource type="Shader" path="res://new_shader_material.gdshader" id="1_rauop"]
+[ext_resource type="Shader" uid="uid://b1rgxwjrp0f6s" path="res://new_shader_material.gdshader" id="1_rauop"]
+[ext_resource type="Texture2D" uid="uid://hk0pv7jy3cx6" path="res://Foil_layer.png" id="2_cabul"]
 
 [resource]
 shader = ExtResource("1_rauop")
-shader_parameter/time = null
+shader_parameter/time = 0.0
+shader_parameter/overlay_texture = ExtResource("2_cabul")
+shader_parameter/overlay_opacity = 0.407
+shader_parameter/brightness = 1.17
