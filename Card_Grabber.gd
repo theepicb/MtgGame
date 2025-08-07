@@ -83,12 +83,16 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		push_error("No PNG image available for this card")
 		return
 	pass
-	
-	
-	httpRequest2 = HTTPRequest.new();
-	HttpData.add_child(httpRequest2)
-	httpRequest2.request_completed.connect(secondPing);
-	httpRequest2.request(image_uris["png"])
+	new_card.setPrice(card_value)
+	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png")):
+		print("image exists!")
+		new_card.call_deferred("loadImage")
+		finished()
+	else:
+		httpRequest2 = HTTPRequest.new();
+		HttpData.add_child(httpRequest2)
+		httpRequest2.request_completed.connect(secondPing);
+		httpRequest2.request(image_uris["png"])
 
 func secondPing (result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code != 200:
@@ -109,15 +113,18 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 		print("Failed to save image. Error code:", imageResult)
 	else:
 		print("Saved to:", ProjectSettings.globalize_path(save_path + str(number) + ".png"))
-	new_card.setPrice(card_value)
+	
 	new_card.call_deferred("loadImage")
 	finished();
 	queue_free();
 	pass
 
 func finished ():
+	if is_instance_valid(httpRequest1):
+		httpRequest1.queue_free()
 	httpRequest1.queue_free();
-	httpRequest2.queue_free()
+	if is_instance_valid(httpRequest2):
+		httpRequest2.queue_free()
 	for child in Player.get_children(): 
 		print(child.ID)
 	if self.isLast:
