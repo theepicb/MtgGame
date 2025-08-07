@@ -18,7 +18,7 @@ var httpRequest2: HTTPRequest;
 var imageURL: String;
 
 var isLast: bool
-
+var new_card: Card
 
 
 
@@ -30,20 +30,29 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.cardID = createID()
 	self.pos = position
 	self.isLast = isLast
+	new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+	Player.add_child(new_card)
+	Player.cardsToShow.push_back(new_card);
+	Player.cardInventory.push_back(new_card);
 	generateCard();
 	print("started card generation", save_path)
 	print("foil: ", isFoil)
 	pass
 
 func generateCard () -> void:
-	if !Player.inventory.has(self.cardID):
-		print("new card made!")
-		httpRequest1 = HTTPRequest.new();
-		HttpData.add_child(httpRequest1);
-		httpRequest1.request_completed.connect(firstPing);
-		var url = "https://api.scryfall.com/cards/%s/%d" % [set_name, number];
-		httpRequest1.request(url);
-		
+	if !Player.cardInventory.has(self.cardID):
+		startPing();
+		pass
+	else:
+		for child in Player.get_children():
+			if child.ID == self.ID:
+				child.amount = child.amount + 1
+				child.show(self.pos)
+				print("amount added new amount:", child.amount)
+				finished();
+				return
+				pass
+			startPing();
 		pass
 	pass
 
@@ -75,6 +84,7 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		return
 	pass
 	
+	
 	httpRequest2 = HTTPRequest.new();
 	HttpData.add_child(httpRequest2)
 	httpRequest2.request_completed.connect(secondPing);
@@ -99,13 +109,8 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 		print("Failed to save image. Error code:", imageResult)
 	else:
 		print("Saved to:", ProjectSettings.globalize_path(save_path + str(number) + ".png"))
-	
-	
-	var new_card = Card.new(1, card_value, cardID, self.isFoil, save_path + str(number) + ".png", pos)
-	new_card.position = self.pos;
-	Player.add_child(new_card)
-	Player.cardsToShow.push_back(new_card);
-	Player.cardInventory.push_back(new_card);
+	new_card.setPrice(card_value)
+	new_card.call_deferred("loadImage")
 	finished();
 	queue_free();
 	pass
@@ -113,6 +118,8 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 func finished ():
 	httpRequest1.queue_free();
 	httpRequest2.queue_free()
+	for child in Player.get_children(): 
+		print(child.ID)
 	if self.isLast:
 		print("Child count: ", HttpData.get_child_count())
 		HttpData.emit_signal("Finished")
@@ -125,3 +132,12 @@ func createID() -> String:
 		1: foil = "f"
 		2: foil = "ef"
 	return set_name + str(number) + foil;
+
+func startPing ():
+	print("new card made!")
+	httpRequest1 = HTTPRequest.new();
+	HttpData.add_child(httpRequest1);
+	httpRequest1.request_completed.connect(firstPing);
+	var url = "https://api.scryfall.com/cards/%s/%d" % [set_name, number];
+	httpRequest1.request(url);
+	pass

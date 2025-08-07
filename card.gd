@@ -11,9 +11,9 @@ var foil: int
 var image_path: String
 var pos: Vector2
 
-func _init(count: int, price: float, ID: String, foil: int, image_path: String, pos: Vector2):
+func _init(count: int, ID: String, foil: int, image_path: String, pos: Vector2):
 	self.count = count
-	self.price = price
+
 	self.ID = ID
 	self.foil = foil
 	self.image_path = image_path
@@ -24,7 +24,7 @@ func _ready():
 	z_index = 100
 	self.visible = false
 	
-	var success = load_png_to_sprite(image_path)
+	
 	print("foil", self.foil)
 	if self.foil == 1:
 		self.material = preload("res://new_shader_material.tres")
@@ -83,3 +83,9 @@ func displayPrice():
 	
 	container.add_child(price)
 	
+func setPrice(value):
+	self.price = value
+	pass
+
+func loadImage ():
+	var success = load_png_to_sprite(image_path)
