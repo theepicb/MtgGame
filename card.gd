@@ -10,6 +10,7 @@ var ID: String
 var foil: int
 var image_path: String
 var pos: Vector2
+var cardName: String
 
 func _init(count: int, ID: String, foil: int, image_path: String, pos: Vector2):
 	self.count = count
@@ -59,11 +60,12 @@ func load_png_to_sprite(png_path: String) -> bool:
 func showCard (posX, posY) -> void:
 	self.visible = true;
 	self.position = Vector2(posX, posY);
+	self.pos = Vector2(posX, posY);
 	pass
 
 func _process(delta):
 	if self.foil == 1:
-		shader_time += delta / 2
+		shader_time += delta / 1.5
 		if self.material:
 			self.material.set_shader_parameter("time", shader_time)
 	pass
@@ -85,7 +87,29 @@ func displayPrice():
 	
 func setPrice(value):
 	self.price = value
-	pass
+
+
+func setName (name):
+	self.cardName = name
 
 func loadImage ():
 	var success = load_png_to_sprite(image_path)
+
+
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and Player.inInventory == true:
+		for child in self.get_children():
+			if child is Button:
+				child.queue_free()
+		var click_pos = event.position
+		if get_rect().has_point(to_local(click_pos)):
+			print("✅ Sprite clicked manually! ", self.ID)
+			print(self.price);
+			var button = Button.new();
+			self.add_child(button)
+			button.size = Vector2(60, 20);
+			button.text = ("sell card: " + cardName)
+			button.z_index = 101
+			button.position =  Vector2(event.position.x - self.pos.x, event.position.y - self.pos.y)
+			

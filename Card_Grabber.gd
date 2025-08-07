@@ -67,7 +67,7 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		return
 	
 	var cardname = json.get("name", "Unknown Card")
-	
+	new_card.setName(cardname)
 	# Handle price
 	var prices = json.get("prices", {})
 	

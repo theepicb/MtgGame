@@ -14,6 +14,7 @@ func _pressed() -> void:
 	$"../../Upgrades".deleteChildren();
 	$"../../Pack_Screen".deleteChildren();
 	$"../Open_Packs_Screen".deleteChildren();
+	Player.inInventory = true;
 	loadInventory();
 
 func loadInventory () -> void:
@@ -29,5 +30,6 @@ func getPosition(x) -> Vector2:
 	return pos
 
 func leaveInventory () -> void:
+	Player.inInventory = false
 	for x in Player.cardInventory:
 		x.visible = false;
