@@ -102,7 +102,7 @@ func open_pack_contents(pack_id: String):
 			$"../../Pack_Data/Mat_data".createDraftPack();
 			pass
 		"mat_col":
-			
+			$"../../Pack_Data/Mat_data".createCollectorPack();
 			pass
 	
 	

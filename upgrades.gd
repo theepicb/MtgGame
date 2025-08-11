@@ -15,56 +15,22 @@ class Upgrade:
 		price = p_price
 		description = p_desc
 		effect = p_effect
-
+		
 var available_upgrades: Array[Upgrade] = []  # Upgrades not yet purchased
 var purchased_upgrades: Array[Upgrade] = []  # Track purchased upgrades
 
-func _ready():
-	# Register initial available upgrades
-	register_upgrade(Upgrade.new(
-		"better_clicks1",
-		5.0,
-		"Increase click value +0.01c per click",
-		func(): 
-			$"../Money_Clicker".money_per_click += .01;
-			register_upgrade(Upgrade.new(
-				"better_clicks2",
-				12.5,
-				"Increase click value +0.01c per click",
-				func():
-					$"../Money_Clicker".money_per_click += .01;
-					return true;
-			))
-			return true
-	))
-	
-	register_upgrade(Upgrade.new(
-		"auto_clicker1",
-		2.0,
-		"Generates 1c per second",
-		func():
-			$"../Money_Clicker".money_per_second += 0.01
-			return true
-	))
-	
-	register_upgrade(Upgrade.new(
-		"unlock_mat_collector",
-		2.0,
-		"unlocks march of the machine aftermath collector boosters",
-		func():
-			$"../Pack_Screen".unlock_pack("mat_col")
-			return true
-	))
-
 func register_upgrade(upgrade: Upgrade):
 	available_upgrades.append(upgrade)
+
+@onready var parent = $"../Player";
+
 
 func create_upgrade_buttons():
 	# Clear existing buttons first
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
-	
+	print(available_upgrades)
 	# Create buttons for available upgrades
 	for i in available_upgrades.size():
 		var upgrade = available_upgrades[i]
@@ -76,7 +42,6 @@ func create_upgrade_buttons():
 		add_child(button)
 
 func _on_upgrade_button_pressed(upgrade: Upgrade):
-	var parent = $"../Player";
 	if parent.money >= upgrade.price:
 		if upgrade.effect.call():  # Apply upgrade effect
 			parent.money -= upgrade.price
@@ -91,3 +56,18 @@ func deleteChildren():
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
+
+# for upgrade functions remember it is being called from child so use ../../ to grab node path
+func increaseClickerValue (amount: float):
+	$"../../Money_Clicker".money_per_click += amount;
+
+func registorPack(PackID: String, packRarity: String):
+	$"../../Pack_Screen".unlock_pack(PackID)
+	match packRarity:
+		"common": $"../../Pack_Clicker".unlockedCommonPacks.push_back(PackID)
+		"uncommon": $"../../Pack_Clicker".unlockedUncommonPacks.push_back(PackID)
+		"rare": $"../../Pack_Clicker".unlockedRarePacks.push_back(PackID)
+
+func increaseMPSValue(amount: float):
+	$"../../Money_Clicker".money_per_second += 0.01
+	

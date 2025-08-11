@@ -14,12 +14,12 @@ var cardName: String
 
 func _init(count: int, ID: String, foil: int, image_path: String, pos: Vector2):
 	self.count = count
-
 	self.ID = ID
 	self.foil = foil
 	self.image_path = image_path
 	self.pos = pos
-	self.shader_material = preload("res://new_shader_material.tres")
+	if foil == 1:
+		self.shader_material = preload("res://new_shader_material.tres")
 
 func _ready():
 	z_index = 100
@@ -104,8 +104,6 @@ func _unhandled_input(event):
 				child.queue_free()
 		var click_pos = event.position
 		if get_rect().has_point(to_local(click_pos)):
-			print("✅ Sprite clicked manually! ", self.ID)
-			print(self.price);
 			var button = Button.new();
 			self.add_child(button)
 			button.size = Vector2(60, 20);

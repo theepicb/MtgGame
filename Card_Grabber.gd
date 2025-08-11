@@ -23,6 +23,7 @@ var new_card: Card
 
 
 func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool) -> void:
+	# defining variables
 	self.number = number;
 	self.set_name = set_name;
 	self.isFoil = foilEnum;
@@ -30,13 +31,16 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.cardID = createID()
 	self.pos = position
 	self.isLast = isLast
+	
+	# create new instance of card then adds it as a child of the player
 	new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 	Player.add_child(new_card)
+	# cards currently being shown as pack
 	Player.cardsToShow.push_back(new_card);
+	#card inventory
 	Player.cardInventory.push_back(new_card);
 	generateCard();
 	print("started card generation", save_path)
-	print("foil: ", isFoil)
 	pass
 
 func generateCard () -> void:
@@ -138,6 +142,7 @@ func createID() -> String:
 		0: foil =  ""
 		1: foil = "f"
 		2: foil = "ef"
+		3: foil = "sf"
 	return set_name + str(number) + foil;
 
 func startPing ():

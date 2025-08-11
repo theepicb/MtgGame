@@ -10,8 +10,9 @@ var specialMythic = [72, 76, 85, 86, 88, 91, 95, 96, 98, 99]
 var etchedUncommon = [101, 103, 107, 108, 112, 113, 114, 117, 119, 120, 125, 127, 128, 130, 131]
 var etchedRare = [102, 104, 105, 106, 109, 110, 111, 115, 116, 118, 121, 123, 124, 129, 132, 133, 134, 137, 139, 140, 142, 143, 144, 147, 150]
 var etchedMythic  = [122, 126, 135, 136, 138, 141, 145, 146, 148, 149]
-var surgeRare = [151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 163, 164, 166, 167]
-
+var extendedRare = [151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 163, 164, 166, 167]
+var extendedMythic = [162, 165, 170, 171, 173, 176, 180, 181, 183, 184]
+var halouncommon = [186]
 
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
@@ -23,7 +24,7 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 	add_child(grab)
 	pass
 func _ready() -> void:
-	#grabCard(uncommon, 1, Vector2(0, 0))
+	#grabCard(halouncommon, 1, 0, 0, true)
 	pass
 
 func createDraftPack () -> void:
@@ -31,8 +32,7 @@ func createDraftPack () -> void:
 	for x in 2:
 			grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 			counter += 1
-	
-	
+		
 	if ($"..".getLuck() > 84):
 		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	else:
@@ -42,15 +42,11 @@ func createDraftPack () -> void:
 	grabCard(getRarity(mythic, rare, uncommon), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter+= 1
 	
-	
-	
-	
 	var foil = 0;
 	if ($"..".getLuck() > 84):
 		foil = 1; 
 	
 	grabCard(getRarity(specialMythic, specialRare, specialUncommon), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
-	
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -62,6 +58,64 @@ func createDraftPack () -> void:
 		y.displayPrice();
 		pass
 	$"..".drawBackButton();
+
+func createCollectorPack ():
+	var counter = 0;
+	
+	grabCard(specialUncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	grabCard(etchedUncommon, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	if $"..".getLuck() >= 84:
+		grabCard(mythic, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(rare, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	if $"..".getLuck() >= 84:
+		grabCard(mythic, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(rare, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	var foil
+	if $"..".getLuck() >= 84:
+		foil = 1
+	else: foil = 0;
+	
+	if $"..".getLuck() >= 84:
+		grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(extendedRare, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	if $"..".getLuck() >= 84:
+		grabCard(etchedMythic, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(etchedRare, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	var halo: bool
+	if $"..".getLuck() >= 0:
+		halo = true
+	else: halo = false
+	
+	if halo:
+		grabCard(halouncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	
+	for y in Player.cardsToShow:
+		y.showCard(y.pos.x, y.pos.y)
+		y.displayPrice();
+		pass
+	$"..".drawBackButton();
+	pass
 
 func getRarity (mythic: Array, rare: Array, uncommon: Array) -> Array:
 	if ($"..".getLuck() > 84):

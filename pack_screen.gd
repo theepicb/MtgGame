@@ -24,10 +24,10 @@ var packs: Array[Pack] = []
 
 func _ready():
 	# Initialize some example packs
-	create_pack("mat_ep", 0.0, preload("res://sprites/Packs/MOTM-E-pack.png"))
+	create_pack("mat_ep", 4.5, preload("res://sprites/Packs/MOTM-E-pack.png"))
 	unlock_pack("mat_ep");
 	$"../Pack_Clicker".unlockedCommonPacks.append("mat_ep")
-	create_pack("mat_col", 0.0, preload("res://sprites/Packs/collector booster motm.jpg"))
+	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"))
 	
 	
 	# Layout all unlocked packs

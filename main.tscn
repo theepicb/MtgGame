@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=18 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://drhjsdrlah301" path="res://pack_clicker.gd" id="4_kek77"]
 [ext_resource type="Script" uid="uid://b8dv6q1006iqp" path="res://pack_screen.gd" id="5_272bh"]
 [ext_resource type="Script" uid="uid://du5yhnoioa0bo" path="res://upgrades_button.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://b447blbiguac5" path="res://upgrade_data.gd" id="7_yaehf"]
 [ext_resource type="Script" uid="uid://2gyk724rn3l7" path="res://pack_screen_button.gd" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://d1fx4s8p2ui3n" path="res://card.gd" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://cqnrykeuofbg5" path="res://open_packs_screen.gd" id="10_dg77c"]
@@ -45,6 +46,9 @@ script = ExtResource("4_kek77")
 
 [node name="Upgrades" type="Node2D" parent="."]
 script = ExtResource("4_7mycd")
+
+[node name="Upgrade_Data" type="Node2D" parent="Upgrades"]
+script = ExtResource("7_yaehf")
 
 [node name="Pack_Screen" type="Node2D" parent="."]
 script = ExtResource("5_272bh")
