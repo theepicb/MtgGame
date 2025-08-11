@@ -33,30 +33,44 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.isLast = isLast
 	
 	# create new instance of card then adds it as a child of the player
-	new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
-	Player.add_child(new_card)
+	
+	
 	# cards currently being shown as pack
-	Player.cardsToShow.push_back(new_card);
+	
 	#card inventory
-	Player.cardInventory.push_back(new_card);
+	
 	generateCard();
 	print("started card generation", save_path)
 	pass
 
 func generateCard () -> void:
-	if !Player.cardInventory.has(self.cardID):
+	if !Player.IDInventory.has(self.cardID):
+		print("inventory ", Player.IDInventory)
+		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+		Player.add_child(new_card)
+		Player.IDInventory.push_back(new_card.ID);
+		Player.cardInventory.push_back(new_card)
+		Player.cardsToShow.push_back(new_card);
 		startPing();
 		pass
 	else:
+		print("duplicate found")
+		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+		Player.add_child(new_card)
+		Player.cardsToShow.push_back(new_card);
+		Player.cardsToDelete.push_back(new_card)
 		for child in Player.get_children():
-			if child.ID == self.ID:
-				child.amount = child.amount + 1
-				child.show(self.pos)
-				print("amount added new amount:", child.amount)
-				finished();
-				return
-				pass
-			startPing();
+			print(child)
+			if child.is_class("Card"):
+				print("found card")
+				if child.ID == self.ID:
+					child.amount = child.amount + 1
+					print("amount added new amount:", child.amount)
+					
+					finished();
+					return
+					pass
+		startPing();
 		pass
 	pass
 
@@ -126,7 +140,6 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 func finished ():
 	if is_instance_valid(httpRequest1):
 		httpRequest1.queue_free()
-	httpRequest1.queue_free();
 	if is_instance_valid(httpRequest2):
 		httpRequest2.queue_free()
 	for child in Player.get_children(): 

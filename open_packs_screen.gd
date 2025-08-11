@@ -109,10 +109,8 @@ func open_pack_contents(pack_id: String):
 	# You might call something like:
 	# card_reward_system.generate_rewards(pack_id)
 func deleteChildren():
-	var keep_node = $Back_Button
-	for child in get_children().duplicate():
-		if child != keep_node:
-			child.queue_free()
+	for child in get_children():
+		child.queue_free()
 
 func hideUI () -> void:
 	deleteChildren()

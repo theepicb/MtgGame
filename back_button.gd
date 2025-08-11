@@ -12,6 +12,10 @@ func _pressed():
 		pass
 	$"../Open_Packs_Screen".showUI()
 	visible = false;
+	for child in Player.cardsToDelete:
+		if is_instance_valid(child):
+			child.queue_free()
+	Player.cardsToDelete.clear()
 	Player.cardsToShow.clear();
 	pass
 

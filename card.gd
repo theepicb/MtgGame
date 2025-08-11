@@ -12,14 +12,24 @@ var image_path: String
 var pos: Vector2
 var cardName: String
 
-func _init(count: int, ID: String, foil: int, image_path: String, pos: Vector2):
+func _init(
+	count: int = -1,
+	ID: String = "",
+	foil: int = -1,
+	image_path: String = "",
+	pos: Vector2 = Vector2.ZERO
+):
+	if count == -1 or ID == "" or foil == -1 or image_path == "":
+		# No valid data — delete self
+		queue_free()
+		return
+
 	self.count = count
 	self.ID = ID
 	self.foil = foil
 	self.image_path = image_path
 	self.pos = pos
-	if foil == 1:
-		self.shader_material = preload("res://new_shader_material.tres")
+	self.shader_material = preload("res://new_shader_material.tres")
 
 func _ready():
 	z_index = 100
@@ -30,6 +40,14 @@ func _ready():
 	if self.foil == 1:
 		self.material = preload("res://new_shader_material.tres")
 		self.material.set_shader_parameter("time", shader_time)
+		self.material.set_shader_parameter("rainbow_opacity", 0.1)
+	elif self.foil == 2:
+		var mat = preload("res://new_shader_material.tres")
+		mat.set_shader_parameter("time", shader_time)
+		mat.set_shader_parameter("rainbow_opacity", 0)
+		
+		self.material = mat
+		
 	#print("Card initialized. Texture loaded?", success)
 	#print(" - ID:", ID)
 	#print(" - Texture is set:", texture != null)
@@ -75,7 +93,6 @@ func displayPrice():
 	container.anchor_left = 0
 	container.anchor_right = 0
 	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	container.add_child(self)
 	var price = Label.new()
 	add_child(price)
 	price.text = "$" + str(self.price)
@@ -83,7 +100,7 @@ func displayPrice():
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-25, 130))
 	
-	container.add_child(price)
+
 	
 func setPrice(value):
 	self.price = value

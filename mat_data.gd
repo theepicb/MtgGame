@@ -17,7 +17,6 @@ var halouncommon = [186]
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
-	var path = $"..".ensure_directory_exists("user://Cards/" + set_name)
 	var num = list.pick_random();
 	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
@@ -57,6 +56,7 @@ func createDraftPack () -> void:
 		y.showCard(y.pos.x, y.pos.y)
 		y.displayPrice();
 		pass
+	print("Inventory ", Player.IDInventory)
 	$"..".drawBackButton();
 
 func createCollectorPack ():
@@ -117,11 +117,11 @@ func createCollectorPack ():
 	$"..".drawBackButton();
 	pass
 
-func getRarity (mythic: Array, rare: Array, uncommon: Array) -> Array:
+func getRarity (mythicc: Array, rarec: Array, uncommonc: Array) -> Array:
 	if ($"..".getLuck() > 84):
 		if ($"..".getLuck() > 84):
-			return mythic
+			return mythicc
 		else:
-			return rare
+			return rarec
 	else:
-		return uncommon
+		return uncommonc

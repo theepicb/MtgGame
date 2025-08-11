@@ -22,7 +22,7 @@ var purchased_upgrades: Array[Upgrade] = []  # Track purchased upgrades
 func register_upgrade(upgrade: Upgrade):
 	available_upgrades.append(upgrade)
 
-@onready var parent = $"../Player";
+@onready var parent = Player;
 
 
 func create_upgrade_buttons():

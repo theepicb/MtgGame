@@ -2,8 +2,8 @@ shader_type canvas_item;
 
 uniform float time;
 uniform sampler2D overlay_texture;
-uniform float overlay_opacity : hint_range(0.0, 1.0) = 1.0;
-uniform float brightness : hint_range(0.0, 2.0) = 1.0;
+uniform float overlay_opacity;
+uniform float brightness = 1.15;
 
 void fragment() {
     vec4 image_color = texture(TEXTURE, UV);
