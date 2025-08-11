@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bd2cfper8ctbv"]
+
+[ext_resource type="Shader" uid="uid://b2ewo6apwrw5r" path="res://Card.gdshader" id="1_sgit3"]
+[ext_resource type="Texture2D" uid="uid://cwfb538lxseo1" path="res://pngtree-detailed-close-up-of-kraft-blue-cardboard-paper-texture-and-background-png-image_15486751.png" id="2_x4mxr"]
+
+[resource]
+shader = ExtResource("1_sgit3")
+shader_parameter/time = 0.0
+shader_parameter/overlay_texture = ExtResource("2_x4mxr")
+shader_parameter/overlay_opacity = 0.42
+shader_parameter/brightness = 0.98

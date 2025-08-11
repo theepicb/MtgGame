@@ -46,6 +46,10 @@ func _ready():
 		var mat = preload("res://Etched.tres")
 		mat.set_shader_parameter("time", shader_time)
 		self.material = mat
+	elif foil == 0:
+		var mat = preload("res://Card.tres")
+		mat.set_shader_parameter("time", shader_time)
+		self.material = mat
 		
 	#print("Card initialized. Texture loaded?", success)
 	#print(" - ID:", ID)
