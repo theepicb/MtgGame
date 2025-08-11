@@ -12,6 +12,10 @@ func _pressed():
 		pass
 	$"../Open_Packs_Screen".showUI()
 	visible = false;
+	for x in Player.cardsToDelete:
+		for child in Player.cardInventory:
+			if x.ID == child.ID:
+				child.count += 1
 	for child in Player.cardsToDelete:
 		if is_instance_valid(child):
 			child.queue_free()

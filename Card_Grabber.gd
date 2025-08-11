@@ -8,7 +8,7 @@ var set_name: String
 var isFoil: int
 var card_value: float;
 var save_path: String;
-
+var ID = ""
 var price: float
 var pos: Vector2
 
@@ -55,21 +55,25 @@ func generateCard () -> void:
 		pass
 	else:
 		print("duplicate found")
+		print("player children: " + str(Player.get_children()))
+		for child in Player.get_children():
+			print("self:", self.ID)
+			if child.is_class("Sprite2D"):
+				print(self.ID + " " + child.ID)
+				if "ID" in child and child.ID == self.ID:
+					child.amount += 1
+					print("amount added new amount:", child.amount)
+					self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+					Player.add_child(new_card)
+					Player.cardsToShow.push_back(new_card);
+					Player.cardsToDelete.push_back(new_card)
+					finished();
+					return
+					pass
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		Player.cardsToShow.push_back(new_card);
 		Player.cardsToDelete.push_back(new_card)
-		for child in Player.get_children():
-			print(child)
-			if child.is_class("Card"):
-				print("found card")
-				if child.ID == self.ID:
-					child.amount = child.amount + 1
-					print("amount added new amount:", child.amount)
-					
-					finished();
-					return
-					pass
 		startPing();
 		pass
 	pass
@@ -156,6 +160,7 @@ func createID() -> String:
 		1: foil = "f"
 		2: foil = "ef"
 		3: foil = "sf"
+	print("ID created: " + set_name + str(number) + foil)
 	return set_name + str(number) + foil;
 
 func startPing ():

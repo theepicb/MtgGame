@@ -20,7 +20,7 @@ class Pack:
 
 # Main variables
 var packs: Array[Pack] = []
-@onready var money_manager =  $"../Player" # Assume you have a node tracking money
+@onready var money_manager = Player # Assume you have a node tracking money
 
 func _ready():
 	# Initialize some example packs

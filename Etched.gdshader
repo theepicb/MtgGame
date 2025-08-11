@@ -22,7 +22,7 @@ void fragment() {
         sin(time * 2.0),
         sin(time * 3.0)
     );
-    float rainbow_opacity = 0.05;
+    float rainbow_opacity = 0.0;
     vec3 blended_rgb = mix(image_color.rgb, rainbow_color, rainbow_opacity);
 
     vec4 base = vec4(blended_rgb, image_color.a); // maintain original alpha

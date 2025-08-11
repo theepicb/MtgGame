@@ -120,6 +120,7 @@ func hideUI () -> void:
 
 func showUI () -> void:
 	for child in $"..".get_children():
-		child.visible = true
+		if child.get_class() != "VScrollBar":
+			child.visible = true
 	
 	display_owned_packs();

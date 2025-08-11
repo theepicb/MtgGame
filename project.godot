@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Player="*res://player.gd"
 HttpData="*res://http_data.gd"
 Upgrades="*res://upgrades.gd"
+Player="*res://player.gd"
 
 [rendering]
 

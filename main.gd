@@ -9,8 +9,8 @@ func save_game():
 			"money_per_second": $Money_Clicker.money_per_second
 		},
 		"Player": {
-			"inventory": $Player.inventory,
-			"money": $Player.money
+			"inventory": Player.inventory,
+			"money": Player.money
 		}
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -22,8 +22,8 @@ func save_game():
 
 func _ready() -> void:
 	if not FileAccess.file_exists("user://game_data.json"):
-		$Player.money = 0;
-		$Player.inventory = [];
+		Player.money = 0;
+		Player.inventory = [];
 		$Money_Clicker.money_per_click = 0.01;
 		$Money_Clicker.combo_wait_time = 1;
 		$Money_Clicker.money_multiplier = 1;

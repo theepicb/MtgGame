@@ -30,6 +30,7 @@ func _init(
 	self.image_path = image_path
 	self.pos = pos
 	self.shader_material = preload("res://new_shader_material.tres")
+	self.scale = Vector2(1, 1)
 
 func _ready():
 	z_index = 100
@@ -42,10 +43,8 @@ func _ready():
 		self.material.set_shader_parameter("time", shader_time)
 		self.material.set_shader_parameter("rainbow_opacity", 0.1)
 	elif self.foil == 2:
-		var mat = preload("res://new_shader_material.tres")
+		var mat = preload("res://Etched.tres")
 		mat.set_shader_parameter("time", shader_time)
-		mat.set_shader_parameter("rainbow_opacity", 0)
-		
 		self.material = mat
 		
 	#print("Card initialized. Texture loaded?", success)
@@ -75,11 +74,15 @@ func load_png_to_sprite(png_path: String) -> bool:
 
 	return true
 
-func showCard (posX, posY) -> void:
-	self.visible = true;
-	self.position = Vector2(posX, posY);
-	self.pos = Vector2(posX, posY);
-	pass
+func showCard(posX, posY, scale1) -> void:
+	print("showCard called with scale:", scale1)
+	if scale1 <= 0:
+		scale1 = 1
+
+	self.visible = true
+	self.position = Vector2(posX, posY)
+	self.pos = Vector2(posX, posY)
+	self.scale = Vector2(scale1, scale1)
 
 func _process(delta):
 	if self.foil == 1:
@@ -100,8 +103,22 @@ func displayPrice():
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-25, 130))
 	
+func displayUI():
+	deleteChildren()
+	var container = VBoxContainer.new()
+	container.anchor_left = 0
+	container.anchor_right = 0
+	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var price = Label.new()
+	add_child(price)
+	price.text = "$" + str(self.price) + "    amount: " + str(self.count)
+	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	price.set_anchors_preset(Control.PRESET_CENTER)
+	price.set_position(Vector2(-65, 130))
 
-	
+
+
+
 func setPrice(value):
 	self.price = value
 
@@ -126,5 +143,25 @@ func _unhandled_input(event):
 			button.size = Vector2(60, 20);
 			button.text = ("sell card: " + cardName)
 			button.z_index = 101
-			button.position =  Vector2(event.position.x - self.pos.x, event.position.y - self.pos.y)
-			
+			button.position = to_local(event.position)
+			button.connect("pressed", Callable(self, "sellCard"))
+
+func deleteChildren():
+	for child in self.get_children():
+		child.queue_free()
+
+func sellCard ():
+	if self.count > 0:
+		self.count -= 1
+		Player.money += self.price
+		self.displayUI()
+		if self.count <= 0:
+			for i in range(Player.IDInventory.size()):
+				if Player.IDInventory[i] == self.ID:
+					Player.IDInventory.remove_at(i)
+					break
+			var idx = Player.cardInventory.find(self)
+			if idx != -1:
+				Player.cardInventory.remove_at(idx)
+			Player.reloadInv()
+			self.queue_free()

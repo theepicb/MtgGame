@@ -33,7 +33,7 @@ func _ready() -> void:
 
 #money per second timer call
 func _money_timer_timeout() -> void:
-	$"../Player".money += money_per_second;
+	Player.money += money_per_second;
 	updateText();
 	pass
 #combo timer call
@@ -44,7 +44,7 @@ func _comboTimer_timeout() -> void:
 
 func _pressed() -> void:
 	combo_timer.stop();
-	$"../Player".money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
+	Player.money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
 	combo += 1;
 	combo_timer.start();
 	updateText();
@@ -52,5 +52,5 @@ func _pressed() -> void:
 	pass
 
 func updateText() -> void:
-	set_text("$" + str("%1.2f" % $"../Player".money) + "\n" + (str(combo/10) + "%"))
+	set_text("$" + str("%1.2f" % Player.money) + "\n" + (str(combo/10) + "%"))
 	pass

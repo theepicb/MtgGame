@@ -1,7 +1,7 @@
 extends Node2D
 var set_name = "mat"
 
-var uncommon = [1, 3, 7, 8, 12, 13, 14, 17, 19, 20, 25, 27, 28, 30, 31]
+var uncommon = [1, ]
 var rare = [2, 4, 5, 9, 10, 11, 15, 16, 18, 21, 23, 24, 29, 32, 33, 34, 37, 39, 40, 42, 43, 44, 47, 50]
 var mythic = [22, 26, 35, 36, 38, 41, 45, 46, 48, 49]
 var specialUncommon = [51, 53, 57, 58, 62, 63, 64, 67, 69, 70, 75, 77, 78, 79, 80, 81]
@@ -53,7 +53,7 @@ func createDraftPack () -> void:
 			await get_tree().process_frame
 	
 	for y in Player.cardsToShow:
-		y.showCard(y.pos.x, y.pos.y)
+		y.showCard(y.pos.x, y.pos.y, 1)
 		y.displayPrice();
 		pass
 	print("Inventory ", Player.IDInventory)
@@ -111,7 +111,7 @@ func createCollectorPack ():
 			await get_tree().process_frame
 	
 	for y in Player.cardsToShow:
-		y.showCard(y.pos.x, y.pos.y)
+		y.showCard(y.pos.x, y.pos.y, 1)
 		y.displayPrice();
 		pass
 	$"..".drawBackButton();
