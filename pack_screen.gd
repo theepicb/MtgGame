@@ -1,6 +1,13 @@
 extends Node2D
 
 class_name PackManager
+static var instance = null
+
+func _init():
+	if instance != null:
+		queue_free()  # Another instance exists, remove this one
+		return
+	instance = self
 
 # Pack class definition
 class Pack:
@@ -28,6 +35,7 @@ func _ready():
 	unlock_pack("mat_ep");
 	$"../Pack_Clicker".unlockedCommonPacks.append("mat_ep")
 	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"))
+	create_pack("woe_draft", 10, preload("res://sprites/Packs/eldraine_draft.png"))
 	
 	
 	# Layout all unlocked packs

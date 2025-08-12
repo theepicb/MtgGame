@@ -4,6 +4,7 @@ func _ready() -> void:
 	generateNewUpgrade(clickerUpgrades, 0)
 	generateNewUpgrade(packUpgrades, 0)
 	generateNewUpgrade(MPSUpgrades, 0)
+	generateNewUpgrade(packUpgrades, 1)
 
 func generateNewUpgrade (dict: Dictionary,id: int):
 	var array = dict.get(id)
@@ -31,11 +32,19 @@ var clickerUpgrades = {
 var packUpgrades = {
 	0: [
 	"PU0",
-	"Unlocks March of the machine: aftermath collector boosters",
+	"Unlocks March of the Machine: Aftermath Collector Boosters",
 	10,
 	func ():
 		registorPack("mat_col", "uncommon")
 		return true
+],
+	1: [
+		"PU1",
+		"Unlocks Wilds of Eldraine Draft Packs",
+		5,
+		func ():
+			registorPack("woe_draft", "rare")
+			return true
 ]}
 
 var MPSUpgrades = {

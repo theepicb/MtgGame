@@ -98,11 +98,13 @@ func open_pack_contents(pack_id: String):
 	hideUI();
 	match pack_id:
 		"mat_ep":
-			
 			$"../../Pack_Data/Mat_data".createDraftPack();
 			pass
 		"mat_col":
 			$"../../Pack_Data/Mat_data".createCollectorPack();
+			pass
+		"woe_draft":
+			$"../../Pack_Data/Woe_data".createDraftPack();
 			pass
 	
 	
