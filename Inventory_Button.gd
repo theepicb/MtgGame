@@ -23,6 +23,9 @@ func loadInventory() -> void:
 	if Player.cardInventory.size() > 24:
 		$"../VScrollBar".max_value = (ceil(Player.cardInventory.size()/8)) - 2
 		$"../VScrollBar".visible = true;
+	else:
+		$"../VScrollBar".visible = false;
+		$"../VScrollBar".value = 0
 	if Player.cardInventory.size() > 0:
 		for x in Player.cardInventory.size():
 			Player.cardInventory[x].showCard(getPosition(x).x, getPosition(x).y, 1)
