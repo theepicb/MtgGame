@@ -1,12 +1,15 @@
 extends Button
 
 var inventoryScreen = 0
+var xAmount: int
+var yAmount: int
 
 func _ready():
 	size = Vector2(180, 60)
 	position = Vector2(2, 245)
 	text = "Inventory"
 	self.print_tree_pretty()
+	get_window().size_changed.connect(_on_window_size_changed)
 	pass 
 
 func _pressed() -> void:
@@ -20,8 +23,12 @@ func _pressed() -> void:
 	loadInventory();
 
 func loadInventory() -> void:
-	if Player.cardInventory.size() > 24:
-		$"../VScrollBar".max_value = (ceil(((Player.cardInventory.size() - 1)/8)) - 2)
+	var xSize = get_viewport_rect().size.x - 285
+	xAmount = int(xSize / 195)
+	yAmount = int((get_viewport_rect().size.y)/ 300)
+	print("Y amount: ", yAmount)
+	if Player.cardInventory.size() > xAmount * yAmount:
+		$"../VScrollBar".max_value = (ceil(((Player.cardInventory.size() - 1)/xAmount)) - (yAmount - 1))
 		$"../VScrollBar".visible = true;
 	else:
 		$"../VScrollBar".visible = false;
@@ -34,12 +41,15 @@ func loadInventory() -> void:
 
 
 func getPosition(x) -> Vector2:
-	var row = x / 8
+	var row = x / xAmount
 	var row_number = int(row)
 	var base_y = row_number * 300
 	var scroll_offset = $"../VScrollBar".value * 300
-	var pos = Vector2(285 + ((x % 8) * 195), base_y - scroll_offset + 135)
+	var pos = Vector2(285 + ((x % xAmount) * 195), base_y - scroll_offset + 135)
 	return pos
+
+func _on_window_size_changed ():
+	loadInventory()
 
 func leaveInventory () -> void:
 	$"../VScrollBar".visible = false;
