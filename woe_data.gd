@@ -28,6 +28,9 @@ func createDraftPack () -> void:
 		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	
+	$Wot_data.grabETCard(counter, 0, false)
+	counter += 1
+	
 	if ($"..".getLuck() >= 84):
 		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
 	else:
@@ -60,12 +63,3 @@ func createCollectorPack ():
 		pass
 	$"..".drawBackButton();
 	pass
-
-func getRarity (mythicc: Array, rarec: Array, uncommonc: Array) -> Array:
-	if ($"..".getLuck() > 84):
-		if ($"..".getLuck() > 84):
-			return mythicc
-		else:
-			return rarec
-	else:
-		return uncommonc

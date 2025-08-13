@@ -21,7 +21,7 @@ func _pressed() -> void:
 
 func loadInventory() -> void:
 	if Player.cardInventory.size() > 24:
-		$"../VScrollBar".max_value = (ceil(Player.cardInventory.size()/8)) - 2
+		$"../VScrollBar".max_value = (ceil(((Player.cardInventory.size() - 1)/8)) - 2)
 		$"../VScrollBar".visible = true;
 	else:
 		$"../VScrollBar".visible = false;

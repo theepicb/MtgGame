@@ -32,7 +32,7 @@ func _on_VScrollBar_value_changed(value):
 	var scroll_offset = value * card_height
 	print("Scrollbar moved to: ", value)
 	
-	max_value = (ceil(Player.cardInventory.size()/8)) - 2
+	max_value = (ceil(((Player.cardInventory.size() - 1)/8)) - 2)
 	count = value
 	for i in range(Player.cardInventory.size()):
 		var card = Player.cardInventory[i]

@@ -1,15 +1,23 @@
 extends Sprite2D
 class_name Card
-
+# card object
+# shader data
 var shader_material 
 var shader_time = randi_range(0, 10)
-
+# amount owned
 var count: int
+# price of card
 var price: float
+# id of the card used for image gathering and double checking
 var ID: String
+# foil enum 0: not foil, 1: foil, 2: etched foil, 3: confetti foil.
+# used for shader and price gathering
 var foil: int
+# image location in file
 var image_path: String
+# Sprite2D location on screen
 var pos: Vector2
+# name of the card
 var cardName: String
 
 func _init(
@@ -36,20 +44,27 @@ func _ready():
 	z_index = 100
 	self.visible = false
 	
-	
+	var mat = -1
 	print("foil", self.foil)
-	if self.foil == 1:
-		self.material = preload("res://new_shader_material.tres")
-		self.material.set_shader_parameter("time", shader_time)
-		self.material.set_shader_parameter("rainbow_opacity", 0.1)
-	elif self.foil == 2:
-		var mat = preload("res://Etched.tres")
+	match self.foil:
+		0:
+			mat = preload("res://Card.tres")
+			pass
+		1:
+			mat = preload("res://new_shader_material.tres")
+			pass
+		2: 
+			mat = preload("res://Etched.tres")
+			pass
+		3:
+			mat = preload("res://Confetti.tres")
+	if mat is Resource:
 		mat.set_shader_parameter("time", shader_time)
 		self.material = mat
-	elif foil == 0:
-		var mat = preload("res://Card.tres")
-		mat.set_shader_parameter("time", shader_time)
-		self.material = mat
+	
+		
+		
+		
 		
 	#print("Card initialized. Texture loaded?", success)
 	#print(" - ID:", ID)
