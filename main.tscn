@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=23 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://3rjap2rupt4c" path="res://Inventory_Button.gd" id="13_2cqfq"]
 [ext_resource type="Script" uid="uid://bwtih1gbrby62" path="res://v_scroll_bar.gd" id="14_074og"]
 [ext_resource type="Script" uid="uid://c1fb08nxpa3fi" path="res://http_data.gd" id="14_w48qg"]
+[ext_resource type="Script" uid="uid://b5eerxm8xvh8f" path="res://level_label.gd" id="17_ryguw"]
 [ext_resource type="Script" uid="uid://pospjktluou6" path="res://woe_data.gd" id="19_82xsv"]
 [ext_resource type="Script" uid="uid://cebj07utgufeb" path="res://wot_data.gd" id="20_getpj"]
 
@@ -97,6 +98,13 @@ script = ExtResource("14_074og")
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("13_2cqfq")
+
+[node name="level_Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("17_ryguw")
 
 [node name="Pack_Data" type="Node2D" parent="."]
 script = ExtResource("12_ycdy4")

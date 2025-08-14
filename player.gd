@@ -3,9 +3,28 @@ extends Node2D
 var money = 500;
 var luck = 1;
 
+var level = 1;
+var xpToLevelUp = [5, 20, 50, 100, 250, 500]
+var xp = 0;
+
+@onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
+@onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")
+func levelUp (level):
+	match level:
+		2:
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades, 0)
+	levelLabel.setText()
+			
+
+func checkLevel ():
+	if xp >= xpToLevelUp[level]:
+		level += 1
+		levelUp(level)
+
 var inInventory = false;
 
 func _ready() -> void:
+	
 	print("hello world!")
 
 static var instance = null

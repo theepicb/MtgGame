@@ -49,7 +49,8 @@ func getPosition(x) -> Vector2:
 	return pos
 
 func _on_window_size_changed ():
-	loadInventory()
+	if Player.inInventory:
+		loadInventory()
 
 func leaveInventory () -> void:
 	$"../VScrollBar".visible = false;

@@ -17,13 +17,15 @@ class Pack:
 	var owned: int
 	var sprite_texture: Texture2D
 	var button: Button
+	var xp: int
 	
-	func _init(p_id: String, p_price: float, p_texture: Texture2D):
+	func _init(p_id: String, p_price: float, p_texture: Texture2D, xp_earnt: int):
 		id = p_id
 		price = p_price
 		sprite_texture = p_texture
 		unlocked = false
 		owned = 0
+		xp = xp_earnt
 
 # Main variables
 var packs: Array[Pack] = []
@@ -31,18 +33,18 @@ var packs: Array[Pack] = []
 
 func _ready():
 	# Initialize some example packs
-	create_pack("mat_ep", 4.5, preload("res://sprites/Packs/MOTM-E-pack.png"))
+	create_pack("mat_ep", 4.5, preload("res://sprites/Packs/MOTM-E-pack.png"), 2)
 	unlock_pack("mat_ep");
 	$"../Pack_Clicker".unlockedCommonPacks.append("mat_ep")
-	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"))
-	create_pack("woe_draft", 10, preload("res://sprites/Packs/eldraine_draft.png"))
+	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"), 25)
+	create_pack("woe_draft", 10, preload("res://sprites/Packs/eldraine_draft.png"), 10)
 	
 	
 	# Layout all unlocked packs
 	
 
-func create_pack(id: String, price: float, texture: Texture2D):
-	var new_pack = Pack.new(id, price, texture)
+func create_pack(id: String, price: float, texture: Texture2D, xp: int):
+	var new_pack = Pack.new(id, price, texture, xp)
 	packs.append(new_pack)
 	# Uncomment if you want packs unlocked by default
 	#new_pack.unlocked = true

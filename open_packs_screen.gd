@@ -88,6 +88,7 @@ func _on_pack_opened(pack):
 	if pack.owned > 0:
 		pack.owned -= 1
 		open_pack_contents(pack.id)
+		Player.xp += pack.xp
 		display_owned_packs()
 		
 		

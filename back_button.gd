@@ -21,6 +21,8 @@ func _pressed():
 			child.queue_free()
 	Player.cardsToDelete.clear()
 	Player.cardsToShow.clear();
+	$"../level_Label".setText()
+	Player.checkLevel()
 	pass
 
 func draw() -> void:

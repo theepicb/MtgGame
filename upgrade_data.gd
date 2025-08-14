@@ -2,7 +2,7 @@ extends UpgradeManager
 
 func _ready() -> void:
 	generateNewUpgrade(clickerUpgrades, 0)
-	generateNewUpgrade(packUpgrades, 0)
+	
 	generateNewUpgrade(MPSUpgrades, 0)
 	generateNewUpgrade(packUpgrades, 1)
 

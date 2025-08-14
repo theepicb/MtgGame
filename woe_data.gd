@@ -28,7 +28,7 @@ func createDraftPack () -> void:
 		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	
-	$Wot_data.grabETCard(counter, 0, false)
+	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
 	if ($"..".getLuck() >= 84):
