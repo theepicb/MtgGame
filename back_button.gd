@@ -23,10 +23,11 @@ func _pressed():
 	Player.cardsToShow.clear();
 	$"../level_Label".setText()
 	Player.checkLevel()
+	$"../VScrollBar_PackOpening".visible = false;
 	pass
 
 func draw() -> void:
-	position = Vector2((get_viewport_rect().size.x / 2) - 300, 500);
+	position = Vector2((get_viewport_rect().size.x / 2) - 80, get_viewport_rect().size.y - 85);
 	visible = true;
 	print("drawing Back button")
 	pass

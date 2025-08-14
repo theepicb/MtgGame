@@ -111,6 +111,7 @@ func _process(delta):
 	pass
 
 func displayPrice():
+	deleteChildren()
 	var container = VBoxContainer.new()
 	container.anchor_left = 0
 	container.anchor_right = 0

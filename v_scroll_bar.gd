@@ -24,7 +24,7 @@ func _ready() -> void:
 	offset_right = -30
 	
 	connect("value_changed", Callable(self, "_on_VScrollBar_value_changed"))
-
+	
 # Called when the scrollbar value changes
 func _on_VScrollBar_value_changed(value):
 	var cards_per_row = $"../Inventory_Button".xAmount

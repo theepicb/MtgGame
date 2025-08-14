@@ -53,10 +53,8 @@ func createDraftPack () -> void:
 			print("waiting", HttpData.get_child_count())
 			await get_tree().process_frame
 	
-	for y in Player.cardsToShow:
-		y.showCard(y.pos.x, y.pos.y, 1)
-		y.displayPrice();
-		pass
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.showBar()
 	print("Inventory ", Player.IDInventory)
 	$"..".drawBackButton();
 
@@ -112,10 +110,8 @@ func createCollectorPack ():
 			print("waiting", HttpData.get_child_count())
 			await get_tree().process_frame
 	
-	for y in Player.cardsToShow:
-		y.showCard(y.pos.x, y.pos.y, 1)
-		y.displayPrice();
-		pass
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.showBar()
 	$"..".drawBackButton();
 	pass
 
