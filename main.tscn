@@ -89,10 +89,17 @@ text = "back"
 script = ExtResource("12_vivmo")
 
 [node name="VScrollBar" type="VScrollBar" parent="CanvasLayer"]
-offset_left = 1112.0
-offset_top = 206.0
-offset_right = 1135.0
-offset_bottom = 437.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.5
+offset_top = -115.5
+offset_right = 11.5
+offset_bottom = 115.5
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("14_074og")
 
 [node name="VScrollBar_PackOpening" type="VScrollBar" parent="CanvasLayer"]

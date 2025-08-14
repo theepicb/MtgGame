@@ -37,7 +37,8 @@ func loadInventory() -> void:
 		for x in Player.cardInventory.size():
 			Player.cardInventory[x].showCard(getPosition(x).x, getPosition(x).y, 1)
 			Player.cardInventory[x].displayUI()
-
+	var desired_height = (get_viewport_rect().size.y)
+	$"../VScrollBar".custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
 
 
 func getPosition(x) -> Vector2:

@@ -94,7 +94,7 @@ func load_png_to_sprite(png_path: String) -> bool:
 	return true
 
 func showCard(posX, posY, scale1) -> void:
-	print("showCard called with scale:", scale1)
+
 	if scale1 <= 0:
 		scale1 = 1
 
@@ -118,7 +118,7 @@ func displayPrice():
 	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var price = Label.new()
 	add_child(price)
-	price.text = "$" + str(self.price)
+	price.text = "$" + str("%1.2f" % self.price)
 	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-25, 130))
@@ -131,7 +131,7 @@ func displayUI():
 	container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var price = Label.new()
 	add_child(price)
-	price.text = "$" + str(self.price) + "    amount: " + str(self.count)
+	price.text = "$" + str("%1.2f" % self.price) + "    amount: " + str(self.count)
 	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-65, 130))

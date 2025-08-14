@@ -15,6 +15,10 @@ func _ready() -> void:
 	get_window().size_changed.connect(showBar)
 	
 
+func startShowBar():
+	value = 0
+	showBar()
+
 func showBar():
 	var xSize = get_viewport_rect().size.x - 285
 	xAmount = int(xSize / 195)

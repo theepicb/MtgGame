@@ -57,6 +57,6 @@ func createCollectorPack ():
 			await get_tree().process_frame
 	
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.showBar()
+	levelLabel.startShowBar()
 	$"..".drawBackButton();
 	pass

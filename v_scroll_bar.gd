@@ -14,8 +14,7 @@ func _ready() -> void:
 	custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
 
 	# Offsets position scrollbar so it's centered vertically
-	offset_top = -desired_height / 2
-	offset_bottom = desired_height / 2
+
 
 	# Position scrollbar near the right edge
 	anchor_left = 1
@@ -27,6 +26,9 @@ func _ready() -> void:
 	
 # Called when the scrollbar value changes
 func _on_VScrollBar_value_changed(value):
+	var desired_height = (get_viewport_rect().size.y)
+	custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
+	
 	var cards_per_row = $"../Inventory_Button".xAmount
 	var card_height = 300  # height of one card row
 	var scroll_offset = value * card_height
