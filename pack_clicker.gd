@@ -4,13 +4,16 @@ var completion = 0;
 
 var complete = false;
 
-var completionPerClick = 100;
+var completionPerClick = 1;
 var autoCompletion = 0;
 var maxCompletion = 100;
 
 var unlockedCommonPacks = [];
 var unlockedUncommonPacks = [];
 var unlockedRarePacks = [];
+var unlockedLegendaryPacks = [];
+
+var chances = [80, 20, 1, 0, 0]
 
 func _ready() -> void:
 	size = Vector2(600, 220)
@@ -48,11 +51,40 @@ func claimButtonPressed():
 	completion = completion - 100;
 	if completion < 100:
 		deleteChildren()
-		
-	getCommonPack();
+	
+	var outCome = getRarityByWeight(["common", "uncommon", "rare", "legendary"], chances)
+	
+	match outCome:
+		"common":
+			getCommonPack();
+			pass
+		"uncommon":
+			getUncommonPack()
+			pass
+		"rare":
+			getRarePack()
+			pass
+		"legendary":
+			getLegendaryPack()
+			pass
+			
 	updateText()
 	pass
-	
+
+func getLegendaryPack():
+	if unlockedLegendaryPacks.is_empty():
+		getUncommonPack();
+		pass
+	else:
+		var temp = unlockedLegendaryPacks.pick_random();
+		for pack in $"../Pack_Screen".packs:
+			if pack.id == temp:
+				pack.owned += 1;
+				pass
+			pass
+		pass
+	pass
+
 func getRarePack():
 	if unlockedRarePacks.is_empty():
 		getUncommonPack();
@@ -68,7 +100,7 @@ func getRarePack():
 	pass
 	
 func getUncommonPack():
-	if unlockedCommonPacks.is_empty():
+	if unlockedUncommonPacks.is_empty():
 		getCommonPack();
 		pass
 	else:
@@ -91,3 +123,8 @@ func getCommonPack():
 func deleteChildren ():
 	for child in get_children():
 		child.queue_free()
+
+func getRarityByWeight(arrays: Array, weights: Array):
+	var random = RandomNumberGenerator.new()
+	
+	return arrays[random.rand_weighted(weights)]
