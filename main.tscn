@@ -110,6 +110,7 @@ script = ExtResource("16_d13ii")
 [node name="Inventory_Button" type="Button" parent="CanvasLayer"]
 offset_right = 8.0
 offset_bottom = 8.0
+size_flags_stretch_ratio = 2.0
 script = ExtResource("13_2cqfq")
 
 [node name="level_Label" type="Label" parent="CanvasLayer"]
