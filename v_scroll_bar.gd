@@ -14,7 +14,7 @@ func _ready() -> void:
 	custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
 
 	# Offsets position scrollbar so it's centered vertically
-
+	
 
 	# Position scrollbar near the right edge
 	anchor_left = 1

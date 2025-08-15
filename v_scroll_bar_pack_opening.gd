@@ -6,18 +6,7 @@ func _ready() -> void:
 	var desired_height = (get_viewport_rect().size.y)
 	custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
 	visible = false
-	var stylebox = StyleBoxFlat.new()
-	stylebox.bg_color = Color(0.8, 0.8, 0.8)
-
-# Increase thickness horizontally
-	stylebox.content_margin_left = 1
-	stylebox.content_margin_right = 1
-
-	# Increase thickness vertically
-	stylebox.content_margin_top = 8
-	stylebox.content_margin_bottom = 8
-
-	$".".add_theme_stylebox_override("grabber", stylebox)
+	
 	anchor_left = 1
 	anchor_right = 1
 	offset_left = -60  # 20 pixels from right edge
