@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=25 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://du5yhnoioa0bo" path="res://upgrades_button.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://b447blbiguac5" path="res://upgrade_data.gd" id="7_yaehf"]
 [ext_resource type="Script" uid="uid://2gyk724rn3l7" path="res://pack_screen_button.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://bgvelf8v1hn0w" path="res://achievements.gd" id="9_1u8w0"]
 [ext_resource type="Script" uid="uid://dkthmxo54wvvv" path="res://canvas_layer.gd" id="9_cegan"]
 [ext_resource type="Script" uid="uid://d1fx4s8p2ui3n" path="res://card.gd" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://cqnrykeuofbg5" path="res://open_packs_screen.gd" id="10_dg77c"]
@@ -58,6 +59,9 @@ script = ExtResource("7_yaehf")
 
 [node name="Pack_Screen" type="Node2D" parent="."]
 script = ExtResource("5_272bh")
+
+[node name="Achievements" type="Node2D" parent="."]
+script = ExtResource("9_1u8w0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource("9_cegan")

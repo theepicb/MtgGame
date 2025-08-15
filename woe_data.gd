@@ -19,6 +19,8 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 
 
 func createDraftPack () -> void:
+	
+	$"../../Achievements".outsideCall("woe_draft")
 	var counter = 0
 	for x in 9:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -49,8 +51,56 @@ func createDraftPack () -> void:
 
 func createCollectorPack ():
 
-	
+	pass
 
+func createSetPack ():
+	var odds
+	var packs
+	var counter = 0
+	for x in 3:
+		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	
+	for x in 3:
+		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	
+	if ($"..".getLuck() >= 95):
+		$Wot_data.grabETCardDraft(counter, 0, false)
+	else:
+		odds = [60, 30, 7, 3]
+		packs = [common, uncommon, rare, mythic]
+		grabCard(getRarityByWeight(packs, odds), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	
+	counter += 1
+	
+	if ($"..".getLuck() >= 95):
+		$Wot_data.grabETCardDraft(counter, 0, false)
+	else:
+		odds = [60, 30, 7, 3]
+		packs = [common, uncommon, rare, mythic]
+		grabCard(getRarityByWeight(packs, odds), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	
+	counter += 1
+	
+	if ($"..".getLuck() >= 95):
+		$Wot_data.grabETCardDraft(counter, 1, false)
+	else:
+		odds = [60, 30, 7, 3]
+		packs = [common, uncommon, rare, mythic]
+		grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	
+	counter += 1
+	
+	$Wot_data.grabETCardDraft(counter, 0, false)
+	
+	counter += 1
+	
+	if ($"..".getLuck() >= 84):
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	else:
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -60,3 +110,8 @@ func createCollectorPack ():
 	levelLabel.startShowBar()
 	$"..".drawBackButton();
 	pass
+
+func getRarityByWeight(arrays: Array, weights: Array):
+	var random = RandomNumberGenerator.new()
+	
+	return arrays[random.rand_weighted(weights)]

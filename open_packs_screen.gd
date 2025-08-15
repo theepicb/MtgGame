@@ -107,6 +107,8 @@ func open_pack_contents(pack_id: String):
 		"woe_draft":
 			$"../../Pack_Data/Woe_data".createDraftPack();
 			pass
+		"woe_set":
+			$"../../Pack_Data/Woe_data".createSetPack();
 	
 	
 	# You might call something like:

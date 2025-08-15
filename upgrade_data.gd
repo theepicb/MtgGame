@@ -43,9 +43,18 @@ var packUpgrades = {
 		"Unlocks Wilds of Eldraine Draft Packs",
 		5,
 		func ():
-			registorPack("woe_draft", "rare")
+			registorPack("woe_draft", "common")
 			return true
-]}
+			],
+	2: [
+		"PU2",
+		"Unlocks Wilds of Eldraine Set Packs",
+		5,
+		func ():
+			registorPack("woe_set", "uncommon")
+			return true
+			]
+}
 
 var MPSUpgrades = {
 	0: [
