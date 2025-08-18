@@ -8,13 +8,35 @@ var mythic = [52,29,4,22,9,31,24,58,48,25,13,50]
 var animeRare = [76,68,65,82,75]
 var animeMythic = [72,77,80,81,73,64,69,66,74,70,83,78,71,67,79]
 
+var confettiRare = [85, 88, 95, 96, 102]
+var confettiMythic = [84, 86, 87, 89, 90, 91, 93, 92, 94, 97, 98, 99, 100, 101, 103]
+
 
 func _ready() -> void:
 	$"../..".ensure_directory_exists("user://Cards/wot")
 	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	print(("common: "),Player.common)
+	print(("uncommon: "),Player.uncommon)
+	print(("rare: "),Player.rare)
+	print(("mythic: "),Player.mythic)
+	
 
 func grabETCardDraft (count: int, foil: int, isLast: bool):
 	grabCard(getRarityByWeight([uncommon, rare, mythic, animeRare, animeMythic], [60, 30, 7.2, 1.1, 1.7]), foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+
+func getWithRarity(rarity: String, foil: int, count: int, isLast: bool):
+	match rarity:
+		"uncommon": grabCard(uncommon, foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"rare": grabCard(rare, foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"mythic": grabCard(mythic, foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"animeRare": grabCard(animeRare, foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"animeMythic": grabCard(animeRare, foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"confettiRare": grabCard(confettiRare, 3, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+		"confettiMythic": grabCard(confettiMythic, 3, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
@@ -38,4 +60,12 @@ func getRarityByWeight(arrays: Array, weights: Array):
 	var random = RandomNumberGenerator.new()
 	
 	return arrays[random.rand_weighted(weights)]
+
+func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
+	var pos = Vector2(posX, posY)
 	
+	var CardGrabber = preload("res://Card_Grabber.gd")
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
+	print("started")
+	add_child(grab)
+	pass

@@ -7,6 +7,12 @@ var level = 1;
 var xpToLevelUp = [5, 20, 50, 100, 250, 500]
 var xp = 0;
 
+var common = []
+var uncommon = []
+var rare = []
+var mythic = []
+
+
 @onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
 @onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")
 func levelUp (level):
@@ -23,9 +29,8 @@ func checkLevel ():
 
 var inInventory = false;
 
-func _ready() -> void:
-	
-	print("hello world!")
+
+
 
 static var instance = null
 
@@ -58,3 +63,12 @@ var IDInventory = [];
 var cardInventory = [];
 var cardsToShow = [];
 var cardsToDelete = [];
+
+
+func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: bool, set_name: String, isGrabbing: bool = true) -> void:
+	var pos = Vector2(posX, posY)
+	var CardGrabber = preload("res://Card_Grabber.gd")
+	var grab = Card_Grabber.new(number, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
+	print("started")
+	add_child(grab)
+	pass

@@ -109,6 +109,10 @@ func open_pack_contents(pack_id: String):
 			pass
 		"woe_set":
 			$"../../Pack_Data/Woe_data".createSetPack();
+			pass
+		"woe_col":
+			$"../../Pack_Data/Woe_data".createCollectorPack();
+			pass
 	
 	
 	# You might call something like:

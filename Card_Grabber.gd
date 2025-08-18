@@ -20,9 +20,11 @@ var imageURL: String;
 var isLast: bool
 var new_card: Card
 
+var grabbingRarity: bool
+var rarity: String
 
 
-func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool) -> void:
+func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false) -> void:
 	# defining variables
 	self.number = number;
 	self.set_name = set_name;
@@ -31,7 +33,7 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.cardID = createID()
 	self.pos = position
 	self.isLast = isLast
-	
+	self.grabbingRarity = gettingRarity
 	# create new instance of card then adds it as a child of the player
 	
 	
@@ -45,7 +47,6 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 
 func generateCard () -> void:
 	if !Player.IDInventory.has(self.cardID):
-		print("inventory ", Player.IDInventory)
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		Player.IDInventory.push_back(new_card.ID);
@@ -88,6 +89,13 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		push_error("Failed to parse JSON response")
 		return
 	
+	if grabbingRarity:
+		match json.get("rarity"):
+			"common": Player.common.append(number)
+			"uncommon": Player.uncommon.append(number)
+			"rare": Player.rare.append(number)
+			"mythic": Player.mythic.append(number)
+	
 	var cardname = json.get("name", "Unknown Card")
 	new_card.setName(cardname)
 	# Handle price
@@ -97,7 +105,9 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		0: card_value = float(prices.get("usd", 0.0))
 		1: card_value = float(prices.get("usd_foil", 0.0))
 		2: card_value = float(prices.get("usd_etched", 0.0))
-		3: card_value = float(prices.get("halo_foil", 0.0))
+		3: card_value = float(prices.get("usd_foil", 0.0))
+		4: card_value = float(prices.get("usd_foil", 0.0))
+
 	print(json.get("image_uris", {}))
 	var image_uris = json.get("image_uris", {})
 	imageURL = image_uris["png"];
@@ -126,7 +136,7 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 		push_error("Failed to load image from buffer")
 		return
 	var size = image.get_size();
-	var new_size = Vector2(186, 260)
+	var new_size = Vector2(186.25, 260)
 	image.resize(new_size.x, new_size.y, Image.INTERPOLATE_LANCZOS)
 
 # Now save
@@ -159,7 +169,7 @@ func createID() -> String:
 		0: foil =  ""
 		1: foil = "f"
 		2: foil = "ef"
-		3: foil = "sf"
+		3: foil = "cf"
 	print("ID created: " + set_name + str(number) + foil)
 	return set_name + str(number) + foil;
 

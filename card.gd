@@ -58,6 +58,11 @@ func _ready():
 			pass
 		3:
 			mat = preload("res://Confetti.tres")
+			pass
+		4:
+			mat = preload("res://texturedFoil.tres")
+			pass
+		
 	if mat is Resource:
 		mat.set_shader_parameter("time", shader_time)
 		self.material = mat
@@ -89,7 +94,7 @@ func load_png_to_sprite(png_path: String) -> bool:
 	var tex = ImageTexture.create_from_image(image)  # You can adjust flags if needed
 
 	self.texture = tex
-	print("✅ Texture created. Texture size:", self.texture.get_size())
+	#print("✅ Texture created. Texture size:", self.texture.get_size())
 
 	return true
 

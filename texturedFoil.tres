@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c6t3n3veemkrv"]
+
+[ext_resource type="Shader" uid="uid://cvh2elwqr1vfa" path="res://texturedFoil.gdshader" id="1_oc2xh"]
+[ext_resource type="Texture2D" uid="uid://6xm86lpjmbv7" path="res://texturedFoil.png" id="2_lqg1d"]
+
+[resource]
+shader = ExtResource("1_oc2xh")
+shader_parameter/time = 0.0
+shader_parameter/overlay_texture = ExtResource("2_lqg1d")
+shader_parameter/overlay_opacity = 0.22
+shader_parameter/brightness = 1.0
