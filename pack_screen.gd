@@ -40,7 +40,6 @@ func _ready():
 	create_pack("woe_draft", 10, preload("res://sprites/Packs/eldraine_draft.png"), 10)
 	create_pack("woe_set", 13, preload("res://sprites/Packs/eldraine_set.png"), 13)
 	create_pack("woe_col", 45, preload("res://sprites/Packs/woe_collector.png"), 45)
-	unlock_pack("woe_col")
 	# Layout all unlocked packs
 	
 

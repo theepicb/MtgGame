@@ -1,9 +1,9 @@
 extends Node2D
 var set_name = "wot"
-
+@onready var woe = get_parent()
 var uncommon = [15,17,28,41,53,3,5,54,20,44,6,8,47,61,26,36,63,37]
 var rare = [39,14,1,16,2,42,18,19,43,55,21,7,56,23,45,10,30,46,57,32,33,11,34,59,60,12,35,49,62,38]
-var mythic = [52,29,4,22,9,31,24,58,48,25,13,50]
+var mythic = [52,29,4,22,9,31,24,58,48,25,13,50,27,40,51]
 
 var animeRare = [76,68,65,82,75]
 var animeMythic = [72,77,80,81,73,64,69,66,74,70,83,78,71,67,79]
@@ -14,7 +14,6 @@ var confettiMythic = [84, 86, 87, 89, 90, 91, 93, 92, 94, 97, 98, 99, 100, 101, 
 
 func _ready() -> void:
 	$"../..".ensure_directory_exists("user://Cards/wot")
-	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -26,7 +25,7 @@ func _ready() -> void:
 	
 
 func grabETCardDraft (count: int, foil: int, isLast: bool):
-	grabCard(getRarityByWeight([uncommon, rare, mythic, animeRare, animeMythic], [60, 30, 7.2, 1.1, 1.7]), foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
+	grabCard(getRarityByWeight([uncommon, rare, mythic, animeRare, animeMythic], [60, 30, 7.2 * woe.draft_luck, 1.1, 1.7 * woe.draft_luck]), foil, $"../..".getPosition(count).x, $"../..".getPosition(count).y, isLast)
 
 func getWithRarity(rarity: String, foil: int, count: int, isLast: bool):
 	match rarity:

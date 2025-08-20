@@ -4,10 +4,16 @@ extends Node2D
 
 var data = {
 	"woe_draft": {
-		"amounts": [1, 5, 25],
+		"amounts": [2, 3, 4, 5, 6],
 		"achieNumber": 0,
 		"numberOpened": 0,
 		"function": func (): achievement_handler("woe_draft", data["woe_draft"]["achieNumber"])
+	},
+	"woe_set": {
+		"amounts": [2, 5, 10, 25],
+		"achieNumber": 0,
+		"numberOpened": 0,
+		"function": func (): achievement_handler("woe_set", data["woe_set"]["achieNumber"])
 	}
 }
 
@@ -33,3 +39,16 @@ func achievement_handler(name: String, ID: int):
 			match ID:
 				1:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 2)
+				2:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 0)
+				3: 
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 1)
+				4:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 2)
+				5:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 3)
+		"woe_set":
+			match ID:
+				1: 
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 3)
+				

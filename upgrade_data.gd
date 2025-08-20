@@ -53,7 +53,15 @@ var packUpgrades = {
 		func ():
 			registorPack("woe_set", "uncommon")
 			return true
-			]
+			],
+	3: [
+		"woe_s1",
+		"unlocks collector boosters",
+		20,
+		func ():
+			registorPack("woe_col", "uncommon")
+			return true
+]
 }
 
 var MPSUpgrades = {
@@ -64,4 +72,44 @@ var MPSUpgrades = {
 	func ():
 		increaseMPSValue(0.01)
 		return true
+]}
+
+var openingUpgradesWoe = {
+	0: [
+		"woe_d0",
+		"increases your odds with wilds of eldraine draft packs slightly",
+		10,
+		func ():
+			$"../../Pack_Data/Woe_data".draft_luck += 0.01
+			print($"../../Pack_Data/Woe_data".draft_luck)
+			return true
+],
+ 1: [
+		"woe_d1",
+		"increases your odds with wilds of eldraine draft packs even more",
+		25,
+		func ():
+			$"../../Pack_Data/Woe_data".draft_luck += 0.01
+			print($"../../Pack_Data/Woe_data".draft_luck)
+			return true
+],
+2: [
+		"woe_d2",
+		"increases your odds with wilds of eldraine draft packs by a lot",
+		50,
+		func ():
+			$"../../Pack_Data/Woe_data".draft_luck += 0.02
+			print($"../../Pack_Data/Woe_data".draft_luck)
+			return true
+],
+3: [
+	"woe_d3",
+	"decreases price of wilds of eldraine draft packs by $1.50 and increases your luck further",
+	70,
+	func ():
+		for pack in PackManager.instance.packs:
+			if pack.id == "woe_draft":
+				pack.price -= 1.5
+		return true
+	
 ]}
