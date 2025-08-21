@@ -4,16 +4,22 @@ extends Node2D
 
 var data = {
 	"woe_draft": {
-		"amounts": [2, 3, 4, 5, 6],
+		"amounts": [2, 5, 10, 25, 50, 999999],
 		"achieNumber": 0,
 		"numberOpened": 0,
 		"function": func (): achievement_handler("woe_draft", data["woe_draft"]["achieNumber"])
 	},
 	"woe_set": {
-		"amounts": [2, 5, 10, 25],
+		"amounts": [2, 5, 10, 25, 50, 999999],
 		"achieNumber": 0,
 		"numberOpened": 0,
 		"function": func (): achievement_handler("woe_set", data["woe_set"]["achieNumber"])
+	},
+	"woe_collector": {
+		"amounts": [2, 5, 10, 25, 50, 999999],
+		"achieNumber": 0,
+		"numberOpened": 0,
+		"function": func (): achievement_handler("woe_col", data["woe_collector"]["achieNumber"])
 	}
 }
 
@@ -51,4 +57,21 @@ func achievement_handler(name: String, ID: int):
 			match ID:
 				1: 
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 3)
-				
+				2:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 4)
+				3:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 5)
+				4:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 6)
+				3:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 7)
+
+var itemAch = ["doubling_season", "smothing tithe"]
+func cardAchieve(items: Array):
+	for item in items:
+		if itemAch.has(item):
+			getItemAch(item)
+
+
+func getItemAch (item: String):
+		upgrade_manager.cardAchUpgrades(item)

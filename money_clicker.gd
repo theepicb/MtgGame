@@ -6,6 +6,8 @@ var money_multiplier = 1;
 var combo_wait_time = 1;
 var combo = 0;
 
+var rhysticUpgrade = false
+
 @onready var combo_timer = Timer.new();
 
 func _ready() -> void:
@@ -43,6 +45,8 @@ func _comboTimer_timeout() -> void:
 	pass
 
 func _pressed() -> void:
+	if rhysticUpgrade && $"../Pack_Data".getLuck() >= 80:
+		$"../Pack_Clicker"._pressed()
 	combo_timer.stop();
 	Player.money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
 	combo += 1;

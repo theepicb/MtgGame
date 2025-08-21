@@ -15,6 +15,7 @@ var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
 var draft_luck = 1
 var set_luck = 1
+var set_bonus_foil = 0
 var collector_luck = 1;
 var confetti_luck = 1;
 
@@ -101,10 +102,11 @@ func createCollectorPack () -> void:
 	var foil = getRarityByWeight([0, 1], [50, 50 * collector_luck])
 	if packs == extendedMythic:
 		var card = extendedMythic.pick_random()
-		if card >= 370:
+		if card >= 369:
 			foil = false
 		grabCardExtra(card, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
-	grabCard(getRarityByWeight(packs, odds), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard(getRarityByWeight(packs, odds), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
 	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 * collector_luck, 10 * collector_luck])
@@ -168,8 +170,17 @@ func createSetPack () -> void:
 		odds = [60, 30, 7, 3]
 		packs = [common, uncommon, rare, mythic]
 		grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	
 	counter += 1
+	
+	
+	if $"..".getLuck() < set_bonus_foil:
+		if ($"..".getLuck() >= 95):
+			$Wot_data.grabETCardDraft(counter, 1, false)
+		else:
+			odds = [60, 30, 7, 3]
+			packs = [common, uncommon, rare, mythic]
+			grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
 	
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	

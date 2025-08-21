@@ -13,6 +13,35 @@ func generateNewUpgrade (dict: Dictionary,id: int):
 	$"..".register_upgrade(upgrade)
 	pass
 
+var cardAchUpgrades = {
+	"doubling season": [
+		"doublingSeason",
+		"doubles your coins per click",
+		100,
+		func ():
+			$"../../Money_Clicker".money_multiplier += 1
+			return true
+],
+	"smothering tithe": [
+		"smotheringTithe",
+		"increases your coins per click and coins per second by $0.05",
+		100,
+		func ():
+			$"../../Money_Clicker".money_per_click += 0.05
+			$"../../Money_Clicker".money_per_second += 0.05
+			return true
+],
+
+	"rhystic study": [
+		"rhysticStudy",
+		"increases your coins per click and coins per second by $0.05",
+		100,
+		func ():
+			
+			return true
+],
+}
+
 var clickerUpgrades = {
 0: 
 	["CU0", 
@@ -110,6 +139,46 @@ var openingUpgradesWoe = {
 		for pack in PackManager.instance.packs:
 			if pack.id == "woe_draft":
 				pack.price -= 1.5
+		$"../../Pack_Data/Woe_data".draft_luck += 0.02
 		return true
-	
-]}
+],
+4: [
+	"woe_s0",
+	"slightly increases luck in wilds of eldraine set boosters",
+	12.5,
+	func ():
+		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		return true
+],
+
+5: [
+	"woe_s1",
+	"slightly increases luck in wilds of eldraine set boosters and gives a chance for a bonus foil card",
+	30,
+	func ():
+		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		$"../../Pack_Data/Woe_data".set_bonus_foil += 1
+		return true
+],
+6: [
+	"woe_s2",
+	"slightly increases luck in wilds of eldraine set boosters and gives an extra chance for a bonus foil card",
+	60,
+	func ():
+		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		$"../../Pack_Data/Woe_data".set_bonus_foil += 1.5
+		return true
+],
+7: [
+	"woe_s3",
+	"increases luck in wilds of eldraine set boosters and gives an extra chance for a bonus foil card",
+	85,
+	func ():
+		for pack in PackManager.instance.packs:
+			if pack.id == "woe_set":
+				pack.price -= 1.5
+		$"../../Pack_Data/Woe_data".set_luck += 0.02
+		$"../../Pack_Data/Woe_data".set_bonus_foil += 2.5
+		return true
+]
+}

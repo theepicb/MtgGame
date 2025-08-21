@@ -7,6 +7,7 @@ func _ready() -> void:
 	pass
 
 func _pressed():
+	$"../../Achievements".cardAchieve(Player.cardsToShow)
 	for x in Player.cardsToShow:
 		x.visible = false;
 		pass
