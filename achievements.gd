@@ -7,19 +7,19 @@ var data = {
 		"amounts": [2, 5, 10, 25, 50, 999999],
 		"achieNumber": 0,
 		"numberOpened": 0,
-		"function": func (): achievement_handler("woe_draft", data["woe_draft"]["achieNumber"])
+		"function": func (): achievement_handler("woe_draft", data["woe_draft"]["achieNumber"]); data["woe_draft"]["achieNumber"] += 1
 	},
 	"woe_set": {
 		"amounts": [2, 5, 10, 25, 50, 999999],
 		"achieNumber": 0,
 		"numberOpened": 0,
-		"function": func (): achievement_handler("woe_set", data["woe_set"]["achieNumber"])
+		"function": func (): achievement_handler("woe_set", data["woe_set"]["achieNumber"]); data["woe_set"]["achieNumber"] += 1
 	},
 	"woe_collector": {
 		"amounts": [2, 5, 10, 25, 50, 999999],
 		"achieNumber": 0,
 		"numberOpened": 0,
-		"function": func (): achievement_handler("woe_col", data["woe_collector"]["achieNumber"])
+		"function": func(): achievement_handler("woe_col", data["woe_collector"]["achieNumber"]); data["woe_collector"]["achieNumber"] += 1
 	}
 }
 
@@ -32,46 +32,48 @@ func outsideCall (set_name: String):
 	checkAchievement(data[set_name])
 
 func checkAchievement(input: Dictionary):
-	for x in input["amounts"]:
-		if input["numberOpened"] >= x:
-			input["achieNumber"] += 1
-			input["function"].call()
-			print("called function")
+	var achie_number = input["achieNumber"]
+	var target_amount = input["amounts"][achie_number]
+	print("brrrr", achie_number, target_amount, input["numberOpened"])
+	if input["numberOpened"] >= target_amount:
+		input["function"].call()
+		print("called function")
 
 func achievement_handler(name: String, ID: int):
 	print("ach called")
 	match name:
 		"woe_draft":
 			match ID:
-				1:
+				0:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 2)
-				2:
+				1:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 0)
-				3: 
+				2: 
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 1)
-				4:
+				3:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 2)
-				5:
+				4:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 3)
 		"woe_set":
 			match ID:
-				1: 
+				0: 
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 3)
-				2:
+				1:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 4)
-				3:
+				2:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 5)
-				4:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 6)
 				3:
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 6)
+				4:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 7)
 
-var itemAch = ["doubling_season", "smothing tithe"]
+var itemAch = ["doubling_season", "smothering tithe", "rhystic study"]
 func cardAchieve(items: Array):
 	for item in items:
-		if itemAch.has(item):
-			getItemAch(item)
+		print(item.cardName.to_lower())
+		if itemAch.has(item.cardName.to_lower()):
+			getItemAch(item.cardName.to_lower())
 
 
 func getItemAch (item: String):
-		upgrade_manager.cardAchUpgrades(item)
+		upgrade_manager.generateNewUpgrade(upgrade_manager.cardAchUpgrades, item)

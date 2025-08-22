@@ -37,7 +37,7 @@ var cardAchUpgrades = {
 		"increases your coins per click and coins per second by $0.05",
 		100,
 		func ():
-			
+			$"../../Money_Clicker".rhysticUpgrade = true
 			return true
 ],
 }

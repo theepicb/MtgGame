@@ -10,7 +10,7 @@ var showcase = [285,291,282,279,277,281,284,283, 286,287,288,289,280,290,278,292
 var boarderless = [297,298,299,300,301,302, 303, 304, 305, 306, 307]
 
 
-var extendedRare = [323, 324, 326, 328, 327, 329, 331, 332, 333, 334, 335, 337, 339, 338, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 351, 352, 353, 355, 356, 357, 358, 359, 361, 362, 364, 365, 367, 368, 369, 370, 371, 372, 373, 374]
+var extendedRare = [ 370, 371, 372, 373, 374]
 var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
 var draft_luck = 1
@@ -96,17 +96,18 @@ func createCollectorPack () -> void:
 	grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
-	packs = [extendedRare, extendedMythic]
+	packs = ["extendedRare", "extendedMythic"]
 	odds = [84, 16 * collector_luck]
 	
 	var foil = getRarityByWeight([0, 1], [50, 50 * collector_luck])
-	if packs == extendedMythic:
-		var card = extendedMythic.pick_random()
-		if card >= 369:
-			foil = false
-		grabCardExtra(card, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
-	else:
-		grabCard(getRarityByWeight(packs, odds), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	packs = getRarityByWeight(packs, odds)
+	if packs == "extendedRare":
+		var card = extendedRare.pick_random()
+		print("card", card)
+		if card >= 370:
+			grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
+		else:
+			grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
 	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 * collector_luck, 10 * collector_luck])
@@ -114,10 +115,17 @@ func createCollectorPack () -> void:
 	counter += 1
 	
 	
-	rarity = getRarityByWeight([extendedRare, extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 * collector_luck, 16.2, 7.7, 24.4, 3.3 * collector_luck, 1.1 * collector_luck, 1.7 * collector_luck, 1.1 * confetti_luck * collector_luck, 1.7 * confetti_luck * collector_luck])
+	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 * collector_luck, 16.2, 7.7, 24.4, 3.3 * collector_luck, 1.1 * collector_luck, 1.7 * collector_luck, 1.1 * confetti_luck * collector_luck, 1.7 * confetti_luck * collector_luck])
 	if rarity is String:
 		if (rarity == "confettiRare" || rarity == "confettiMythic"):
 			$Wot_data.getWithRarity(rarity, 3, counter, true)
+		elif rarity == "extendedRare":
+			var card = extendedRare.pick_random()
+			print("card", card)
+			if card >= 370:
+				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
+			else:
+				grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		else:
 			$Wot_data.getWithRarity(rarity, 1, counter, true)
 	else:
