@@ -13,7 +13,7 @@ var common = []
 var uncommon = []
 var rare = []
 var mythic = []
-
+var signet = []
 
 @onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
 @onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")

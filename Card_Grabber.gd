@@ -90,7 +90,10 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		return
 	
 	if grabbingRarity:
-		match json.get("rarity"):
+		var value = json.get("name")
+		if typeof(value) == TYPE_STRING and "Signet" in value:
+			Player.signet.append(number)
+		else: match json.get("rarity"):
 			"common": Player.common.append(number)
 			"uncommon": Player.uncommon.append(number)
 			"rare": Player.rare.append(number)
