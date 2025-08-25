@@ -30,6 +30,8 @@ func _pressed() -> void:
 		pass
 	if completion >= 100:
 		complete = true;
+	else: 
+		complete = false
 		pass
 	
 	if complete && get_child_count() == 0:

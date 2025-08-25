@@ -10,7 +10,8 @@ var showcase = [285,291,282,279,277,281,284,283, 286,287,288,289,280,290,278,292
 var boarderless = [297,298,299,300,301,302, 303, 304, 305, 306, 307]
 
 
-var extendedRare = [ 370, 371, 372, 373, 374]
+var extendedRare = [323, 324, 326, 327, 328, 329, 331, 332, 333, 334, 335, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 351, 352, 353, 355, 356, 357, 358, 359, 361, 362, 364, 365, 367, 368, 370, 371, 369, 372, 373, 374]
+
 var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
 var draft_luck = 1
@@ -21,6 +22,7 @@ var confetti_luck = 1;
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/woe")
+	
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
@@ -107,7 +109,9 @@ func createCollectorPack () -> void:
 		if card >= 370:
 			grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
 		else:
-			grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+			grabCardExtra(card, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
+	else:
+		grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
 	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 * collector_luck, 10 * collector_luck])
@@ -123,9 +127,9 @@ func createCollectorPack () -> void:
 			var card = extendedRare.pick_random()
 			print("card", card)
 			if card >= 370:
-				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
+				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false)
 			else:
-				grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+				grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
 		else:
 			$Wot_data.getWithRarity(rarity, 1, counter, true)
 	else:

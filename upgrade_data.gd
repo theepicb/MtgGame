@@ -6,7 +6,7 @@ func _ready() -> void:
 	generateNewUpgrade(MPSUpgrades, 0)
 	generateNewUpgrade(packUpgrades, 1)
 
-func generateNewUpgrade (dict: Dictionary,id: int):
+func generateNewUpgrade (dict: Dictionary, id):
 	var array = dict.get(id)
 	print(array)
 	var upgrade = Upgrade.new(array[0], array[2], array[1], array[3])
@@ -34,10 +34,18 @@ var cardAchUpgrades = {
 
 	"rhystic study": [
 		"rhysticStudy",
-		"increases your coins per click and coins per second by $0.05",
+		"whenever you click for money theres a 1/5 chance you also click for a pack",
 		100,
 		func ():
 			$"../../Money_Clicker".rhysticUpgrade = true
+			return true
+],
+	"confettiFoil": [
+		"confettiFoil",
+		"increases your chances of getting confetti foils from Wilds of Eldraine collector boosters",
+		100,
+		func ():
+			$"../../Pack_Data/Woe_data".confetti_luck += 0.5
 			return true
 ],
 }
@@ -101,7 +109,15 @@ var MPSUpgrades = {
 	func ():
 		increaseMPSValue(0.01)
 		return true
-]}
+],
+1: [
+	"MP1",
+	"increases money per second by 0.01c",
+	5,
+	func ():
+		increaseMPSValue(0.01)
+		return true
+],}
 
 var openingUpgradesWoe = {
 	0: [

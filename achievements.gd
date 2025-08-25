@@ -67,12 +67,17 @@ func achievement_handler(name: String, ID: int):
 				4:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 7)
 
-var itemAch = ["doubling_season", "smothering tithe", "rhystic study"]
+var foilAch = ["confettiFoil"]
+var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
 func cardAchieve(items: Array):
 	for item in items:
 		print(item.cardName.to_lower())
 		if itemAch.has(item.cardName.to_lower()):
 			getItemAch(item.cardName.to_lower())
+			itemAch.erase(item.cardName.to_lower())
+		if item.foil == 3 && foilAch.has("confettiFoil"):
+			foilAch.erase("confettiFoil")
+			getItemAch("confettiFoil")
 
 
 func getItemAch (item: String):

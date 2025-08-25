@@ -17,7 +17,7 @@ var gates = [272, 274, 276, 278, 279, 281, 282, 284]
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
 	for x in range(272, 292):
-		grabCardExtra(x, 0, 0, 0, false, true)
+		#grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
 	grabCardExtra(1, 0, 0, 0, true, false)
 	await HttpData.Finished
