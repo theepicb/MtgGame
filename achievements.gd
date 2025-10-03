@@ -25,7 +25,7 @@ var data = {
 
 func _ready() -> void:
 	checkAchievement(data["woe_draft"])
-	
+	returnDictionary()
 
 func outsideCall (set_name: String):
 	data[set_name].numberOpened += 1
@@ -45,27 +45,27 @@ func achievement_handler(name: String, ID: int):
 		"woe_draft":
 			match ID:
 				0:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 2)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PU2"))
 				1:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 0)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d0"))
 				2: 
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 1)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d1"))
 				3:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 2)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d2"))
 				4:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 3)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d3"))
 		"woe_set":
 			match ID:
 				0: 
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades, 3)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PU3"))
 				1:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 4)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s0"))
 				2:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 5)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s1"))
 				3:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 6)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s2"))
 				4:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe, 7)
+					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s3"))
 
 var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
@@ -80,5 +80,15 @@ func cardAchieve(items: Array):
 			getItemAch("confettiFoil")
 
 
+
+
+func returnDictionary ():
+	return data
+
+func setDictionary (input: Dictionary):
+	data = input
+	print(data)
+	pass
+
 func getItemAch (item: String):
-		upgrade_manager.generateNewUpgrade(upgrade_manager.cardAchUpgrades, item)
+		upgrade_manager.generateNewUpgrade(upgrade_manager.cardAchUpgrades.get(item))

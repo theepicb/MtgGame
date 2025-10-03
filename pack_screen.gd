@@ -43,6 +43,30 @@ func _ready():
 	# Layout all unlocked packs
 	
 
+func returnDictionary () -> Dictionary:
+	var dict = {}
+	for pack in packs:
+		dict[pack.id] = {
+			"id": pack.id,
+			"price": pack.price,
+			"owned": pack.owned,
+			"unlocked": pack.unlocked
+		}
+	print(dict)
+	return dict
+
+func setDictionary(input: Dictionary):
+	for item in input.keys():
+		
+		for pack in packs:
+			if item == pack.id:
+				#print("unlocked:: ", item["unlocked"])
+				if input[item]["unlocked"]:
+					unlock_pack(pack.id)
+					
+				pack.price = input[item]["price"]
+				pack.owned = input[item]["owned"]
+
 func create_pack(id: String, price: float, texture: Texture2D, xp: int):
 	var new_pack = Pack.new(id, price, texture, xp)
 	packs.append(new_pack)

@@ -93,7 +93,7 @@ var packUpgrades = {
 			registorPack("woe_set", "uncommon")
 			return true
 			],
-	"woe_s1": [
+	"PU3": [
 		"woe_s1",
 		"unlocks collector boosters",
 		20,
@@ -215,6 +215,8 @@ func returnDictionaryPurchased ():
 	return array
 
 func createUpgrades(saved_array: Array):
+	if saved_array.is_empty():
+		return
 	
 	var combined = {}
 
@@ -222,10 +224,10 @@ func createUpgrades(saved_array: Array):
 		for key in d.keys():
 			combined[key] = d[key]
 
-	print(combined)
+	#print(combined)
 	for savedID in saved_array:
 		if combined.has(savedID):
-			print(combined.get(savedID))
+			#print(combined.get(savedID))
 			generateNewUpgrade(combined.get(savedID))
 
 func createPurchasedUpgrades(saved_array: Array):
@@ -236,10 +238,10 @@ func createPurchasedUpgrades(saved_array: Array):
 		for key in d.keys():
 			combined[key] = d[key]
 
-	print(combined)
+	#print(combined)
 	for savedID in saved_array:
 		if combined.has(savedID):
-			print(combined.get(savedID))
+			#print(combined.get(savedID))
 			var array = combined.get(savedID)
 			var upgrade = Upgrade.new(array[0], array[2], array[1], array[3])
 			$"..".purchased_upgrades.append(upgrade)

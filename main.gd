@@ -25,14 +25,17 @@ func save_game():
 		"Player": {
 			"freshStart": freshStart,
 			"inventory": inv,
-			"money": Player.money
+			"money": Player.money,
+			"xp": Player.xp
 		},
 		"Upgrades": {
 			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
 			"purchased": $Upgrades/Upgrade_Data.returnDictionaryPurchased()
 		},
-		#"Packs": get_node("/root/Main/Pack_Screen").packs
+		"Packs": get_node("/root/Main/Pack_Screen").returnDictionary(),
+		"Achievements": $Achievements.returnDictionary()
 			
+		
 		
 	}
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -63,11 +66,13 @@ func implamentData (data: Dictionary):
 	var inv = data["Player"].get("inventory", [])
 	loadInv(inv)
 	Player.money = data["Player"].get("money", 0)
+	Player.xp = data["Player"].get("xp", 0)
 	var avaliableUpgrades = data["Upgrades"].get("avaliable", [])
 	var purchasedUpgrades = data["Upgrades"].get("purchased", [])
 	$Upgrades/Upgrade_Data.createUpgrades(avaliableUpgrades)
 	$Upgrades/Upgrade_Data.createPurchasedUpgrades(purchasedUpgrades)
-
+	$Achievements.setDictionary(data["Achievements"])
+	$Pack_Screen.setDictionary(data["Packs"])
 	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
 	$Money_Clicker.combo_timer = data["Money_Clicker"].get("combo_wait_time", 1)
 	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_second", 0)
