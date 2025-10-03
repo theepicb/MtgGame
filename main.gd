@@ -1,22 +1,37 @@
 extends Node2D
 const SAVE_PATH = "user://game_data.json"
 
+var freshStart 
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		# Called when the user tries to close the window
+		print("Game is closing...")
+		save_game()
+		get_tree().quit()
+
 func save_game():
+	var inv = []
+	
+	for item in Player.cardInventory:
+		inv.append(item.returnDictionary())
+	
 	var data = {
 		"Money_Clicker": {
 			"money_per_click": $Money_Clicker.money_per_click,
-			"combo_timer": $Money_Clicker.combo_wait_time,
+			"combo_wait_time": $Money_Clicker.combo_wait_time,
 			"money_per_second": $Money_Clicker.money_per_second
 		},
 		"Player": {
-			"inventory": Player.cardInventory,
+			"freshStart": freshStart,
+			"inventory": inv,
 			"money": Player.money
 		},
 		"Upgrades": {
-			"avaliable": get_node("/root/Main/Upgrades").available_upgrades,
-			"purchased": get_node("/root/Main/Upgrades").purchased_upgrades
+			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
+			"purchased": $Upgrades/Upgrade_Data.returnDictionaryPurchased()
 		},
-		"Packs": get_node("/root/Pack_Screen").packs
+		#"Packs": get_node("/root/Main/Pack_Screen").packs
 			
 		
 	}
@@ -35,7 +50,8 @@ func loadGame ():
 		var file_content = file.get_as_text()
 		file.close()
 		
-		var data = JSON.parse_string(file)
+		var data = JSON.parse_string(file_content)
+		
 		return data
 	
 	else: return null;
@@ -44,21 +60,32 @@ func loadGame ():
 	pass
 
 func implamentData (data: Dictionary):
-	Player.cardInventory = data["Player"].get("inventory", [])
+	var inv = data["Player"].get("inventory", [])
+	loadInv(inv)
 	Player.money = data["Player"].get("money", 0)
-	$Upgrades.available_upgrades = data["Upgrades"].get("avaliable", [])
-	$Upgrades.purchased_upgrades = data["Upgrades"].get("purchased", [])
+	var avaliableUpgrades = data["Upgrades"].get("avaliable", [])
+	var purchasedUpgrades = data["Upgrades"].get("purchased", [])
+	$Upgrades/Upgrade_Data.createUpgrades(avaliableUpgrades)
+	$Upgrades/Upgrade_Data.createPurchasedUpgrades(purchasedUpgrades)
+
 	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
 	$Money_Clicker.combo_timer = data["Money_Clicker"].get("combo_wait_time", 1)
-	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_seceond", 0)
+	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_second", 0)
+	pass
+
+func loadInv(list: Array):
+	for item in list:
+		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0))
+		tempCard.setPrice(item["price"])
+		tempCard.setName(item["cardName"])
+		tempCard.loadImage()
+		Player.add_child(tempCard)
+		Player.cardInventory.append(tempCard)
+		pass
 	pass
 
 func defultLoad ():
-	Player.money = 0;
-	Player.inventory = [];
-	$Money_Clicker.money_per_click = 0.01;
-	$Money_Clicker.combo_wait_time = 1;
-	$Money_Clicker.money_multiplier = 1;
+	$Upgrades/Upgrade_Data.start()
 	save_game();
 
 func _ready() -> void:

@@ -20,7 +20,7 @@ var signet = []
 func levelUp (level):
 	match level:
 		2:
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades, 0)
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
 	levelLabel.setText()
 			
 

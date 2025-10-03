@@ -29,6 +29,7 @@ func _init(
 ):
 	if count == -1 or ID == "" or foil == -1 or image_path == "":
 		# No valid data — delete self
+		print("invalid card gen")
 		queue_free()
 		return
 
@@ -190,3 +191,14 @@ func sellCard ():
 				Player.cardInventory.remove_at(idx)
 			Player.reloadInv()
 			self.queue_free()
+
+func returnDictionary()->Dictionary:
+	return {
+		"price": self.price,
+		"count": self.count,
+		"image_path": self.image_path,
+		"ID": self.ID,
+		"cardName": self.cardName,
+		"foil": self.foil
+	}
+	pass

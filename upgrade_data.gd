@@ -1,13 +1,15 @@
 extends UpgradeManager
 
-func _ready() -> void:
-	generateNewUpgrade(clickerUpgrades, 0)
+func start() -> void:
+	generateNewUpgrade(clickerUpgrades.get("CU0"))
 	
-	generateNewUpgrade(MPSUpgrades, 0)
-	generateNewUpgrade(packUpgrades, 1)
+	generateNewUpgrade(MPSUpgrades.get("MP1"))
+	generateNewUpgrade(packUpgrades.get("PU1"))
 
-func generateNewUpgrade (dict: Dictionary, id):
-	var array = dict.get(id)
+
+
+func generateNewUpgrade (array: Array):
+
 	print(array)
 	var upgrade = Upgrade.new(array[0], array[2], array[1], array[3])
 	$"..".register_upgrade(upgrade)
@@ -51,15 +53,15 @@ var cardAchUpgrades = {
 }
 
 var clickerUpgrades = {
-0: 
+"CU0": 
 	["CU0", 
 	"increase click value +0.01 per click", 
 	5.0, 
 	func (): 
 		increaseClickerValue(0.01)
-		generateNewUpgrade(clickerUpgrades, 1)
+		generateNewUpgrade(clickerUpgrades.get("CU1"))
 		return true],
-1: ["CU1",
+"CU1": ["CU1",
 	"increase click value +0.01 per click", 
 	7.5,
 	func (): 
@@ -67,7 +69,7 @@ var clickerUpgrades = {
 		return true]}
 
 var packUpgrades = {
-	0: [
+	"PU0": [
 	"PU0",
 	"Unlocks March of the Machine: Aftermath Collector Boosters",
 	10,
@@ -75,7 +77,7 @@ var packUpgrades = {
 		registorPack("mat_col", "uncommon")
 		return true
 ],
-	1: [
+	"PU1": [
 		"PU1",
 		"Unlocks Wilds of Eldraine Draft Packs",
 		5,
@@ -83,7 +85,7 @@ var packUpgrades = {
 			registorPack("woe_draft", "common")
 			return true
 			],
-	2: [
+	"PU2": [
 		"PU2",
 		"Unlocks Wilds of Eldraine Set Packs",
 		5,
@@ -91,7 +93,7 @@ var packUpgrades = {
 			registorPack("woe_set", "uncommon")
 			return true
 			],
-	3: [
+	"woe_s1": [
 		"woe_s1",
 		"unlocks collector boosters",
 		20,
@@ -102,7 +104,7 @@ var packUpgrades = {
 }
 
 var MPSUpgrades = {
-	0: [
+	"MP0": [
 	"MP0",
 	"increases money per second by 0.01c",
 	2.5,
@@ -110,7 +112,7 @@ var MPSUpgrades = {
 		increaseMPSValue(0.01)
 		return true
 ],
-1: [
+"MP1": [
 	"MP1",
 	"increases money per second by 0.01c",
 	5,
@@ -120,7 +122,7 @@ var MPSUpgrades = {
 ],}
 
 var openingUpgradesWoe = {
-	0: [
+	"woe_d0": [
 		"woe_d0",
 		"increases your odds with wilds of eldraine draft packs slightly",
 		10,
@@ -129,7 +131,7 @@ var openingUpgradesWoe = {
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
- 1: [
+ "woe_d1": [
 		"woe_d1",
 		"increases your odds with wilds of eldraine draft packs even more",
 		25,
@@ -138,7 +140,7 @@ var openingUpgradesWoe = {
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
-2: [
+"woe_d2": [
 		"woe_d2",
 		"increases your odds with wilds of eldraine draft packs by a lot",
 		50,
@@ -147,7 +149,7 @@ var openingUpgradesWoe = {
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
-3: [
+"woe_d3": [
 	"woe_d3",
 	"decreases price of wilds of eldraine draft packs by $1.50 and increases your luck further",
 	70,
@@ -158,7 +160,7 @@ var openingUpgradesWoe = {
 		$"../../Pack_Data/Woe_data".draft_luck += 0.02
 		return true
 ],
-4: [
+"woe_s0": [
 	"woe_s0",
 	"slightly increases luck in wilds of eldraine set boosters",
 	12.5,
@@ -167,7 +169,7 @@ var openingUpgradesWoe = {
 		return true
 ],
 
-5: [
+"woe_s1": [
 	"woe_s1",
 	"slightly increases luck in wilds of eldraine set boosters and gives a chance for a bonus foil card",
 	30,
@@ -176,7 +178,7 @@ var openingUpgradesWoe = {
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1
 		return true
 ],
-6: [
+"woe_s2": [
 	"woe_s2",
 	"slightly increases luck in wilds of eldraine set boosters and gives an extra chance for a bonus foil card",
 	60,
@@ -185,7 +187,7 @@ var openingUpgradesWoe = {
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1.5
 		return true
 ],
-7: [
+"woe_s3": [
 	"woe_s3",
 	"increases luck in wilds of eldraine set boosters and gives an extra chance for a bonus foil card",
 	85,
@@ -198,3 +200,46 @@ var openingUpgradesWoe = {
 		return true
 ]
 }
+
+
+func returnDictionaryAvaliable ():
+	var array = []
+	for item in $"..".available_upgrades:
+		array.append(item.id)
+	return array
+
+func returnDictionaryPurchased ():
+	var array = []
+	for item in $"..".purchased_upgrades:
+		array.append(item.id)
+	return array
+
+func createUpgrades(saved_array: Array):
+	
+	var combined = {}
+
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe]:
+		for key in d.keys():
+			combined[key] = d[key]
+
+	print(combined)
+	for savedID in saved_array:
+		if combined.has(savedID):
+			print(combined.get(savedID))
+			generateNewUpgrade(combined.get(savedID))
+
+func createPurchasedUpgrades(saved_array: Array):
+	
+	var combined = {}
+
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe]:
+		for key in d.keys():
+			combined[key] = d[key]
+
+	print(combined)
+	for savedID in saved_array:
+		if combined.has(savedID):
+			print(combined.get(savedID))
+			var array = combined.get(savedID)
+			var upgrade = Upgrade.new(array[0], array[2], array[1], array[3])
+			$"..".purchased_upgrades.append(upgrade)

@@ -15,10 +15,10 @@ var confettiMythic = [84, 86, 87, 89, 90, 91, 93, 92, 94, 97, 98, 99, 100, 101, 
 func _ready() -> void:
 	$"../..".ensure_directory_exists("user://Cards/wot")
 	for x in range(25, 26):
-		grabCardExtra(x, 0, 0, 0, false, true)
-		grabCardExtra(x, 0, 0, 0, false, true)
+		#grabCardExtra(x, 0, 0, 0, false, true)
+		#grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
-	grabCardExtra(1, 0, 0, 0, true, false)
+	#grabCardExtra(1, 0, 0, 0, true, false)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
