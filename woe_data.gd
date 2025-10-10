@@ -20,6 +20,23 @@ var set_bonus_foil = 0
 var collector_luck = 1;
 var confetti_luck = 1;
 
+func returnDictionary () -> Dictionary:
+	var dictionary = {}
+	dictionary["draft"] = draft_luck
+	dictionary["set"] = set_luck
+	dictionary["collector"] = collector_luck
+	dictionary["set_bonus_foil"] = set_bonus_foil
+	dictionary["confetti"] = confetti_luck
+	return dictionary
+
+func setDictionary (dict: Dictionary) -> void:
+	draft_luck = dict.get("draft", 1)
+	set_luck = dict.get("set", 1)
+	collector_luck = dict.get("collector", 1)
+	confetti_luck = dict.get("confetti", 1)
+	set_bonus_foil = dict.get("set_bonus_foil", 0)
+	pass
+
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/woe")
 	

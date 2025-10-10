@@ -113,6 +113,8 @@ func open_pack_contents(pack_id: String):
 		"woe_col":
 			$"../../Pack_Data/Woe_data".createCollectorPack();
 			pass
+		"rvr_draft":
+			$"../../Pack_Data/Rvr_data".createDraftPack();
 	
 	
 	# You might call something like:

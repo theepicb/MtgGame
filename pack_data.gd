@@ -27,3 +27,25 @@ func getLuck(pack_luck: float = 1) -> int:
 	
 func drawBackButton ():
 	$"../CanvasLayer/Back_Button".draw()
+
+func chooseSerialNumber (max_num: int, array: Array) -> int:
+	var number = randi_range(0, max_num)
+	if !array.has(number):
+		return number
+	else:
+		var number_stamp = number
+		while number != 0:
+			number -= 1
+			if !array.has(number):
+				return number
+		number = number_stamp
+		while number != max_num:
+			number += 1
+			if !array.has(number):
+				return number
+	return -1
+
+func getRarityByWeight(arrays: Array, weights: Array):
+	var random = RandomNumberGenerator.new()
+	
+	return arrays[random.rand_weighted(weights)]

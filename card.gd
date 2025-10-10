@@ -19,13 +19,18 @@ var image_path: String
 var pos: Vector2
 # name of the card
 var cardName: String
-
+# is serialised
+var serial: bool
+# serial number
+var serial_number: int
+var max_number: int
 func _init(
 	count: int = -1,
 	ID: String = "",
 	foil: int = -1,
 	image_path: String = "",
-	pos: Vector2 = Vector2.ZERO
+	pos: Vector2 = Vector2.ZERO,
+	serial: bool = false
 ):
 	if count == -1 or ID == "" or foil == -1 or image_path == "":
 		# No valid data — delete self
@@ -40,6 +45,7 @@ func _init(
 	self.pos = pos
 	self.shader_material = preload("res://new_shader_material.tres")
 	self.scale = Vector2(1, 1)
+	self.serial = serial
 
 func _ready():
 	z_index = 100
@@ -63,7 +69,9 @@ func _ready():
 		4:
 			mat = preload("res://texturedFoil.tres")
 			pass
-		
+		5:
+			mat = preload("res://DoubleRainbowFoil.tres")
+			pass
 	if mat is Resource:
 		mat.set_shader_parameter("time", shader_time)
 		self.material = mat
@@ -108,6 +116,8 @@ func showCard(posX, posY, scale1) -> void:
 	self.position = Vector2(posX, posY)
 	self.pos = Vector2(posX, posY)
 	self.scale = Vector2(scale1, scale1)
+	if serial:
+		drawSerial(self.serial_number)
 
 func _process(delta):
 	if self.foil == 1:
@@ -141,6 +151,8 @@ func displayUI():
 	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-65, 130))
+	if serial:
+		drawSerial(self.serial_number)
 
 
 
@@ -202,3 +214,54 @@ func returnDictionary()->Dictionary:
 		"foil": self.foil
 	}
 	pass
+
+func serialise (number, maxNumber) -> void:
+	self.serial_number = number
+	self.price = (pow(self.price, 2) * 2) + 80
+	self.ID = self.ID + "z"
+	self.serial = true
+	self.max_number = maxNumber
+	drawSerial(self.serial_number)
+
+func drawSerial (number):
+	var serial = Sprite2D.new()
+	self.add_child(serial)
+	var image = Image.new()
+	var result = image.load("res://serialised.png")
+	# Use this instead of create_from_image
+	var tex = ImageTexture.create_from_image(image)  # You can adjust flags if needed
+	serial.texture = tex
+	serial.scale = Vector2(0.35, 0.35)
+	serial.position = Vector2(-43, -0.5)
+	serial.visible = true
+	var serialNum = Label.new()
+	var temp = ""
+	if serial_number <= 9:
+		temp = "00"
+	elif serial_number <= 99:
+		temp = "0"
+	serialNum.text = temp + str(serial_number)
+	serialNum.add_theme_font_size_override("font_size", 9)
+
+# Define a size area for the label
+	serialNum.custom_minimum_size = Vector2(100, 20)
+
+# Now alignment makes sense inside that 100x20 box
+	serialNum.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	serialNum.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	serialNum.position = Vector2(-62, -7)
+	add_child(serialNum)
+	
+	var SerialNumMax = Label.new()
+	SerialNumMax.add_theme_font_size_override("font_size", 9)
+	SerialNumMax.text = str(max_number)
+	SerialNumMax.position = Vector2(-38, -7)
+	self.add_child(SerialNumMax)
+	
+	self.foil = 5
+	var mat = preload("res://DoubleRainbowFoil.tres")
+	mat.set_shader_parameter("time", shader_time)
+	self.material = mat
+	serial.material = mat
+	serialNum.material = mat
+	SerialNumMax.material = mat

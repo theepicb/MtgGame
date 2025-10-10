@@ -3,6 +3,8 @@ extends Node2D
 var money = 50000;
 var luck = 1;
 
+var tokens = 0;
+
 var level = 1;
 var xpToLevelUp = [5, 20, 50, 100, 250, 500, 999999]
 var xp = 0;

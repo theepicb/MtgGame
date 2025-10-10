@@ -83,11 +83,17 @@ func cardAchieve(items: Array):
 
 
 func returnDictionary ():
-	return data
+	var dict = {}
+	for item in data.keys():
+		dict[item] = {}
+		dict[item]["achieNumber"] = data[item]["achieNumber"]
+		dict[item]["numberOpened"] = data[item]["numberOpened"]
+	return dict
 
 func setDictionary (input: Dictionary):
-	data = input
-	print(data)
+	for item in input.keys():
+		data[item]["achieNumber"] = input[item]["achieNumber"]
+		data[item]["numberOpened"] = input[item]["numberOpened"]
 	pass
 
 func getItemAch (item: String):

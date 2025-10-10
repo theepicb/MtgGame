@@ -1,6 +1,14 @@
 extends Node2D
 var set_name = "rvr"
 
+var serial_max = 500
+
+var draft_luck = 1
+var collector_luck = 1
+
+var serial = {
+	
+}
 
 var common = [3, 4, 5, 7, 10, 11, 12, 13, 17, 18, 21, 22, 25, 26, 27, 29, 37, 38, 41, 42, 45, 46, 47, 48, 49, 53, 56, 58, 60, 61, 64, 65, 66, 67, 68, 69, 72, 73, 74, 77, 79, 82, 85, 88, 91, 92, 94, 96, 99, 102, 103, 104, 105, 106, 108, 109, 115, 119, 121, 122, 124, 127, 128, 130, 131, 132, 135, 136, 139, 140, 141, 143, 145, 147, 151, 154, 155, 156, 157, 158, 166, 169, 172, 177, 181, 182, 184, 185, 186, 192, 200, 203, 204, 209, 219, 225, 226, 236, 238, 239]
 
@@ -14,12 +22,17 @@ var signet = [250, 251, 256, 258, 259, 261, 263, 265, 267, 269]
 
 var gates = [272, 274, 276, 278, 279, 281, 282, 284]
 
+var serialized = {
+	302: []
+}
+
+
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
-	for x in range(272, 292):
-		#grabCardExtra(x, 0, 0, 0, false, true)
+	for x in range(302, 303):
+		grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
-	#grabCardExtra(1, 0, 0, 0, true, false)
+	grabCardExtra(1, 0, 0, 0, true, false)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -44,7 +57,26 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	var pos = Vector2(posX, posY)
 	
 	var CardGrabber = preload("res://Card_Grabber.gd")
-	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, 69, 420);
 	print("started")
 	add_child(grab)
 	pass
+
+func createDraftPack ():
+	$"../../Achievements".outsideCall("woe_draft")
+	var total_luck = Player.luck * draft_luck
+	var counter = 0
+	for x in 8:
+		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	if (randi_range(0, 100) * total_luck > 66):
+		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 * total_luck, 5 * total_luck])
+		grabCard(rarity, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	else:
+		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	for x in 3:
+		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	

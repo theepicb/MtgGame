@@ -3,6 +3,8 @@ const SAVE_PATH = "user://game_data.json"
 
 var freshStart 
 
+var version = 0.1
+
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		# Called when the user tries to close the window
@@ -17,6 +19,7 @@ func save_game():
 		inv.append(item.returnDictionary())
 	
 	var data = {
+		"version": version,
 		"Money_Clicker": {
 			"money_per_click": $Money_Clicker.money_per_click,
 			"combo_wait_time": $Money_Clicker.combo_wait_time,
@@ -31,6 +34,10 @@ func save_game():
 		"Upgrades": {
 			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
 			"purchased": $Upgrades/Upgrade_Data.returnDictionaryPurchased()
+		},
+		"Luck": {
+			"player_luck": Player.luck,
+			"woe": $Pack_Data/Woe_data.returnDictionary()
 		},
 		"Packs": get_node("/root/Main/Pack_Screen").returnDictionary(),
 		"Achievements": $Achievements.returnDictionary()
@@ -63,6 +70,8 @@ func loadGame ():
 	pass
 
 func implamentData (data: Dictionary):
+	
+	# inventory load
 	var inv = data["Player"].get("inventory", [])
 	loadInv(inv)
 	Player.money = data["Player"].get("money", 0)
@@ -74,8 +83,9 @@ func implamentData (data: Dictionary):
 	$Achievements.setDictionary(data["Achievements"])
 	$Pack_Screen.setDictionary(data["Packs"])
 	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
-	$Money_Clicker.combo_timer = data["Money_Clicker"].get("combo_wait_time", 1)
+	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
 	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_second", 0)
+	$Pack_Data/Woe_data.setDictionary(data["Luck"].get("woe"))
 	pass
 
 func loadInv(list: Array):

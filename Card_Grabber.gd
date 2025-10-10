@@ -11,6 +11,7 @@ var save_path: String;
 var ID = ""
 var price: float
 var pos: Vector2
+var isSerial: bool
 
 var httpRequest1: HTTPRequest;
 var httpRequest2: HTTPRequest;
@@ -23,8 +24,11 @@ var new_card: Card
 var grabbingRarity: bool
 var rarity: String
 
+var extraLetter: String
+var serialNum: int
+var serialMaxNum
 
-func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false) -> void:
+func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false, isSerial:bool = false, serialNum: int = 0, serialMaxNum:int = 0) -> void:
 	# defining variables
 	self.number = number;
 	self.set_name = set_name;
@@ -34,6 +38,12 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.pos = position
 	self.isLast = isLast
 	self.grabbingRarity = gettingRarity
+	self.isSerial = isSerial
+	extraLetter = ""
+	if isSerial:
+		extraLetter = "z"
+		self.serialNum = serialNum
+		self.serialMaxNum = serialMaxNum
 	# create new instance of card then adds it as a child of the player
 	
 	
@@ -46,7 +56,7 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	pass
 
 func generateCard () -> void:
-	if !Player.IDInventory.has(self.cardID):
+	if !Player.IDInventory.has(self.cardID) || self.isSerial:
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		Player.IDInventory.push_back(new_card.ID);
@@ -64,14 +74,14 @@ func generateCard () -> void:
 				if "ID" in child and child.ID == self.ID:
 					child.amount += 1
 					print("amount added new amount:", child.amount)
-					self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+					self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + extraLetter + ".png"), pos)
 					Player.add_child(new_card)
 					Player.cardsToShow.push_back(new_card);
 					Player.cardsToDelete.push_back(new_card)
 					finished();
 					return
 					pass
-		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
+		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number)+ extraLetter + ".png"), pos)
 		Player.add_child(new_card)
 		Player.cardsToShow.push_back(new_card);
 		Player.cardsToDelete.push_back(new_card)
@@ -119,7 +129,7 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		return
 	pass
 	new_card.setPrice(card_value)
-	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png")):
+	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + extraLetter + ".png")):
 		print("image exists!")
 		new_card.call_deferred("loadImage")
 		finished()
@@ -148,6 +158,9 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 		print("Failed to save image. Error code:", imageResult)
 	else:
 		print("Saved to:", ProjectSettings.globalize_path(save_path + str(number) + ".png"))
+	
+	if isSerial:
+		new_card.serialise(self.serialNum, self.serialMaxNum)
 	
 	new_card.call_deferred("loadImage")
 	finished();
