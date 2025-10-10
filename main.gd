@@ -29,7 +29,8 @@ func save_game():
 			"freshStart": freshStart,
 			"inventory": inv,
 			"money": Player.money,
-			"xp": Player.xp
+			"xp": Player.xp,
+			"level": Player.level,
 		},
 		"Upgrades": {
 			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
@@ -76,6 +77,8 @@ func implamentData (data: Dictionary):
 	loadInv(inv)
 	Player.money = data["Player"].get("money", 0)
 	Player.xp = data["Player"].get("xp", 0)
+	Player.level = int(data["Player"].get("level", 1))
+	$CanvasLayer/level_Label.setText()
 	var avaliableUpgrades = data["Upgrades"].get("avaliable", [])
 	var purchasedUpgrades = data["Upgrades"].get("purchased", [])
 	$Upgrades/Upgrade_Data.createUpgrades(avaliableUpgrades)
