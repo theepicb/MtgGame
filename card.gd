@@ -30,7 +30,9 @@ func _init(
 	foil: int = -1,
 	image_path: String = "",
 	pos: Vector2 = Vector2.ZERO,
-	serial: bool = false
+	serial: bool = false,
+	serial_number: int = 0,
+	max_number: int = 0
 ):
 	if count == -1 or ID == "" or foil == -1 or image_path == "":
 		# No valid data — delete self
@@ -211,11 +213,14 @@ func returnDictionary()->Dictionary:
 		"image_path": self.image_path,
 		"ID": self.ID,
 		"cardName": self.cardName,
-		"foil": self.foil
+		"foil": self.foil,
+		"serial": self.serial,
+		"serialNum": self.serial_number,
+		"serialMax": self.max_number
 	}
 	pass
 
-func serialise (number, maxNumber) -> void:
+func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number
 	self.price = (pow(self.price, 2) * 2) + 80
 	self.ID = self.ID + "z"

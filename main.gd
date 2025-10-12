@@ -93,7 +93,9 @@ func implamentData (data: Dictionary):
 
 func loadInv(list: Array):
 	for item in list:
-		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0))
+		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0), item["serial"], item["serialNum"], item["serialMax"])
+		if item["serial"]:
+			tempCard.serialise(item["serialNum"], item["serialMax"])
 		tempCard.setPrice(item["price"])
 		tempCard.setName(item["cardName"])
 		tempCard.loadImage()

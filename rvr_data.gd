@@ -30,9 +30,9 @@ var serialized = {
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
 	for x in range(302, 303):
-		grabCardExtra(x, 0, 0, 0, false, true)
+		#grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
-	grabCardExtra(1, 0, 0, 0, true, false)
+	#grabCardExtra(1, 0, 0, 0, true, false)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
