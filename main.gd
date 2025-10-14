@@ -1,7 +1,6 @@
 extends Node2D
 const SAVE_PATH = "user://game_data.json"
 
-var freshStart 
 
 var version = 0.1
 
@@ -26,7 +25,6 @@ func save_game():
 			"money_per_second": $Money_Clicker.money_per_second
 		},
 		"Player": {
-			"freshStart": freshStart,
 			"inventory": inv,
 			"money": Player.money,
 			"xp": Player.xp,
@@ -71,11 +69,13 @@ func loadGame ():
 	pass
 
 func implamentData (data: Dictionary):
-	
+	await get_tree().create_timer(1).timeout
+	updateData(data["version"])
 	# inventory load
 	var inv = data["Player"].get("inventory", [])
 	loadInv(inv)
 	Player.money = data["Player"].get("money", 0)
+	$Money_Clicker.updateText()
 	Player.xp = data["Player"].get("xp", 0)
 	Player.level = int(data["Player"].get("level", 1))
 	$CanvasLayer/level_Label.setText()
@@ -88,7 +88,7 @@ func implamentData (data: Dictionary):
 	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
 	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
 	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_second", 0)
-	$Pack_Data/Woe_data.setDictionary(data["Luck"].get("woe"))
+	await $Pack_Data/Woe_data.setDictionary(data["Luck"].get("woe"))
 	pass
 
 func loadInv(list: Array):
@@ -109,14 +109,37 @@ func defultLoad ():
 	save_game();
 
 func _ready() -> void:
+	$CanvasLayer/Click_Screen_button.visible = false
+	$CanvasLayer/Upgrades_Button.visible = false
+	$Money_Clicker.visible = false
+	$Pack_Clicker.visible = false
+	$CanvasLayer/Upgrades_Button.visible = false
+	$CanvasLayer/Pack_Screen_Button.visible = false
+	$CanvasLayer/Open_Packs_Screen.visible = false
+	$CanvasLayer/Inventory_Button.visible = false
+	$CanvasLayer/level_Label.visible = false
 	if not FileAccess.file_exists("user://game_data.json"):
 		defultLoad()
 		pass
 	else:
 		var loading = loadGame()
 		if loading != null:
-			implamentData(loading)
+			await implamentData(loading)
 		else:
 			defultLoad()
 	var screen = 0;
+	$Money_Clicker.visible = true
+	$Pack_Clicker.visible = true
+	$CanvasLayer/Click_Screen_button.visible = true
+	$CanvasLayer/Upgrades_Button.visible = true
+	$CanvasLayer/Upgrades_Button.visible = true
+	$CanvasLayer/Pack_Screen_Button.visible = true
+	$CanvasLayer/Open_Packs_Screen.visible = true
+	$CanvasLayer/Inventory_Button.visible = true
+	$CanvasLayer/level_Label.visible = true
 	pass
+
+func updateData(dataVersion):
+	while dataVersion != version:
+		if dataVersion == 0.1:
+			print("version = 0.1")

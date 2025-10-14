@@ -20,6 +20,12 @@ var data = {
 		"achieNumber": 0,
 		"numberOpened": 0,
 		"function": func(): achievement_handler("woe_col", data["woe_collector"]["achieNumber"]); data["woe_collector"]["achieNumber"] += 1
+	},
+	"rvr_draft": {
+		"amounts": [2, 5, 10, 25, 50, 999999],
+		"achieNumber": 0,
+		"numberOpened": 0,
+		"function": func (): achievement_handler("rvr_draft", data["rvr_draft"]["achieNumber"]); data["rvr_draft"]["achieNumber"] += 1
 	}
 }
 

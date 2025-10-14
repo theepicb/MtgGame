@@ -42,7 +42,7 @@ func _ready():
 	create_pack("woe_set", 13, preload("res://sprites/Packs/eldraine_set.png"), 13)
 	create_pack("woe_col", 45, preload("res://sprites/Packs/woe_collector.png"), 45)
 	create_pack("rvr_draft", 15, preload("res://sprites/Packs/Rvr_draft.png"), 12)
-	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_draft.png"), 75)
+	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_collector.png"), 75)
 	unlock_pack("rvr_draft")
 	unlock_pack("rvr_col")
 	

@@ -6,6 +6,8 @@ var money_multiplier = 1;
 var combo_wait_time = 1;
 var combo = 0;
 
+var doubler = 0;
+
 var rhysticUpgrade = false
 
 @onready var combo_timer = Timer.new();

@@ -14,13 +14,33 @@ var common = [3, 4, 5, 7, 10, 11, 12, 13, 17, 18, 21, 22, 25, 26, 27, 29, 37, 38
 
 var uncommon = [2, 6, 14, 15, 23, 24, 28, 30, 33, 34, 36, 43, 50, 51, 52, 54, 57, 59, 75, 76, 84, 87, 89, 93, 95, 97, 98, 101, 107, 110, 112, 117, 120, 123, 125, 126, 137, 138, 142, 149, 150, 152, 159, 160, 161, 165, 168, 170, 173, 174, 176, 178, 183, 187, 188, 189, 190, 191, 197, 199, 202, 206, 208, 212, 214, 213, 217, 220, 221, 222, 223, 224, 227, 230, 235, 254, 257, 262, 268, 271]
 
-var rare = [8, 9, 19, 31, 32, 39, 44, 55, 62, 63, 70, 78, 83, 86, 90, 100, 111, 114, 116, 118, 133, 134, 144, 148, 162, 163, 167, 171, 175, 180, 194, 195, 196, 201, 207, 210, 211, 215, 218, 228, 229, 231, 233, 234, 237, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 252, 253, 260, 264, 266, 270]
+var rare = [8, 9, 19, 31, 32, 39, 44, 55, 62, 63, 70, 78, 83, 86, 90, 100, 111, 114, 116, 118, 133, 134, 144, 148, 162, 163, 167, 171, 175, 180, 194, 195, 196, 201, 207, 210, 211, 215, 218, 228, 229, 231, 233, 234, 237, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 252, 260, 264, 266, 270]
 
 var mythic = [1, 16, 20, 35, 40, 71, 80, 81, 113, 129, 146, 153, 164, 179, 193, 198, 205, 216, 232, 255]
 
 var signet = [250, 251, 256, 258, 259, 261, 263, 265, 267, 269]
 
 var gates = [272, 274, 276, 278, 279, 281, 282, 284]
+
+var shocks = [253, 275, 277, 280, 273, 283, 289, 290, 285, 288]
+
+var boarderless_shocks = [292, 293, 294, 295, 296, 297, 298, 299, 300, 301]
+
+var retro_common = [307, 311, 314, 310, 316, 321, 324, 343, 336, 340, 358, 361, 354, 367, 460]
+
+var retro_uncommon = [305, 304, 315, 325, 317, 330, 332, 318, 329, 346, 347, 338, 341, 352, 355, 359, 351, 364, 368, 362, 372, 366, 378, 380, 382, 374, 447]
+
+var retro_rare = [302, 303, 301, 312, 308, 322, 319, 320, 331, 326, 328, 344, 333, 335, 345, 337, 339, 348, 360, 363, 350, 365, 357, 375, 370, 379, 371, 376, 377, 384, 385, 387, 389, 381, 383, 386,  388, 394, 393, 392, 446, 451, 452, 453, 454, 456, 457, 458, 462, 450, 455, 461, 463, 464]
+
+var retro_mythic = [449, 459, 465]
+
+var retro_shocks = [390, 397, 395, 399, 401, 404, 407, 409, 412, 414, 413]
+
+var retro_gates = [398, 400, 396, 402, 403, 405, 406, 410, 408, 411]
+
+var boarderless_rare = []
+
+var boarderless_mythic = []
 
 var serialized = {
 	302: []
@@ -29,7 +49,7 @@ var serialized = {
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
-	for x in range(302, 303):
+	for x in range(302, 396):
 		#grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
 	#grabCardExtra(1, 0, 0, 0, true, false)
@@ -57,26 +77,57 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	var pos = Vector2(posX, posY)
 	
 	var CardGrabber = preload("res://Card_Grabber.gd")
-	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, 69, 420);
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, false, 69, 420);
 	print("started")
 	add_child(grab)
 	pass
 
 func createDraftPack ():
-	$"../../Achievements".outsideCall("woe_draft")
+	$"../../Achievements".outsideCall("rvr_draft")
 	var total_luck = Player.luck * draft_luck
 	var counter = 0
-	for x in 8:
+	var foil = false
+	var commons = 8
+	var isRetroRare = false
+	if (randi_range(0, 100) * total_luck > 66):
+		foil = true
+		commons = 7
+	if ((randi_range(0, 100) * total_luck > 84)):
+		isRetroRare = true
+	
+	
+	for x in commons:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	if (randi_range(0, 100) * total_luck > 66):
 		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 * total_luck, 5 * total_luck])
-		grabCard(rarity, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		grabCard(rarity, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	else:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
+	if !isRetroRare:
+		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon],[66, 33 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard($"..".getRarityByWeight([common, uncommon],[66, 33 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	for x in 3:
 		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
+	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	if isRetroRare:
+		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, retro_shocks],[86, 16 * total_luck, 5 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
+	else:
+		grabCard($"..".getRarityByWeight([rare, mythic],[84, 16]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
+	counter += 1
+	if foil:
+		grabCard($"..".getRarityByWeight([common, uncommon, rare, mythic, retro_common, retro_uncommon, retro_rare, shocks],[62, 20, 13 * total_luck, 7 * total_luck, 62, 20, 13 * total_luck, 7 * total_luck, 7 * total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
 	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.startShowBar()
+	$"..".drawBackButton();

@@ -33,7 +33,7 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 	self.number = number;
 	self.set_name = set_name;
 	self.isFoil = foilEnum;
-	self.save_path = save_path + "/";
+	self.save_path = save_path;
 	self.cardID = createID()
 	self.pos = position
 	self.isLast = isLast
@@ -91,7 +91,7 @@ func generateCard () -> void:
 
 func firstPing (result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code != 200:
-		push_error("API request failed with code: %d" % response_code)
+		push_error("API request failed number:" + str(number) +  " with code: %d" % response_code)
 		return
 	
 	var json = JSON.parse_string(body.get_string_from_utf8())

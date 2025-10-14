@@ -56,17 +56,31 @@ var clickerUpgrades = {
 "CU0": 
 	["CU0", 
 	"increase click value +0.01 per click", 
-	5.0, 
+	1.5, 
 	func (): 
 		increaseClickerValue(0.01)
 		generateNewUpgrade(clickerUpgrades.get("CU1"))
 		return true],
 "CU1": ["CU1",
-	"increase click value +0.01 per click", 
+	"increase click value +0.01c per click", 
 	7.5,
 	func (): 
 		increaseClickerValue(0.01)
-		return true]}
+		return true],
+"CU2": ["CU2",
+	"increase click value +0.01c per click", 
+	25,
+	func (): 
+		increaseClickerValue(0.01)
+		return true],
+"CU3": ["CU3",
+	"increase click value +0.01c per click", 
+	50,
+	func (): 
+		increaseClickerValue(0.01)
+		return true],
+}
+
 
 var packUpgrades = {
 	"PU0": [
@@ -95,10 +109,10 @@ var packUpgrades = {
 			],
 	"PU3": [
 		"woe_s1",
-		"unlocks collector boosters",
+		"increases your overall luck",
 		20,
 		func ():
-			registorPack("woe_col", "uncommon")
+			Player.luck += 0.01
 			return true
 ]
 }
@@ -119,7 +133,16 @@ var MPSUpgrades = {
 	func ():
 		increaseMPSValue(0.01)
 		return true
-],}
+],
+"MP2": [
+	"MP2",
+	"increases money per second by 0.01c",
+	17.5,
+	func ():
+		increaseMPSValue(0.01)
+		return true
+],
+}
 
 var openingUpgradesWoe = {
 	"woe_d0": [
@@ -200,6 +223,7 @@ var openingUpgradesWoe = {
 		return true
 ]
 }
+
 
 
 func returnDictionaryAvaliable ():

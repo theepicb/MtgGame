@@ -90,11 +90,6 @@ offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("10_dg77c")
 
-[node name="Casino_Button" type="Button" parent="CanvasLayer"]
-offset_right = 8.0
-offset_bottom = 8.0
-script = ExtResource("15_a6jrf")
-
 [node name="Back_Button" type="Button" parent="CanvasLayer"]
 offset_right = 45.0
 offset_bottom = 40.0
@@ -131,6 +126,11 @@ offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("17_ryguw")
+
+[node name="Casino_Button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("15_a6jrf")
 
 [node name="Pack_Data" type="Node2D" parent="."]
 script = ExtResource("12_ycdy4")

@@ -23,6 +23,8 @@ func levelUp (level):
 	match level:
 		2:
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
+		3:
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("CU3"))
 	levelLabel.setText()
 			
 
