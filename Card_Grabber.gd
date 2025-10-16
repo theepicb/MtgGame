@@ -161,6 +161,7 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 	
 	if isSerial:
 		new_card.serialise(self.serialNum, self.serialMaxNum)
+		new_card.setPrice(serialPriceAduster(self.serialNum, new_card.price))
 	
 	new_card.call_deferred("loadImage")
 	finished();
@@ -197,3 +198,26 @@ func startPing ():
 	var url = "https://api.scryfall.com/cards/%s/%d" % [set_name, number];
 	httpRequest1.request(url);
 	pass
+func serialPriceAduster (number, price) -> float:
+	match number:
+		100, 200, 300, 400, 500:
+			price = price * 1.35
+		1:
+			price = pow(price, 1.1) * 1.4
+		2: 
+			price = price * 1.4
+		3:
+			price = price * 1.34
+		4:
+			price = price * 1.32
+		5:
+			price = price * 1.31
+		10, 20, 30, 40, 50, 150, 250, 350, 450:
+			price = price * 1.2
+		69: 
+			price = price * 1.35
+		169, 269, 369, 469:
+			price = price * 1.15
+		111,222,333,444:
+			price = price * 1.25
+	return price

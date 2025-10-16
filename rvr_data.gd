@@ -111,7 +111,7 @@ var col_common = [460]
 
 var col_uncommon = [447, 448, 452, 453, 454, 456, 457, 458, 462]
 
-var col_rares = [446, 450, 451, 452, 453, 454, 456, 457, 458, 462, 450, 455, 461, 463, 464]
+var col_rares = [446, 450, 451, 458, 462, 450, 455, 461, 463, 464]
 
 var col_mythics = [449, 459, 465]
 
@@ -228,7 +228,7 @@ func createCollectorPack ():
 	
 	var number
 	var key
-	if randf_range(0, 100) * total_luck > 99:
+	if randf_range(0, 100) + (total_luck * 3) > 99:
 		key = serial.keys().pick_random()
 		number = $"..".chooseSerialNumber(500, serial[key])
 		if !number == -1:

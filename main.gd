@@ -8,6 +8,17 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		# Called when the user tries to close the window
 		print("Game is closing...")
+		for x in Player.cardsToDelete:
+			for child in Player.cardInventory:
+				if x.ID == child.ID:
+					child.count += 1
+		for child in Player.cardsToDelete:
+			if is_instance_valid(child):
+				child.queue_free()
+		Player.cardsToDelete.clear()
+		Player.cardsToShow.clear();
+		$CanvasLayer/level_Label.setText()
+		Player.checkLevel()
 		save_game()
 		get_tree().quit()
 

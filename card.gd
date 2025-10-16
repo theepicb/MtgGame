@@ -140,7 +140,9 @@ func displayPrice():
 	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	price.set_anchors_preset(Control.PRESET_CENTER)
 	price.set_position(Vector2(-25, 130))
-	
+	if serial:
+		drawSerial(self.serial_number)
+
 func displayUI():
 	deleteChildren()
 	var container = VBoxContainer.new()
@@ -228,6 +230,8 @@ func serialise (number: int = serial_number, maxNumber: int = max_number) -> voi
 	drawSerial(self.serial_number)
 
 func drawSerial (number):
+	if not is_inside_tree():
+		await ready
 	var serial = Sprite2D.new()
 	self.add_child(serial)
 	var image = Image.new()

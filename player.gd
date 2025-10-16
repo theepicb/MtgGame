@@ -32,6 +32,7 @@ func checkLevel ():
 	if xp >= xpToLevelUp[level]:
 		level += 1
 		levelUp(level)
+		checkLevel()
 
 var inInventory = false;
 
