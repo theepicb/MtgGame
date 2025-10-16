@@ -26,6 +26,12 @@ var data = {
 		"achieNumber": 0,
 		"numberOpened": 0,
 		"function": func (): achievement_handler("rvr_draft", data["rvr_draft"]["achieNumber"]); data["rvr_draft"]["achieNumber"] += 1
+	},
+	"rvr_col": {
+		"amounts": [2, 5, 10, 25, 50, 999999],
+		"achieNumber": 0,
+		"numberOpened": 0,
+		"function": func (): achievement_handler("rvr_draft", data["rvr_draft"]["achieNumber"]); data["rvr_draft"]["achieNumber"] += 1
 	}
 }
 
@@ -72,7 +78,7 @@ func achievement_handler(name: String, ID: int):
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s2"))
 				4:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s3"))
-
+			
 var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
 func cardAchieve(items: Array):

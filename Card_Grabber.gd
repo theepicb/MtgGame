@@ -80,7 +80,7 @@ func generateCard () -> void:
 					Player.cardsToDelete.push_back(new_card)
 					finished();
 					return
-					pass
+
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number)+ extraLetter + ".png"), pos)
 		Player.add_child(new_card)
 		Player.cardsToShow.push_back(new_card);
@@ -153,7 +153,7 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 	image.resize(new_size.x, new_size.y, Image.INTERPOLATE_LANCZOS)
 
 # Now save
-	var imageResult = image.save_png(save_path + str(number) + ".png")
+	var imageResult = image.save_png(save_path + "/" + str(number) + ".png")
 	if imageResult != OK:
 		print("Failed to save image. Error code:", imageResult)
 	else:

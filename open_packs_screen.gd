@@ -115,6 +115,10 @@ func open_pack_contents(pack_id: String):
 			pass
 		"rvr_draft":
 			$"../../Pack_Data/Rvr_data".createDraftPack();
+			pass
+		"rvr_col":
+			$"../../Pack_Data/Rvr_data".createCollectorPack()
+			pass
 	
 	
 	# You might call something like:

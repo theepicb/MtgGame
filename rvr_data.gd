@@ -7,7 +7,70 @@ var draft_luck = 1
 var collector_luck = 1
 
 var serial = {
-	
+	302: [],
+	303: [],
+	306: [],
+	308: [],
+	309: [],
+	312: [],
+	313: [],
+	319: [],
+	320: [],
+	322: [],
+	323: [],
+	326: [],
+	327: [],
+	328: [],
+	331: [],
+	333: [],
+	334: [],
+	335: [],
+	337: [],
+	339: [],
+	342: [],
+	344: [],
+	345: [],
+	348: [],
+	349: [],
+	350: [],
+	353: [],
+	356: [],
+	357: [],
+	360: [],
+	363: [],
+	365: [],
+	369: [],
+	370: [],
+	371: [],
+	373: [],
+	375: [],
+	376: [],
+	377: [],
+	379: [],
+	381: [],
+	383: [],
+	384: [],
+	385: [],
+	386: [],
+	387: [],
+	388: [],
+	389: [],
+	390: [],
+	391: [],
+	392: [],
+	393: [],
+	394: [],
+	395: [],
+	397: [],
+	399: [],
+	401: [],
+	404: [],
+	407: [],
+	409: [],
+	412: [],
+	413: [],
+	414: [],
+	415: []
 }
 
 var common = [3, 4, 5, 7, 10, 11, 12, 13, 17, 18, 21, 22, 25, 26, 27, 29, 37, 38, 41, 42, 45, 46, 47, 48, 49, 53, 56, 58, 60, 61, 64, 65, 66, 67, 68, 69, 72, 73, 74, 77, 79, 82, 85, 88, 91, 92, 94, 96, 99, 102, 103, 104, 105, 106, 108, 109, 115, 119, 121, 122, 124, 127, 128, 130, 131, 132, 135, 136, 139, 140, 141, 143, 145, 147, 151, 154, 155, 156, 157, 158, 166, 169, 172, 177, 181, 182, 184, 185, 186, 192, 200, 203, 204, 209, 219, 225, 226, 236, 238, 239]
@@ -30,26 +93,33 @@ var retro_common = [307, 311, 314, 310, 316, 321, 324, 343, 336, 340, 358, 361, 
 
 var retro_uncommon = [305, 304, 315, 325, 317, 330, 332, 318, 329, 346, 347, 338, 341, 352, 355, 359, 351, 364, 368, 362, 372, 366, 378, 380, 382, 374, 447]
 
-var retro_rare = [302, 303, 301, 312, 308, 322, 319, 320, 331, 326, 328, 344, 333, 335, 345, 337, 339, 348, 360, 363, 350, 365, 357, 375, 370, 379, 371, 376, 377, 384, 385, 387, 389, 381, 383, 386,  388, 394, 393, 392, 446, 451, 452, 453, 454, 456, 457, 458, 462, 450, 455, 461, 463, 464]
+var retro_rare = [302, 303, 301, 312, 308, 322, 319, 320, 331, 326, 328, 344, 333, 335, 345, 337, 339, 348, 360, 363, 350, 365, 357, 375, 370, 379, 371, 376, 377, 384, 385, 387, 389, 381, 383, 386,  388, 394, 393, 392, ]
 
-var retro_mythic = [449, 459, 465]
+var retro_mythic = [306, 309, 313, 323, 327, 334, 342, 349, 353, 356, 369, 373, 391]
 
 var retro_shocks = [390, 397, 395, 399, 401, 404, 407, 409, 412, 414, 413]
 
 var retro_gates = [398, 400, 396, 402, 403, 405, 406, 410, 408, 411]
 
-var boarderless_rare = []
+var boarderless_rare = [417, 420, 421, 422, 423, 425, 426, 427, 428, 430, 432, 434, 438, 439, 440, 441, 442]
 
-var boarderless_mythic = []
+var boarderless_mythic = [416, 418, 419, 424, 429, 431, 433, 435, 436, 437, 443, ]
 
-var serialized = {
-	302: []
-}
+var boarderless_planes = [444, 445]
+
+var col_common = [460]
+
+var col_uncommon = [447, 448, 452, 453, 454, 456, 457, 458, 462]
+
+var col_rares = [446, 450, 451, 452, 453, 454, 456, 457, 458, 462, 450, 455, 461, 463, 464]
+
+var col_mythics = [449, 459, 465]
+
 
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
-	for x in range(302, 396):
+	for x in range(452, 466):
 		#grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
 	#grabCardExtra(1, 0, 0, 0, true, false)
@@ -67,17 +137,15 @@ func _ready() -> void:
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
 	var num = list.pick_random();
-	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
 	print("started")
 	add_child(grab)
 	pass
 
-func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
+func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing, serialNum) -> void:
 	var pos = Vector2(posX, posY)
-	
 	var CardGrabber = preload("res://Card_Grabber.gd")
-	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, false, 69, 420);
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
 	print("started")
 	add_child(grab)
 	pass
@@ -127,7 +195,70 @@ func createDraftPack ():
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
 			await get_tree().process_frame
-	
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
 	levelLabel.startShowBar()
 	$"..".drawBackButton();
+	pass
+
+func createCollectorPack ():
+	var isSerial = false
+	var total_luck = collector_luck * Player.luck
+	$"../../Achievements".outsideCall("rvr_col")
+	var counter = 0
+	for x in 4:
+		grabCard(common, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	for x in 3:
+		grabCard(uncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 * total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	for x in 2:
+		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	
+	grabCard($"..".getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	grabCard($"..".getRarityByWeight([rare, mythic],[88, 12]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	grabCard($"..".getRarityByWeight([boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[52, 5.5, 15, 27.5]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	var number
+	var key
+	if randf_range(0, 100) * total_luck > 99:
+		key = serial.keys().pick_random()
+		number = $"..".chooseSerialNumber(500, serial[key])
+		if !number == -1:
+			isSerial = true
+			serial[key].append(number)
+	
+	if isSerial:
+		grabCardExtra(int(key), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false, number)
+	else:
+		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, col_rares, col_mythics, boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[55.2,5.3,10.6,2.1,13.4,1.4,4,7]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	
+	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.startShowBar()
+	$"..".drawBackButton();
+	pass
+
+func returnDictionary ():
+	var dict = {
+	"draft_luck": draft_luck,
+	"collector_luck": collector_luck,
+	"serial": serial
+	}
+	return dict
+
+func setDictionary (dict: Dictionary):
+	draft_luck = dict.get("draft_luck", 1)
+	collector_luck = dict.get("collector_luck", 1)
+	serial = dict.get("serial", serial)

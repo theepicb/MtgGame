@@ -13,6 +13,7 @@ func _ready():
 	pass 
 
 func _pressed() -> void:
+	Player.cardInventory.sort_custom(func(a, b): return a.price > b.price)
 	$"../../Money_Clicker".visible = false;
 	$"../../Pack_Clicker".visible = false;
 	$"../../Upgrades".deleteChildren();

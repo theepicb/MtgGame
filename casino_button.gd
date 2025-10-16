@@ -5,6 +5,7 @@ var Casino_Luck = 1
 func _ready() -> void:
 	size = Vector2(180, 60)
 	position = Vector2(2, 305)
+	visible = false
 
 func _pressed() -> void:
 	$"../../Money_Clicker".visible = false;

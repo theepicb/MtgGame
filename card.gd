@@ -218,7 +218,6 @@ func returnDictionary()->Dictionary:
 		"serialNum": self.serial_number,
 		"serialMax": self.max_number
 	}
-	pass
 
 func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number

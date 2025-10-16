@@ -1,5 +1,6 @@
 extends Node2D
 
+@warning_ignore("unused_signal")
 signal Finished 
 func _ready() -> void:
 	print(get_children())

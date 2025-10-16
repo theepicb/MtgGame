@@ -24,7 +24,7 @@ func levelUp (level):
 		2:
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
 		3:
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("CU3"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU3"))
 	levelLabel.setText()
 			
 
@@ -69,7 +69,7 @@ var IDInventory = [];
 var cardInventory = [];
 var cardsToShow = [];
 var cardsToDelete = [];
-
+var sortedInventory = [];
 
 func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: bool, set_name: String, isGrabbing: bool = true) -> void:
 	var pos = Vector2(posX, posY)

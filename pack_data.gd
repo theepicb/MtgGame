@@ -49,3 +49,15 @@ func getRarityByWeight(arrays: Array, weights: Array):
 	var random = RandomNumberGenerator.new()
 	
 	return arrays[random.rand_weighted(weights)]
+
+func returnDictionary() -> Dictionary:
+	var dict = {
+		"woe": $Woe_data.returnDictionary(),
+		"rvr": $Rvr_data.returnDictionary()
+	}
+	return dict
+
+func setDictionary(dict: Dictionary):
+	$Woe_data.setDictionary(dict.get("woe"))
+	$Rvr_data.setDictionary(dict.get("rvr"))
+	
