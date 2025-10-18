@@ -8,6 +8,8 @@ var shader_time = randi_range(0, 10)
 var count: int
 # price of card
 var price: float
+
+var set_name: String
 # id of the card used for image gathering and double checking
 var ID: String
 # foil enum 0: not foil, 1: foil, 2: etched foil, 3: confetti foil.
@@ -39,20 +41,18 @@ func _init(
 		print("invalid card gen")
 		queue_free()
 		return
-
 	self.count = count
 	self.ID = ID
 	self.foil = foil
 	self.image_path = image_path
 	self.pos = pos
-	self.shader_material = preload("res://new_shader_material.tres")
 	self.scale = Vector2(1, 1)
 	self.serial = serial
 
 func _ready():
 	z_index = 100
 	self.visible = false
-	
+	self.set_name = self.ID.substr(0, 3)
 	var mat = -1
 	print("foil", self.foil)
 	match self.foil:
@@ -223,24 +223,31 @@ func returnDictionary()->Dictionary:
 
 func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number
-	self.price = (pow(self.price, 2) * 2) + 80
+	self.price = (pow(self.price + 1, 2) * 2) + 80
 	self.ID = self.ID + "z"
 	self.serial = true
 	self.max_number = maxNumber
 	drawSerial(self.serial_number)
 
 func drawSerial (number):
+	var sPos = Vector2(-43, 1)
+	match self.set_name:
+		"rvr":
+			sPos = Vector2(-43, 1)
+		"mom":
+			sPos = Vector2(-60, 1)
+	
 	if not is_inside_tree():
 		await ready
 	var serial = Sprite2D.new()
 	self.add_child(serial)
 	var image = Image.new()
-	var result = image.load("res://serialised.png")
+	var _result = image.load("res://serialised.png")
 	# Use this instead of create_from_image
 	var tex = ImageTexture.create_from_image(image)  # You can adjust flags if needed
 	serial.texture = tex
 	serial.scale = Vector2(0.35, 0.35)
-	serial.position = Vector2(-43, -0.5)
+	serial.position = sPos
 	serial.visible = true
 	var serialNum = Label.new()
 	var temp = ""
@@ -257,19 +264,21 @@ func drawSerial (number):
 # Now alignment makes sense inside that 100x20 box
 	serialNum.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	serialNum.vertical_alignment = VERTICAL_ALIGNMENT_TOP
-	serialNum.position = Vector2(-62, -7)
+	serialNum.position = Vector2(sPos.x - 19,sPos.y -6.5)
+	serialNum.add_theme_color_override("font_color", Color.WHITE)
 	add_child(serialNum)
 	
 	var SerialNumMax = Label.new()
 	SerialNumMax.add_theme_font_size_override("font_size", 9)
 	SerialNumMax.text = str(max_number)
-	SerialNumMax.position = Vector2(-38, -7)
+	SerialNumMax.position = Vector2(sPos.x + 5, sPos.y -6.5)
+	SerialNumMax.add_theme_color_override("font_color", Color.WHITE)
 	self.add_child(SerialNumMax)
 	
 	self.foil = 5
 	var mat = preload("res://DoubleRainbowFoil.tres")
-	mat.set_shader_parameter("time", shader_time)
+	var textMat = preload("res://new_shader_material.tres")
 	self.material = mat
 	serial.material = mat
-	serialNum.material = mat
-	SerialNumMax.material = mat
+	serialNum.material = textMat
+	SerialNumMax.material = textMat

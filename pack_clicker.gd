@@ -15,6 +15,22 @@ var unlockedLegendaryPacks = [];
 
 var chances = [80, 20, 1, 0, 0]
 
+func returnDictionary()->Dictionary:
+	var dict = {
+		"completion": completion,
+		"completionPerClick": completionPerClick,
+		"autoCompletion": autoCompletion,
+		"maxCompletion": maxCompletion,
+		"chances": chances
+	}
+	return dict
+
+func setDictionary(dict: Dictionary):
+	completion = dict.get("completion")
+	completionPerClick = dict.get("completionPerClick")
+	autoCompletion = dict.get("autoCompletion")
+	maxCompletion = dict.get("maxCompletion")
+
 func _ready() -> void:
 	size = Vector2(600, 220)
 	position = Vector2((get_viewport_rect().size.x / 2) - 300, (get_viewport_rect().size.y / 2) );

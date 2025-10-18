@@ -120,9 +120,9 @@ var col_mythics = [449, 459, 465]
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
 	for x in range(452, 466):
-		#grabCardExtra(x, 0, 0, 0, false, true)
+		#grabCardExtra(x, 5, 0, 0, false, true, 69)
 		await get_tree().create_timer(0.5).timeout
-	#grabCardExtra(1, 0, 0, 0, true, false)
+	grabCardExtra(1, 0, 0, 0, true, false, 69)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -144,8 +144,7 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing, serialNum) -> void:
 	var pos = Vector2(posX, posY)
-	var CardGrabber = preload("res://Card_Grabber.gd")
-	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
+	var grab = Card_Grabber.new("415z", set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
 	print("started")
 	add_child(grab)
 	pass
@@ -228,7 +227,7 @@ func createCollectorPack ():
 	
 	var number
 	var key
-	if randf_range(0, 100) + (total_luck * 3) > 99:
+	if randf_range(0, 100) + (total_luck * 3) > 1:
 		key = serial.keys().pick_random()
 		number = $"..".chooseSerialNumber(500, serial[key])
 		if !number == -1:

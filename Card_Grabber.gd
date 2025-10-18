@@ -28,7 +28,7 @@ var extraLetter: String
 var serialNum: int
 var serialMaxNum
 
-func _init(number:int, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false, isSerial:bool = false, serialNum: int = 0, serialMaxNum:int = 0) -> void:
+func _init(number, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false, isSerial:bool = false, serialNum: int = 0, serialMaxNum:int = 0) -> void:
 	# defining variables
 	self.number = number;
 	self.set_name = set_name;
@@ -45,7 +45,7 @@ func _init(number:int, set_name: String, foilEnum: int, save_path: String, posit
 		self.serialNum = serialNum
 		self.serialMaxNum = serialMaxNum
 	# create new instance of card then adds it as a child of the player
-	
+	print(self.isFoil)
 	
 	# cards currently being shown as pack
 	
@@ -98,7 +98,7 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 	if not json:
 		push_error("Failed to parse JSON response")
 		return
-	
+	print(json)
 	if grabbingRarity:
 		var value = json.get("name")
 		if typeof(value) == TYPE_STRING and "Signet" in value:
@@ -120,14 +120,27 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 		2: card_value = float(prices.get("usd_etched", 0.0))
 		3: card_value = float(prices.get("usd_foil", 0.0))
 		4: card_value = float(prices.get("usd_foil", 0.0))
-
-	print(json.get("image_uris", {}))
+		5: card_value = float(prices.get("eur_foil", 0.0))
+	# Try to get image_uris (for single-faced cards)
 	var image_uris = json.get("image_uris", {})
-	imageURL = image_uris["png"];
+
+# If not found, check if the card has faces (double-faced, transform, split, etc.)
+	if image_uris.is_empty() and json.has("card_faces"):
+		var card_faces = json["card_faces"]
+		if card_faces.size() > 0:
+			# Optionally, choose which face to use — here we pick the front face
+			var front_face = card_faces[0]
+			if front_face.has("image_uris"):
+				image_uris = front_face["image_uris"]
+
+	# Debug
+	print("Resolved image_uris:", image_uris)
+
 	if not image_uris.has("png"):
 		push_error("No PNG image available for this card")
 		return
-	pass
+
+	imageURL = image_uris["png"]
 	new_card.setPrice(card_value)
 	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + extraLetter + ".png")):
 		print("image exists!")

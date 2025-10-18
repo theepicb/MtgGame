@@ -19,7 +19,6 @@ var halomythic = [196, 207, 186,  197, 210, 191, 211, 188, 201, 198, 203, 192, 2
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
 	var num = list.pick_random();
-	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
 	add_child(grab)
 	pass

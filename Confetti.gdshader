@@ -1,11 +1,12 @@
 shader_type canvas_item;
-
+render_mode blend_mix;
 uniform float time;
 uniform sampler2D overlay_texture;
 uniform float overlay_opacity;
 uniform float brightness = 1.15;
 
 void fragment() {
+	vec4 tex = texture(TEXTURE, UV);
     vec4 image_color = texture(TEXTURE, UV);
 
     // Skip fully transparent pixels
@@ -33,4 +34,5 @@ void fragment() {
 
     // Final blend
     COLOR = mix(base, overlay_color, overlay_color.a);
+	COLOR.a = tex.a; // preserve original alpha
 }

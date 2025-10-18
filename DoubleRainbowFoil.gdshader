@@ -1,36 +1,37 @@
 shader_type canvas_item;
+render_mode blend_mix;
 
-uniform float time;
 uniform sampler2D overlay_texture;
-uniform float overlay_opacity;
-uniform float brightness = 1.15;
+uniform float overlay_opacity : hint_range(0.0, 1.0) = 0.42;
+uniform float brightness = 1.05;
+uniform float time;
 
 void fragment() {
-    vec4 image_color = texture(TEXTURE, UV);
+    // Sample base texture
+    vec4 tex = texture(TEXTURE, UV);
+    if (tex.a < 0.01) discard;
 
-    // Skip fully transparent pixels
-    if (image_color.a < 0.01) {
-        discard;
-    }
+    // Brighten base image
+    tex.rgb *= brightness;
 
-    // Apply brightness to base image
-    image_color.rgb *= brightness;
-
-    // Time-based foil effect
+    // Rainbow tint (on base image only)
     vec3 rainbow_color = vec3(
-        sin(time * 2.0),
-        sin(time * 4.0),
-        sin(time * 6.0)
+        sin(time * 8.0),
+        sin(time * 9.0),
+        sin(time * 5.0)
     );
-    float rainbow_opacity = 0.09;
-    vec3 blended_rgb = mix(image_color.rgb, rainbow_color, rainbow_opacity);
+    vec3 base_rgb = mix(tex.rgb, rainbow_color, 0.12);
 
-    vec4 base = vec4(blended_rgb, image_color.a); // maintain original alpha
+    // Diagonal wave factor for overlay
+    float wave = 0.5 + 0.5 * sin((UV.x + UV.y) * 11.0 + time * 6.0);
 
-    // Overlay texture
-    vec4 overlay_color = texture(overlay_texture, UV);
-    overlay_color.a *= overlay_opacity;
+    // Sample overlay texture
+    vec4 overlay = texture(overlay_texture, UV);
 
-    // Final blend
-    COLOR = mix(base, overlay_color, overlay_color.a);
+    // Blend overlay on top of the already rainbow-tinted base
+    float final_alpha = overlay.a * overlay_opacity * wave;
+    COLOR.rgb = mix(base_rgb, overlay.rgb, final_alpha);
+
+    // Preserve original alpha
+    COLOR.a = tex.a;
 }

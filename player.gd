@@ -9,7 +9,9 @@ var level = 1;
 var xpToLevelUp = [5, 20, 50, 100, 250, 500, 999999]
 var xp = 0;
 
-
+var rankXp = 0
+var rank = 0
+var rankXpToLevelUp = [2, 5, 10, 20, 99999]
 
 var common = []
 var uncommon = []
@@ -19,8 +21,8 @@ var signet = []
 
 @onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
 @onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")
-func levelUp (level):
-	match level:
+func levelUp (_level: int):
+	match _level:
 		2:
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
 		3:
@@ -35,9 +37,6 @@ func checkLevel ():
 		checkLevel()
 
 var inInventory = false;
-
-
-
 
 static var instance = null
 
@@ -74,7 +73,6 @@ var sortedInventory = [];
 
 func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: bool, set_name: String, isGrabbing: bool = true) -> void:
 	var pos = Vector2(posX, posY)
-	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(number, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
 	print("started")
 	add_child(grab)

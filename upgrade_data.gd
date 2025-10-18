@@ -224,7 +224,16 @@ var openingUpgradesWoe = {
 ]
 }
 
-
+var playerUpgrades = {
+"Pl1": [
+	"PL1",
+	"slightly increases your over all luck",
+	30,
+	func ():
+		Player.luck += 0.015
+		return true
+]
+}
 
 func returnDictionaryAvaliable ():
 	var array = []
@@ -244,7 +253,7 @@ func createUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades]:
 		for key in d.keys():
 			combined[key] = d[key]
 
@@ -258,7 +267,7 @@ func createPurchasedUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades]:
 		for key in d.keys():
 			combined[key] = d[key]
 

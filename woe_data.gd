@@ -44,7 +44,6 @@ func _ready() -> void:
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
 	var num = list.pick_random();
-	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
 	print("started")
 	add_child(grab)
@@ -52,8 +51,6 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
 	var pos = Vector2(posX, posY)
-	
-	var CardGrabber = preload("res://Card_Grabber.gd")
 	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
 	print("started")
 	add_child(grab)

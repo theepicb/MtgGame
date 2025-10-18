@@ -150,3 +150,4 @@ func updateData(dataVersion):
 	while dataVersion != version:
 		if dataVersion == 0.1:
 			print("version = 0.1")
+			
