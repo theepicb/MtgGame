@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=30 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://b5eerxm8xvh8f" path="res://level_label.gd" id="17_ryguw"]
 [ext_resource type="Script" uid="uid://pospjktluou6" path="res://woe_data.gd" id="19_82xsv"]
 [ext_resource type="Script" uid="uid://cebj07utgufeb" path="res://wot_data.gd" id="20_getpj"]
+[ext_resource type="Script" uid="uid://dny8hg74tng27" path="res://rank_button.gd" id="20_qsp4k"]
 [ext_resource type="Script" uid="uid://bnvj64q3rrlkh" path="res://cmm_data.gd" id="24_0odxb"]
 [ext_resource type="Script" uid="uid://dtx0056u00xuf" path="res://rvr_data.gd" id="25_lswn8"]
 [ext_resource type="Script" uid="uid://daj8wlnw04tv3" path="res://mom_data.gd" id="27_xuqvo"]
@@ -119,6 +120,11 @@ script = ExtResource("16_d13ii")
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("13_2cqfq")
+
+[node name="Rank_button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("20_qsp4k")
 
 [node name="level_Label" type="Label" parent="CanvasLayer"]
 offset_right = 40.0

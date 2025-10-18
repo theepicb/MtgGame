@@ -70,7 +70,7 @@ func createDraftPack () -> void:
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
-	if ($"..".getLuck() >= 84 / draft_luck):
+	if ($"..".getLuck() >= 84 - draft_luck):
 		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
 	else:
 		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
@@ -113,9 +113,9 @@ func createCollectorPack () -> void:
 	counter += 1
 	
 	packs = ["extendedRare", "extendedMythic"]
-	odds = [84, 16 * collector_luck]
+	odds = [84, 16 + collector_luck]
 	
-	var foil = getRarityByWeight([0, 1], [50, 50 * collector_luck])
+	var foil = getRarityByWeight([0, 1], [50, 50 + collector_luck])
 	packs = getRarityByWeight(packs, odds)
 	if packs == "extendedRare":
 		var card = extendedRare.pick_random()
@@ -128,12 +128,12 @@ func createCollectorPack () -> void:
 		grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
-	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 * collector_luck, 10 * collector_luck])
+	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 + collector_luck, 10 + collector_luck])
 	$Wot_data.getWithRarity(rarity, 1, counter, false)
 	counter += 1
 	
 	
-	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 * collector_luck, 16.2, 7.7, 24.4, 3.3 * collector_luck, 1.1 * collector_luck, 1.7 * collector_luck, 1.1 * confetti_luck * collector_luck, 1.7 * confetti_luck * collector_luck])
+	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 + collector_luck, 16.2, 7.7, 24.4, 3.3 + collector_luck, 1.1 + collector_luck, 1.7 + collector_luck, 1.1 + confetti_luck + collector_luck, 1.7 + confetti_luck + collector_luck])
 	if rarity is String:
 		if (rarity == "confettiRare" || rarity == "confettiMythic"):
 			$Wot_data.getWithRarity(rarity, 3, counter, true)

@@ -23,24 +23,15 @@ func _notification(what):
 		get_tree().quit()
 
 func save_game():
-	var inv = []
-	
-	for item in Player.cardInventory:
-		inv.append(item.returnDictionary())
-	
 	var data = {
 		"version": version,
 		"Money_Clicker": {
 			"money_per_click": $Money_Clicker.money_per_click,
 			"combo_wait_time": $Money_Clicker.combo_wait_time,
-			"money_per_second": $Money_Clicker.money_per_second
+			"money_per_second": $Money_Clicker.money_per_second,
+			"money_multiplier": $Money_Clicker.money_multiplier,
 		},
-		"Player": {
-			"inventory": inv,
-			"money": Player.money,
-			"xp": Player.xp,
-			"level": Player.level,
-		},
+		"Player": Player.returnDictionary(),
 		"Upgrades": {
 			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
 			"purchased": $Upgrades/Upgrade_Data.returnDictionaryPurchased()
@@ -78,13 +69,8 @@ func loadGame ():
 func implamentData (data: Dictionary):
 	await get_tree().create_timer(1).timeout
 	updateData(data["version"])
-	# inventory load
-	var inv = data["Player"].get("inventory", [])
-	loadInv(inv)
-	Player.money = data["Player"].get("money", 0)
+	Player.setDictionary(data["Player"])
 	$Money_Clicker.updateText()
-	Player.xp = data["Player"].get("xp", 0)
-	Player.level = int(data["Player"].get("level", 1))
 	$CanvasLayer/level_Label.setText()
 	var avaliableUpgrades = data["Upgrades"].get("avaliable", [])
 	var purchasedUpgrades = data["Upgrades"].get("purchased", [])
@@ -94,22 +80,12 @@ func implamentData (data: Dictionary):
 	$Pack_Screen.setDictionary(data["Packs"])
 	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
 	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
-	$Money_Clicker.money_per_second = data["Money_Clicker"].get("momey_per_second", 0)
+	$Money_Clicker.money_per_second = data["Money_Clicker"].get("money_per_second", 0)
+	$Money_Clicker.money_multiplier = data["Money_Clicker"].get("money_multiplier", 1)
 	$Pack_Data.setDictionary(data["PackData"])
 	pass
 
-func loadInv(list: Array):
-	for item in list:
-		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0), item["serial"], item["serialNum"], item["serialMax"])
-		if item["serial"]:
-			tempCard.serialise(item["serialNum"], item["serialMax"])
-		tempCard.setPrice(item["price"])
-		tempCard.setName(item["cardName"])
-		tempCard.loadImage()
-		Player.add_child(tempCard)
-		Player.cardInventory.append(tempCard)
-		pass
-	pass
+
 
 func defultLoad ():
 	$Upgrades/Upgrade_Data.start()
@@ -125,6 +101,7 @@ func _ready() -> void:
 	$CanvasLayer/Open_Packs_Screen.visible = false
 	$CanvasLayer/Inventory_Button.visible = false
 	$CanvasLayer/level_Label.visible = false
+	$CanvasLayer/Rank_button.visible = false
 	if not FileAccess.file_exists("user://game_data.json"):
 		defultLoad()
 		pass
@@ -144,6 +121,7 @@ func _ready() -> void:
 	$CanvasLayer/Open_Packs_Screen.visible = true
 	$CanvasLayer/Inventory_Button.visible = true
 	$CanvasLayer/level_Label.visible = true
+	$CanvasLayer/Rank_button.visible = true
 	pass
 
 func updateData(dataVersion):

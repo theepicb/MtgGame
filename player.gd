@@ -77,3 +77,39 @@ func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: boo
 	print("started")
 	add_child(grab)
 	pass
+
+func returnDictionary() -> Dictionary:
+	var inv = []
+	
+	for item in Player.cardInventory:
+		inv.append(item.returnDictionary())
+	var dict = {
+		"inventory": inv,
+		"money": money,
+		"xp": xp,
+		"level": level,
+		"rank": rank,
+		"rankXP": rankXp
+	}
+	return dict
+
+func setDictionary (dict: Dictionary):
+	var inv = dict.get("inventory", [])
+	loadInv(inv)
+	Player.xp = dict.get("xp", 0)
+	Player.level = int(dict.get("level", 1))
+	Player.money = dict.get("money", 0)
+	pass
+
+func loadInv(list: Array):
+	for item in list:
+		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0), item["serial"], item["serialNum"], item["serialMax"])
+		if item["serial"]:
+			tempCard.serialise(item["serialNum"], item["serialMax"])
+		tempCard.setPrice(item["price"])
+		tempCard.setName(item["cardName"])
+		tempCard.loadImage()
+		Player.add_child(tempCard)
+		Player.cardInventory.append(tempCard)
+		pass
+	pass

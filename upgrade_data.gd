@@ -232,7 +232,15 @@ var playerUpgrades = {
 	func ():
 		Player.luck += 0.015
 		return true
-]
+],
+"Pl2": [
+	"P21",
+	"slightly increases your over all luck",
+	80,
+	func ():
+		Player.luck += 0.015
+		return true
+],
 }
 
 func returnDictionaryAvaliable ():

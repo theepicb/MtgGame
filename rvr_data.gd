@@ -227,7 +227,7 @@ func createCollectorPack ():
 	
 	var number
 	var key
-	if randf_range(0, 100) + (total_luck * 3) > 1:
+	if randf_range(0, 100) + (total_luck) > 99:
 		key = serial.keys().pick_random()
 		number = $"..".chooseSerialNumber(500, serial[key])
 		if !number == -1:

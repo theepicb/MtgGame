@@ -17,6 +17,7 @@ var halorare = [200, 195, 209, 187, 228, 212, 189, 216, 218, 219, 221, 202, 222,
 var halomythic = [196, 207, 186,  197, 210, 191, 211, 188, 201, 198, 203, 192, 205, 206, 214, 215, 217, 220, 224, 227, 225]
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
+	preload("res://Card_Grabber.gd")
 	var pos = Vector2(posX, posY)
 	var num = list.pick_random();
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
@@ -24,6 +25,7 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 	pass
 func _ready() -> void:
 	#grabCard(halouncommon, 1, 0, 0, true)
+	$"..".ensure_directory_exists("user://Cards/mat")
 	pass
 
 func createDraftPack () -> void:

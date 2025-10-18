@@ -57,7 +57,7 @@ func achievement_handler(name: String, ID: int):
 		"woe_draft":
 			match ID:
 				0:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PU2"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PL0"))
 				1:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d0"))
 				2: 
