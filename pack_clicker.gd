@@ -11,6 +11,7 @@ var maxCompletion = 100;
 var unlockedCommonPacks = [];
 var unlockedUncommonPacks = [];
 var unlockedRarePacks = [];
+var unlockedEpicPacks = [];
 var unlockedLegendaryPacks = [];
 
 var chances = [80, 20, 1, 0, 0]
@@ -91,10 +92,24 @@ func claimButtonPressed():
 
 func getLegendaryPack():
 	if unlockedLegendaryPacks.is_empty():
-		getUncommonPack();
+		getEpicPack();
 		pass
 	else:
 		var temp = unlockedLegendaryPacks.pick_random();
+		for pack in $"../Pack_Screen".packs:
+			if pack.id == temp:
+				pack.owned += 1;
+				pass
+			pass
+		pass
+	pass
+
+func getEpicPack():
+	if unlockedLegendaryPacks.is_empty():
+		getUncommonPack();
+		pass
+	else:
+		var temp = unlockedEpicPacks.pick_random();
 		for pack in $"../Pack_Screen".packs:
 			if pack.id == temp:
 				pack.owned += 1;

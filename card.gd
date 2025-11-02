@@ -10,6 +10,7 @@ var count: int
 var price: float
 
 var set_name: String
+var set_number: String
 # id of the card used for image gathering and double checking
 var ID: String
 # foil enum 0: not foil, 1: foil, 2: etched foil, 3: confetti foil.
@@ -26,6 +27,8 @@ var serial: bool
 # serial number
 var serial_number: int
 var max_number: int
+
+var image_init = false
 func _init(
 	count: int = -1,
 	ID: String = "",
@@ -48,6 +51,8 @@ func _init(
 	self.pos = pos
 	self.scale = Vector2(1, 1)
 	self.serial = serial
+	self.set_name = ID.substr(0, 3)
+	self.set_number = ID.substr(3)
 
 func _ready():
 	z_index = 100
@@ -97,6 +102,7 @@ func load_png_to_sprite(png_path: String) -> bool:
 	var size = image.get_size()
 	if size == Vector2i(0, 0):
 		print("❌ Image loaded but is empty (0x0):", png_path)
+		
 		return false
 	
 	print("✅ Image loaded with size:", size)
@@ -109,6 +115,11 @@ func load_png_to_sprite(png_path: String) -> bool:
 
 	return true
 
+func redownload ():
+	var grab = Card_Grabber.new(set_number, set_name, self.foil, "user://Cards/" + set_name, Vector2(0, 0), true, true, false)
+	add_child(grab)
+	await HttpData.Finished
+	
 func showCard(posX, posY, scale1) -> void:
 
 	if scale1 <= 0:
@@ -170,6 +181,7 @@ func setName (name):
 
 func loadImage ():
 	var success = load_png_to_sprite(image_path)
+	return success
 
 
 
@@ -242,9 +254,8 @@ func drawSerial (number):
 	var serial = Sprite2D.new()
 	self.add_child(serial)
 	var image = Image.new()
-	var _result = image.load("res://serialised.png")
+	var tex = load("res://serialised.png") as Texture2D
 	# Use this instead of create_from_image
-	var tex = ImageTexture.create_from_image(image)  # You can adjust flags if needed
 	serial.texture = tex
 	serial.scale = Vector2(0.35, 0.35)
 	serial.position = sPos

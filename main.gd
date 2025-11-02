@@ -101,7 +101,7 @@ func _ready() -> void:
 	$CanvasLayer/Open_Packs_Screen.visible = false
 	$CanvasLayer/Inventory_Button.visible = false
 	$CanvasLayer/level_Label.visible = false
-	$CanvasLayer/Rank_button.visible = false
+	$CanvasLayer/Upgrade_Tree_button.visible = false
 	if not FileAccess.file_exists("user://game_data.json"):
 		defultLoad()
 		pass
@@ -121,7 +121,7 @@ func _ready() -> void:
 	$CanvasLayer/Open_Packs_Screen.visible = true
 	$CanvasLayer/Inventory_Button.visible = true
 	$CanvasLayer/level_Label.visible = true
-	$CanvasLayer/Rank_button.visible = true
+	#$CanvasLayer/Upgrade_Tree_button.visible = true
 	pass
 
 func updateData(dataVersion):

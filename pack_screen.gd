@@ -61,7 +61,6 @@ func returnDictionary () -> Dictionary:
 
 func setDictionary(input: Dictionary):
 	for item in input.keys():
-		
 		for pack in packs:
 			if item == pack.id:
 				#print("unlocked:: ", item["unlocked"])

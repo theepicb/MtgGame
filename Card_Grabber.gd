@@ -56,12 +56,13 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 	pass
 
 func generateCard () -> void:
-	if !Player.IDInventory.has(self.cardID) || self.isSerial:
+	if (!Player.IDInventory.has(self.cardID) || self.isSerial || grabbingRarity):
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
-		Player.IDInventory.push_back(new_card.ID);
-		Player.cardInventory.push_back(new_card)
-		Player.cardsToShow.push_back(new_card);
+		if !grabbingRarity:
+			Player.IDInventory.push_back(new_card.ID);
+			Player.cardInventory.push_back(new_card)
+			Player.cardsToShow.push_back(new_card);
 		startPing();
 		pass
 	else:
@@ -114,13 +115,17 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 	# Handle price
 	var prices = json.get("prices", {})
 	
+
+	
 	match isFoil:
-		0: card_value = float(prices.get("usd", 0.0))
-		1: card_value = float(prices.get("usd_foil", 0.0))
-		2: card_value = float(prices.get("usd_etched", 0.0))
-		3: card_value = float(prices.get("usd_foil", 0.0))
-		4: card_value = float(prices.get("usd_foil", 0.0))
-		5: card_value = float(prices.get("eur_foil", 0.0))
+		0: card_value = get_safe_float(prices, "usd", ID)
+		1: card_value = get_safe_float(prices, "usd_foil", ID)
+		2: card_value = get_safe_float(prices, "usd_etched", ID)
+		3, 4: card_value = get_safe_float(prices, "usd_foil", ID)
+		5: card_value = get_safe_float(prices, "eur_foil", ID)
+		_:
+			push_error("Invalid isFoil value '%s' for card ID: %s" % [isFoil, self.cardID])
+			card_value = 0.0
 	# Try to get image_uris (for single-faced cards)
 	var image_uris = json.get("image_uris", {})
 
@@ -161,7 +166,6 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 	if image.load_png_from_buffer(body) != OK:
 		push_error("Failed to load image from buffer")
 		return
-	var size = image.get_size();
 	var new_size = Vector2(186.25, 260)
 	image.resize(new_size.x, new_size.y, Image.INTERPOLATE_LANCZOS)
 
@@ -208,7 +212,7 @@ func startPing ():
 	httpRequest1 = HTTPRequest.new();
 	HttpData.add_child(httpRequest1);
 	httpRequest1.request_completed.connect(firstPing);
-	var url = "https://api.scryfall.com/cards/%s/%d" % [set_name, number];
+	var url = "https://api.scryfall.com/cards/%s/%d?lang=en" % [set_name, number]
 	httpRequest1.request(url);
 	pass
 func serialPriceAduster (number, price) -> float:
@@ -234,3 +238,29 @@ func serialPriceAduster (number, price) -> float:
 		111,222,333,444:
 			price = price * 1.25
 	return price
+
+func get_safe_float(prices: Dictionary, key: String, ID: String) -> float:
+	var value = prices.get(key)
+
+	# If it's null or missing
+	if value == null:
+		push_error("Price key '%s' is null for card ID: %s" % [key, self.ID])
+		return 0.0
+
+	# If it's a string, check if it's numeric
+	if typeof(value) == TYPE_STRING:
+		if not value.is_valid_float():
+			push_error("Invalid string '%s' for key '%s' (card ID: %s)" % [value, key, ID])
+			return 0.0
+		value = float(value)
+
+	# If it's already a float or int, this is fine
+	elif typeof(value) in [TYPE_FLOAT, TYPE_INT]:
+		return float(value)
+
+	# Everything else (Array, Dictionary, etc.) is invalid
+	else:
+		push_error("Unexpected type %s for key '%s' (card ID: %s)" % [typeof(value), key, ID])
+		return 0.0
+
+	return float(value)

@@ -122,7 +122,7 @@ func _ready() -> void:
 	for x in range(452, 466):
 		#grabCardExtra(x, 5, 0, 0, false, true, 69)
 		await get_tree().create_timer(0.5).timeout
-	grabCardExtra(1, 0, 0, 0, true, false, 69)
+	#grabCardExtra(1, 0, 0, 0, true, false, 69)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())

@@ -67,6 +67,7 @@ func registorPack(PackID: String, packRarity: String):
 		"common": $"../../Pack_Clicker".unlockedCommonPacks.push_back(PackID)
 		"uncommon": $"../../Pack_Clicker".unlockedUncommonPacks.push_back(PackID)
 		"rare": $"../../Pack_Clicker".unlockedRarePacks.push_back(PackID)
+		"epic": $"../../Pack_Clicker".unlockedEpicPacks.push_back(PackID)
 
 func increaseMPSValue(amount: float):
 	$"../../Money_Clicker".money_per_second += 0.01

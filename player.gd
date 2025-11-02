@@ -6,12 +6,9 @@ var luck = 1;
 var tokens = 0;
 
 var level = 1;
-var xpToLevelUp = [5, 20, 50, 100, 250, 500, 999999]
+var xpToLevelUp = [5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
 var xp = 0;
 
-var rankXp = 0
-var rank = 0
-var rankXpToLevelUp = [2, 5, 10, 20, 99999]
 
 var common = []
 var uncommon = []
@@ -24,9 +21,16 @@ var signet = []
 func levelUp (_level: int):
 	match _level:
 		2:
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU1"))
+			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP1"))
 		3:
+			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PP1"))
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU2"))
+		4:
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
+		5:
 			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU3"))
+		
 	levelLabel.setText()
 			
 
@@ -88,8 +92,6 @@ func returnDictionary() -> Dictionary:
 		"money": money,
 		"xp": xp,
 		"level": level,
-		"rank": rank,
-		"rankXP": rankXp
 	}
 	return dict
 
@@ -108,7 +110,9 @@ func loadInv(list: Array):
 			tempCard.serialise(item["serialNum"], item["serialMax"])
 		tempCard.setPrice(item["price"])
 		tempCard.setName(item["cardName"])
-		tempCard.loadImage()
+		if !tempCard.loadImage():
+			await tempCard.redownload()
+			tempCard.loadImage()
 		Player.add_child(tempCard)
 		Player.cardInventory.append(tempCard)
 		pass

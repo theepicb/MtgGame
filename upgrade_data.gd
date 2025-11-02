@@ -2,9 +2,7 @@ extends UpgradeManager
 
 func start() -> void:
 	generateNewUpgrade(clickerUpgrades.get("CU0"))
-	
 	generateNewUpgrade(MPSUpgrades.get("MP1"))
-	generateNewUpgrade(packUpgrades.get("PU1"))
 
 
 
@@ -55,7 +53,7 @@ var cardAchUpgrades = {
 var clickerUpgrades = {
 "CU0": 
 	["CU0", 
-	"increase click value +0.01 per click", 
+	"increase click value +0.01c per click", 
 	1.5, 
 	func (): 
 		increaseClickerValue(0.01)
@@ -102,7 +100,7 @@ var packUpgrades = {
 	"PU2": [
 		"PU2",
 		"Unlocks Wilds of Eldraine Set Packs",
-		5,
+		15,
 		func ():
 			registorPack("woe_set", "uncommon")
 			return true
@@ -114,7 +112,23 @@ var packUpgrades = {
 		func ():
 			Player.luck += 0.01
 			return true
-]
+],
+	"PU4": [
+		"PU4",
+		"unlocks ravnica remastered draft packs",
+		25,
+		func ():
+			registorPack("rvr_draft", "uncommon")
+			return true
+],
+	"PU5": [
+		"PU5",
+		"unlocks ravnica remastered collector booster packs",
+		25,
+		func ():
+			registorPack("rvr_col", "epic")
+			return true
+],
 }
 
 var MPSUpgrades = {
@@ -243,6 +257,33 @@ var playerUpgrades = {
 ],
 }
 
+var packClicker = {
+"PP1": [
+	"PP1",
+	"slightly increases your pack progress per click",
+	5,
+	func ():
+		$"../../Pack_Clicker".completionPerClick += 0.5
+		return true
+],
+"PA1": [
+	"PA1",
+	"slightly increases your pack progress per second",
+	15,
+	func ():
+		$"../../Pack_Clicker".autoCompletion += 0.1
+		return true
+],
+"PM1": [
+	"PM1",
+	"slightly increases your pack progress per click",
+	7.5,
+	func ():
+		$"../../Pack_Clicker".maxCompletion += 10
+		return true
+],
+}
+
 func returnDictionaryAvaliable ():
 	var array = []
 	for item in $"..".available_upgrades:
@@ -261,7 +302,7 @@ func createUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades, packClicker]:
 		for key in d.keys():
 			combined[key] = d[key]
 
@@ -275,7 +316,7 @@ func createPurchasedUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades, packClicker]:
 		for key in d.keys():
 			combined[key] = d[key]
 
