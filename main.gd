@@ -30,6 +30,8 @@ func save_game():
 			"combo_wait_time": $Money_Clicker.combo_wait_time,
 			"money_per_second": $Money_Clicker.money_per_second,
 			"money_multiplier": $Money_Clicker.money_multiplier,
+			"money_crit_chance": $Money_Clicker.crit_chance,
+			"money_crit_mult": $Money_Clicker.crit_multi,
 		},
 		"Player": Player.returnDictionary(),
 		"Upgrades": {
@@ -82,6 +84,8 @@ func implamentData (data: Dictionary):
 	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
 	$Money_Clicker.money_per_second = data["Money_Clicker"].get("money_per_second", 0)
 	$Money_Clicker.money_multiplier = data["Money_Clicker"].get("money_multiplier", 1)
+	$Money_Clicker.crit_chance = data["Money_Clicker"].get("crit_chance", 0)
+	$Money_Clicker.crit_multi = data["Money_Clicker"].get("crit_multi", 1)
 	$Pack_Data.setDictionary(data["PackData"])
 	pass
 

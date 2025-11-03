@@ -6,6 +6,9 @@ var money_multiplier = 1;
 var combo_wait_time = 1;
 var combo = 0;
 
+var crit_chance = 0
+var crit_multi = 1.5
+
 var doubler = 0;
 
 var rhysticUpgrade = false
@@ -50,7 +53,10 @@ func _pressed() -> void:
 	if rhysticUpgrade && $"../Pack_Data".getLuck() >= 80:
 		$"../Pack_Clicker"._pressed()
 	combo_timer.stop();
-	Player.money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
+	if randf_range(0, 100) >= crit_chance:
+		Player.money += (money_per_click * (1 + float(combo) / 1000)) * (money_multiplier * crit_multi);
+	else:
+		Player.money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
 	combo += 1;
 	combo_timer.start();
 	updateText();

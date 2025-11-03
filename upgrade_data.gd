@@ -164,7 +164,7 @@ var openingUpgradesWoe = {
 		"increases your odds with wilds of eldraine draft packs slightly",
 		10,
 		func ():
-			$"../../Pack_Data/Woe_data".draft_luck += 0.01
+			$"../../Pack_Data/Woe_data".draft_luck += 0.02
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -173,7 +173,7 @@ var openingUpgradesWoe = {
 		"increases your odds with wilds of eldraine draft packs even more",
 		25,
 		func ():
-			$"../../Pack_Data/Woe_data".draft_luck += 0.01
+			$"../../Pack_Data/Woe_data".draft_luck += 0.02
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -189,12 +189,20 @@ var openingUpgradesWoe = {
 "woe_d3": [
 	"woe_d3",
 	"decreases price of wilds of eldraine draft packs by $1.50 and increases your luck further",
-	70,
+	65,
 	func ():
 		for pack in PackManager.instance.packs:
 			if pack.id == "woe_draft":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".draft_luck += 0.02
+		return true
+],
+"woe_d4": [
+	"woe_d4",
+	"adds a slight chance to get anime cards or confetti foils at the end of the pack",
+	120,
+	func ():
+		$"../../Pack_Data/Woe_data".draft_conf_luck += 1;
 		return true
 ],
 "woe_s0": [
@@ -276,7 +284,7 @@ var packClicker = {
 ],
 "PM1": [
 	"PM1",
-	"slightly increases your pack progress per click",
+	"increases your max progression for the pack clicker",
 	7.5,
 	func ():
 		$"../../Pack_Clicker".maxCompletion += 10

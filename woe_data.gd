@@ -15,6 +15,7 @@ var extendedRare = [323, 324, 326, 327, 328, 329, 331, 332, 333, 334, 335, 337, 
 var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
 var draft_luck = 1
+var draft_conf_luck = 0
 var set_luck = 1
 var set_bonus_foil = 0
 var collector_luck = 1;
@@ -23,6 +24,7 @@ var confetti_luck = 1;
 func returnDictionary () -> Dictionary:
 	var dictionary = {}
 	dictionary["draft"] = draft_luck
+	dictionary["draft_con"] = draft_conf_luck
 	dictionary["set"] = set_luck
 	dictionary["collector"] = collector_luck
 	dictionary["set_bonus_foil"] = set_bonus_foil
@@ -35,6 +37,7 @@ func setDictionary (dict: Dictionary) -> void:
 	collector_luck = dict.get("collector", 1)
 	confetti_luck = dict.get("confetti", 1)
 	set_bonus_foil = dict.get("set_bonus_foil", 0)
+	draft_conf_luck = dict.get("draft_con", 0)
 	pass
 
 func _ready() -> void:
@@ -70,18 +73,28 @@ func createDraftPack () -> void:
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
-	if ($"..".getLuck() >= 84 - draft_luck):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
-	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	var confetti = false
+	if (randf_range(0, 100) <= draft_conf_luck + Player.luck + draft_luck && draft_conf_luck > 0):
+		confetti = true
 	
+	if ($"..".getLuck() >= 84 - draft_luck):
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !confetti)
+	else:
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !confetti)
+	
+	if confetti:
+		var arr = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [49.8, 6.6, 2.2, 3.4, 1.1 + draft_luck + Player.luck, 1.7 + draft_luck + Player.luck])
+		if (arr == "confettiRare" || arr == "confettiMythic"):
+			$Wot_data.getWithRarity(arr, 3, counter, true)
+		else:
+			$Wot_data.getWithRarity(arr, getRarityByWeight([0, 1], [90, 10 + Player.luck + draft_luck]), counter, true)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
 			await get_tree().process_frame
 	
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.showBar()
+	levelLabel.startShowBar()
 	
 	print("Inventory ", Player.IDInventory)
 	$"..".drawBackButton();
