@@ -141,6 +141,7 @@ vertical_alignment = 1
 script = ExtResource("17_ryguw")
 
 [node name="Casino_Button" type="Button" parent="."]
+visible = false
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("15_a6jrf")

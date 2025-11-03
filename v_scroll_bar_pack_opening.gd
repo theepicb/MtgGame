@@ -20,6 +20,7 @@ func startShowBar():
 	showBar()
 
 func showBar():
+	custom_minimum_size.y = get_viewport_rect().size.y
 	var xSize = get_viewport_rect().size.x - 285
 	xAmount = int(xSize / 195)
 	yAmount = int((get_viewport_rect().size.y)/ 300)

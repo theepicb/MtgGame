@@ -99,7 +99,7 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 	if not json:
 		push_error("Failed to parse JSON response")
 		return
-	print(json)
+	#print(json)
 	if grabbingRarity:
 		var value = json.get("name")
 		if typeof(value) == TYPE_STRING and "Signet" in value:
