@@ -56,7 +56,7 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 	pass
 
 func generateCard () -> void:
-	if (!Player.IDInventory.has(self.cardID) || self.isSerial || grabbingRarity):
+	if (!Player.IDInventory.has(self.cardID) || self.isSerial):
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		if !grabbingRarity:
@@ -102,10 +102,11 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 
 	if json.has("data") and json["data"].size() > 0:
 		var card = json["data"][0]
+		print(card)
 		process_card_json(card)
 	else:
 		push_error("No English card found for %s #%d" % [set_name, number])
-	#print(json)
+	
 
 
 func process_card_json(json: Dictionary) -> void:

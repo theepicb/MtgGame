@@ -23,9 +23,18 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
 	add_child(grab)
 	pass
+
+func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
+	var pos = Vector2(posX, posY)
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing);
+	print("started")
+	add_child(grab)
+	pass
+
 func _ready() -> void:
 	#grabCard(halouncommon, 1, 0, 0, true)
 	$"..".ensure_directory_exists("user://Cards/mat")
+	#grabCardExtra(94,1, 0, 0, true, false)
 	pass
 
 func createDraftPack () -> void:
