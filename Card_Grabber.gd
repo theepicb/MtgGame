@@ -99,47 +99,46 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 	if not json:
 		push_error("Failed to parse JSON response")
 		return
+
+	if json.has("data") and json["data"].size() > 0:
+		var card = json["data"][0]
+		process_card_json(card)
+	else:
+		push_error("No English card found for %s #%d" % [set_name, number])
 	#print(json)
+
+
+func process_card_json(json: Dictionary) -> void:
 	if grabbingRarity:
 		var value = json.get("name")
 		if typeof(value) == TYPE_STRING and "Signet" in value:
 			Player.signet.append(number)
-		else: match json.get("rarity"):
-			"common": Player.common.append(number)
-			"uncommon": Player.uncommon.append(number)
-			"rare": Player.rare.append(number)
-			"mythic": Player.mythic.append(number)
+		else:
+			match json.get("rarity"):
+				"common": Player.common.append(number)
+				"uncommon": Player.uncommon.append(number)
+				"rare": Player.rare.append(number)
+				"mythic": Player.mythic.append(number)
 	
 	var cardname = json.get("name", "Unknown Card")
 	new_card.setName(cardname)
-	# Handle price
-	var prices = json.get("prices", {})
-	
 
-	
+	var prices = json.get("prices", {})
 	match isFoil:
 		0: card_value = get_safe_float(prices, "usd", ID)
 		1: card_value = get_safe_float(prices, "usd_foil", ID)
 		2: card_value = get_safe_float(prices, "usd_etched", ID)
 		3, 4: card_value = get_safe_float(prices, "usd_foil", ID)
 		5: card_value = get_safe_float(prices, "eur_foil", ID)
-		_:
-			push_error("Invalid isFoil value '%s' for card ID: %s" % [isFoil, self.cardID])
-			card_value = 0.0
-	# Try to get image_uris (for single-faced cards)
-	var image_uris = json.get("image_uris", {})
+		_: card_value = 0.0
 
-# If not found, check if the card has faces (double-faced, transform, split, etc.)
+	var image_uris = json.get("image_uris", {})
 	if image_uris.is_empty() and json.has("card_faces"):
 		var card_faces = json["card_faces"]
 		if card_faces.size() > 0:
-			# Optionally, choose which face to use — here we pick the front face
 			var front_face = card_faces[0]
 			if front_face.has("image_uris"):
 				image_uris = front_face["image_uris"]
-
-	# Debug
-	print("Resolved image_uris:", image_uris)
 
 	if not image_uris.has("png"):
 		push_error("No PNG image available for this card")
@@ -147,14 +146,15 @@ func firstPing (result: int, response_code: int, headers: PackedStringArray, bod
 
 	imageURL = image_uris["png"]
 	new_card.setPrice(card_value)
+
 	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + extraLetter + ".png")):
 		print("image exists!")
 		new_card.call_deferred("loadImage")
 		finished()
 	else:
-		httpRequest2 = HTTPRequest.new();
+		httpRequest2 = HTTPRequest.new()
 		HttpData.add_child(httpRequest2)
-		httpRequest2.request_completed.connect(secondPing);
+		httpRequest2.request_completed.connect(secondPing)
 		httpRequest2.request(image_uris["png"])
 
 func secondPing (result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
@@ -212,9 +212,10 @@ func startPing ():
 	httpRequest1 = HTTPRequest.new();
 	HttpData.add_child(httpRequest1);
 	httpRequest1.request_completed.connect(firstPing);
-	var url = "https://api.scryfall.com/cards/%s/%d?lang=en" % [set_name, number]
+	var url = "https://api.scryfall.com/cards/search?q=set:%s+number:%d+lang:en" % [set_name, number]
 	httpRequest1.request(url);
 	pass
+
 func serialPriceAduster (number, price) -> float:
 	match number:
 		100, 200, 300, 400, 500:
@@ -244,7 +245,7 @@ func get_safe_float(prices: Dictionary, key: String, ID: String) -> float:
 
 	# If it's null or missing
 	if value == null:
-		push_error("Price key '%s' is null for card ID: %s" % [key, self.ID])
+		push_error("Price key '%s' is null for card ID: %s" % [key, self.cardID])
 		return 0.0
 
 	# If it's a string, check if it's numeric
