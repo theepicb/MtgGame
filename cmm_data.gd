@@ -82,6 +82,24 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func createDraftPack () -> void:
+	var counter = 0;
+	for x in 11:
+		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	
+	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.showBar()
+	
+	print("Inventory ", Player.IDInventory)
+	$"..".drawBackButton();
+
+func createSetPack () -> void:
 	
 	
 	await HttpData.Finished
@@ -109,18 +127,6 @@ func createCollectorPack ():
 	$"..".drawBackButton();
 	pass
 
-func createSetPack ():
-
-	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
-	pass
 
 func getRarityByWeight(arrays: Array, weights: Array):
 	var random = RandomNumberGenerator.new()

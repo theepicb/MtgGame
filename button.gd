@@ -1,4 +1,4 @@
-class_name UpgradeNode
+class_name ForestNode
 extends Button
 
 var id: String
@@ -6,6 +6,7 @@ var pos: Vector2
 var on_click_func: Callable
 var children: Array
 var ID: String
+var type = "forest"
 
 func _init(_pos: Vector2 = Vector2(0, 0), _children: Array = [], _ID: String = "") -> void:
 	if _pos.x == 0:

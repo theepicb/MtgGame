@@ -24,19 +24,20 @@ func _pressed() -> void:
 	loadInventory();
 
 func loadInventory() -> void:
+	$"../Sell_All".visible = true
 	var xSize = get_viewport_rect().size.x - 285
 	xAmount = int(xSize / 195)
-	yAmount = int((get_viewport_rect().size.y)/ 300)
+	yAmount = int((get_viewport_rect().size.y - 100)/ 300)
 	print("Y amount: ", yAmount)
 	if Player.cardInventory.size() > xAmount * yAmount:
-		$"../VScrollBar".max_value = (ceil(((Player.cardInventory.size() - 1)/xAmount)) - (yAmount - 1))
+		$"../VScrollBar".max_value = (ceil(((Player.cardInventory.size() - 1)/$"../Inventory_Button".xAmount)) - ($"../Inventory_Button".yAmount - 1 ) - 0.7)
 		$"../VScrollBar".visible = true;
 	else:
 		$"../VScrollBar".visible = false;
 		$"../VScrollBar".value = 0
 	if Player.cardInventory.size() > 0:
 		for x in Player.cardInventory.size():
-			Player.cardInventory[x].showCard(getPosition(x).x, getPosition(x).y, 1)
+			Player.cardInventory[x].showCard(getPosition(x).x, getPosition(x).y, 1, 100)
 			Player.cardInventory[x].displayUI()
 	var desired_height = (get_viewport_rect().size.y)
 	$"../VScrollBar".custom_minimum_size = Vector2(custom_minimum_size.x, desired_height)
@@ -55,6 +56,7 @@ func _on_window_size_changed ():
 		loadInventory()
 
 func leaveInventory () -> void:
+	$"../Sell_All".visible = false
 	$"../VScrollBar".visible = false;
 	Player.inInventory = false
 	for x in Player.cardInventory:

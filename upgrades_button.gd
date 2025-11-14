@@ -13,4 +13,5 @@ func _pressed() -> void:
 	$"../../Upgrades".create_upgrade_buttons();
 	$"../../Pack_Screen".deleteChildren();
 	$"../Inventory_Button".leaveInventory();
+	$"../../Upgrades".inInv = true
 	pass

@@ -76,7 +76,43 @@ var clickerUpgrades = {
 	50,
 	func (): 
 		increaseClickerValue(0.01)
-		return true],
+		return true
+],
+"CC1": ["CC1",
+	"increases your chance to critical click by 3%", 
+	15,
+	func (): 
+		$"../../Money_Clicker".crit_chance += 3
+		return true
+],
+"CC2": ["CC2",
+	"increases your chance to critical click by 3%", 
+	30,
+	func (): 
+		$"../../Money_Clicker".crit_chance += 3
+		return true
+],
+"CC3": ["CC3",
+	"increases your chance to critical click by 2%", 
+	60,
+	func (): 
+		$"../../Money_Clicker".crit_chance += 2
+		return true
+],
+"CM1": ["CM1",
+	"increases your crit multi by +0.2x", 
+	20,
+	func (): 
+		$"../../Money_Clicker".crit_multi += 2
+		return true
+],
+"CM2": ["CM2",
+	"increases your crit multi by +0.2x", 
+	55,
+	func (): 
+		$"../../Money_Clicker".crit_multi += 2
+		return true
+],
 }
 
 

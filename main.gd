@@ -4,24 +4,32 @@ const SAVE_PATH = "user://game_data.json"
 
 var version = 0.1
 
+
+### Closing Game function
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		# Called when the user tries to close the window
 		print("Game is closing...")
-		for x in Player.cardsToDelete:
+		# moves cards from pack opening to inventory
+		for card in Player.cardsToShow:
+			var found = false
 			for child in Player.cardInventory:
-				if x.ID == child.ID:
+				if card.ID == child.ID:
+					found = true
 					child.count += 1
-		for child in Player.cardsToDelete:
+			if !found:
+				Player.cardInventory.append(card)
+		for child in Player.cardsToShow:
 			if is_instance_valid(child):
 				child.queue_free()
+		
+		# finishing closing
 		Player.cardsToDelete.clear()
-		Player.cardsToShow.clear();
 		$CanvasLayer/level_Label.setText()
 		Player.checkLevel()
 		save_game()
 		get_tree().quit()
 
+# function to save game
 func save_game():
 	var data = {
 		"version": version,
@@ -33,6 +41,7 @@ func save_game():
 			"money_crit_chance": $Money_Clicker.crit_chance,
 			"money_crit_mult": $Money_Clicker.crit_multi,
 		},
+		"pack_clicker": $Pack_Clicker.returnDictionary(),
 		"Player": Player.returnDictionary(),
 		"Upgrades": {
 			"avaliable": $Upgrades/Upgrade_Data.returnDictionaryAvaliable(),
@@ -52,6 +61,7 @@ func save_game():
 	file.close()
 	pass
 
+# function to load game, if file is not found starts defultLoad
 func loadGame ():
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("No Save Data Found")
@@ -87,6 +97,7 @@ func implamentData (data: Dictionary):
 	$Money_Clicker.crit_chance = data["Money_Clicker"].get("crit_chance", 0)
 	$Money_Clicker.crit_multi = data["Money_Clicker"].get("crit_multi", 1)
 	$Pack_Data.setDictionary(data["PackData"])
+	$Pack_Clicker.setDictionary(data["pack_clicker"])
 	pass
 
 

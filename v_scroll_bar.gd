@@ -34,13 +34,13 @@ func _on_VScrollBar_value_changed(value):
 	var scroll_offset = value * card_height
 	print("Scrollbar moved to: ", value)
 	
-	max_value = (ceil(((Player.cardInventory.size() - 1)/$"../Inventory_Button".xAmount)) - ($"../Inventory_Button".yAmount - 1))
+	max_value = (ceil(((Player.cardInventory.size() - 1)/$"../Inventory_Button".xAmount)) - ($"../Inventory_Button".yAmount - 1) - 0.7)
 	count = value
 	for i in range(Player.cardInventory.size()):
 		var card = Player.cardInventory[i]
 		var row = i / cards_per_row  # use integer division or floor
 		var row_number = int(row)    # convert to int (floor)
-		var base_y = row_number * card_height
+		var base_y = 100 + (row_number * card_height)
 		card.position.y = base_y - scroll_offset + 135
 	if Player.cardInventory.size() <= $"../Inventory_Button".xAmount * $"../Inventory_Button".yAmount:
 		self.visible = false

@@ -19,6 +19,9 @@ class Upgrade:
 var available_upgrades: Array[Upgrade] = []  # Upgrades not yet purchased
 var purchased_upgrades: Array[Upgrade] = []  # Track purchased upgrades
 
+var buttons = []
+var inInv = false
+
 func register_upgrade(upgrade: Upgrade):
 	available_upgrades.append(upgrade)
 
@@ -27,10 +30,13 @@ func register_upgrade(upgrade: Upgrade):
 
 func create_upgrade_buttons():
 	# Clear existing buttons first
+	buttons.clear()
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
 	print(available_upgrades)
+	$"../CanvasLayer/VScrollBar_Upgrades".showBar()
+	
 	# Create buttons for available upgrades
 	for i in available_upgrades.size():
 		var upgrade = available_upgrades[i]
@@ -40,6 +46,8 @@ func create_upgrade_buttons():
 		button.size = Vector2(700, 65)
 		button.pressed.connect(_on_upgrade_button_pressed.bind(upgrade))
 		add_child(button)
+		buttons.append(button);
+	
 
 func _on_upgrade_button_pressed(upgrade: Upgrade):
 	if parent.money >= upgrade.price:
@@ -53,9 +61,12 @@ func _on_upgrade_button_pressed(upgrade: Upgrade):
 			create_upgrade_buttons();
 
 func deleteChildren():
+	inInv = false
+	buttons.clear()
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
+			
 
 # for upgrade functions remember it is being called from child so use ../../ to grab node path
 func increaseClickerValue (amount: float):

@@ -15,6 +15,7 @@ var unlockedEpicPacks = [];
 var unlockedLegendaryPacks = [];
 
 var chances = [80, 20, 1, 0, 0]
+var chanceLuck = 0
 
 func returnDictionary()->Dictionary:
 	var dict = {
@@ -22,15 +23,20 @@ func returnDictionary()->Dictionary:
 		"completionPerClick": completionPerClick,
 		"autoCompletion": autoCompletion,
 		"maxCompletion": maxCompletion,
-		"chances": chances
+		"chances": chances,
+		"chanceLuck": chanceLuck
 	}
+	print(dict)
 	return dict
 
 func setDictionary(dict: Dictionary):
+	print("dictionary: ", dict)
 	completion = dict.get("completion")
 	completionPerClick = dict.get("completionPerClick")
 	autoCompletion = dict.get("autoCompletion")
 	maxCompletion = dict.get("maxCompletion")
+	chanceLuck = dict.get("chanceLuck", 0)
+	updateText()
 
 func _ready() -> void:
 	size = Vector2(600, 220)
@@ -44,6 +50,9 @@ func _pressed() -> void:
 		pass
 	else:
 		completion += completionPerClick;
+		var popup = money_popup.new()
+		add_child(popup)
+		popup.init(completionPerClick, false, false)
 		pass
 	if completion >= 100:
 		complete = true;
@@ -54,6 +63,7 @@ func _pressed() -> void:
 	if complete && get_child_count() == 0:
 		var claimButton = Button.new();
 		add_child(claimButton)
+		claimButton.text = "claim pack!"
 		claimButton.pressed.connect(claimButtonPressed);
 		claimButton.size = Vector2(180, 60);
 		claimButton.position = Vector2((get_viewport_rect().size.x / 2) - 360, (get_viewport_rect().size.y / 2) - 100);

@@ -23,10 +23,12 @@ func levelUp (_level: int):
 		2:
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU1"))
 			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP1"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC1"))
 		3:
 			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PP1"))
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU2"))
 		4:
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC2"))
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
 		5:
 			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU3"))
@@ -89,6 +91,7 @@ func returnDictionary() -> Dictionary:
 		inv.append(item.returnDictionary())
 	var dict = {
 		"inventory": inv,
+		"IDinv": IDInventory,
 		"money": money,
 		"xp": xp,
 		"level": level,
@@ -101,6 +104,7 @@ func setDictionary (dict: Dictionary):
 	Player.xp = dict.get("xp", 0)
 	Player.level = int(dict.get("level", 1))
 	Player.money = dict.get("money", 0)
+	Player.IDInventory = dict.get("IDinv", [])
 	pass
 
 func loadInv(list: Array):

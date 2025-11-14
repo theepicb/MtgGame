@@ -120,14 +120,13 @@ func redownload ():
 	add_child(grab)
 	await HttpData.Finished
 	
-func showCard(posX, posY, scale1) -> void:
+func showCard(posX, posY, scale1, offset: float = 0) -> void:
 
 	if scale1 <= 0:
 		scale1 = 1
 
 	self.visible = true
-	self.position = Vector2(posX, posY)
-	self.pos = Vector2(posX, posY)
+	self.position = Vector2(posX, posY + offset)
 	self.scale = Vector2(scale1, scale1)
 	if serial:
 		drawSerial(self.serial_number)

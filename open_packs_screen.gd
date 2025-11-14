@@ -1,6 +1,7 @@
 extends Button
 
 @onready var pack_manager =  $"../../Pack_Screen";
+var nodesToShow = ["Click_Screen_button", "Upgrades_Button", "Pack_Screen_Button", "Open_Packs_Screen", "Inventory_Button", "level_Label"]
 
 func _ready():
 	size = Vector2(180, 60)
@@ -135,7 +136,7 @@ func hideUI () -> void:
 
 func showUI () -> void:
 	for child in $"..".get_children():
-		if child.get_class() != "VScrollBar":
+		if nodesToShow.has(child.name):
 			child.visible = true
 	
 	display_owned_packs();

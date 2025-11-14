@@ -26,6 +26,7 @@ func getLuck(pack_luck: float = 1) -> int:
 	return num
 	
 func drawBackButton ():
+	print("Cards to show:", Player.cardsToShow)
 	$"../CanvasLayer/Back_Button".draw()
 
 func chooseSerialNumber (max_num: int, array: Array) -> int:
