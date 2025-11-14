@@ -45,18 +45,18 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 		self.serialNum = serialNum
 		self.serialMaxNum = serialMaxNum
 	# create new instance of card then adds it as a child of the player
-	print(self.isFoil)
+	#print(self.isFoil)
 	
 	# cards currently being shown as pack
 	
 	#card inventory
 	
 	generateCard();
-	print("started card generation", save_path)
+	#print("started card generation", save_path)
 	pass
 
 func generateCard () -> void:
-	if (!Player.IDInventory.has(self.cardID) || self.isSerial):
+	if (!Player.IDInventory.has(self.cardID) || self.isSerial || self.grabbingRarity):
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		if !grabbingRarity:
@@ -90,31 +90,30 @@ func generateCard () -> void:
 		pass
 	pass
 
-func firstPing (result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+func firstPing(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if response_code != 200:
-		push_error("API request failed number:" + str(number) +  " with code: %d" % response_code)
-		return
-	
-	var json = JSON.parse_string(body.get_string_from_utf8())
-	if not json:
-		push_error("Failed to parse JSON response")
+		push_error("API request failed number: %s with code %d" % [str(number), response_code])
 		return
 
-	if json.has("data") and json["data"].size() > 0:
-		var card = json["data"][0]
-		print(card)
-		process_card_json(card)
-	else:
-		push_error("No English card found for %s #%d" % [set_name, number])
-	
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(json) != TYPE_DICTIONARY:
+		push_error("Invalid JSON response")
+		return
+
+	# Directly the card object
+	process_card_json(json)
 
 
 func process_card_json(json: Dictionary) -> void:
 	if grabbingRarity:
+		var type = json.get("keywords")
+		print(type)
 		var value = json.get("name")
 		if typeof(value) == TYPE_STRING and "Signet" in value:
 			Player.signet.append(number)
-		else:
+		if type.has("Transform") &&  !value.contains("Invasion"):
+			print("transform found")
+		#else:
 			match json.get("rarity"):
 				"common": Player.common.append(number)
 				"uncommon": Player.uncommon.append(number)
@@ -191,12 +190,12 @@ func finished ():
 		httpRequest1.queue_free()
 	if is_instance_valid(httpRequest2):
 		httpRequest2.queue_free()
-	for child in Player.get_children(): 
-		print(child.ID)
+	#for child in Player.get_children(): 
+		#print(child.ID)
 	if self.isLast:
-		print("Child count: ", HttpData.get_child_count())
+		#print("Child count: ", HttpData.get_child_count())
 		HttpData.emit_signal("Finished")
-		print("done")
+		#print("done")
 
 func createID() -> String:
 	var foil: String;
@@ -205,15 +204,15 @@ func createID() -> String:
 		1: foil = "f"
 		2: foil = "ef"
 		3: foil = "cf"
-	print("ID created: " + set_name + str(number) + foil)
+	#print("ID created: " + set_name + str(number) + foil)
 	return set_name + str(number) + foil;
 
 func startPing ():
-	print("new card made!")
+	#print("new card made!")
 	httpRequest1 = HTTPRequest.new();
 	HttpData.add_child(httpRequest1);
 	httpRequest1.request_completed.connect(firstPing);
-	var url = "https://api.scryfall.com/cards/search?q=set:%s+number:%d+lang:en" % [set_name, number]
+	var url = "https://api.scryfall.com/cards/%s/%d?lang=en" % [set_name.to_lower(), number]
 	httpRequest1.request(url);
 	pass
 

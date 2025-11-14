@@ -120,6 +120,8 @@ func open_pack_contents(pack_id: String):
 		"rvr_col":
 			$"../../Pack_Data/Rvr_data".createCollectorPack()
 			pass
+		"mom_draft":
+			$"../../Pack_Data/Mom_data".createDraftPack()
 	
 	
 	# You might call something like:

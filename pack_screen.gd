@@ -35,6 +35,7 @@ func _ready():
 	# Initialize some example packs
 	create_pack("mat_ep", 4.5, preload("res://sprites/Packs/MOTM-E-pack.png"), 2)
 	unlock_pack("mat_ep");
+	unlock_pack("mom_draft")
 	
 	$"../Pack_Clicker".unlockedCommonPacks.append("mat_ep")
 	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"), 25)
@@ -43,7 +44,7 @@ func _ready():
 	create_pack("woe_col", 45, preload("res://sprites/Packs/woe_collector.png"), 45)
 	create_pack("rvr_draft", 15, preload("res://sprites/Packs/Rvr_draft.png"), 12)
 	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_collector.png"), 75)
-	
+	create_pack("mom_draft", 10, preload("res://sprites/Packs/Mom_draft.png"), 10)
 	# Layout all unlocked packs
 	
 

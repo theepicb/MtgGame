@@ -5,6 +5,8 @@ var money_per_click = 0.01;
 var money_per_second = 0;
 var money_multiplier = 1;
 
+var timeoutTime = 1;
+
 var combo_wait_time = 1;
 var combo = 0;
 
@@ -42,6 +44,7 @@ func _ready() -> void:
 	add_child(combo_timer)
 	#sets text on open
 	updateText();
+	
 	pass
 
 
@@ -67,13 +70,14 @@ func _pressed() -> void:
 		Player.money += (money_per_click * (1 + float(combo) / 1000)) * (money_multiplier * crit_multi);
 		var popup = money_popup.new()
 		add_child(popup)
-		popup.init((money_per_click * (1 + float(combo) / 1000)) * (money_multiplier * crit_multi), true, true)
-		
+		popup.init((money_per_click * (1 + float(combo) / 1000)) * (money_multiplier) * (crit_multi), true, true)
 	else:
 		Player.money += (money_per_click * (1 + float(combo) / 1000)) * money_multiplier;
 		var popup = money_popup.new()  # money_popup is the script/class
 		add_child(popup)
 		popup.init((money_per_click * (1 + float(combo)/1000)) * money_multiplier, false, true)
+		print("mpc:", money_per_click, " combo:", combo, " mm:", money_multiplier, " cm:", crit_multi, " cc:", crit_chance)
+		
 	combo += 1;
 	combo_timer.start();
 	updateText();

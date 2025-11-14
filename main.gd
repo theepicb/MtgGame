@@ -94,8 +94,8 @@ func implamentData (data: Dictionary):
 	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
 	$Money_Clicker.money_per_second = data["Money_Clicker"].get("money_per_second", 0)
 	$Money_Clicker.money_multiplier = data["Money_Clicker"].get("money_multiplier", 1)
-	$Money_Clicker.crit_chance = data["Money_Clicker"].get("crit_chance", 0)
-	$Money_Clicker.crit_multi = data["Money_Clicker"].get("crit_multi", 1)
+	$Money_Clicker.crit_chance = data["Money_Clicker"].get("money_crit_chance", 0)
+	$Money_Clicker.crit_multi = data["Money_Clicker"].get("money_crit_mult", 2)
 	$Pack_Data.setDictionary(data["PackData"])
 	$Pack_Clicker.setDictionary(data["pack_clicker"])
 	pass

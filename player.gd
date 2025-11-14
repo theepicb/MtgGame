@@ -3,10 +3,10 @@ extends Node2D
 var money = 50000;
 var luck = 1;
 
-var tokens = 0;
+var tix = 0;
 
 var level = 1;
-var xpToLevelUp = [5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
+var xpToLevelUp = [0, 5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
 var xp = 0;
 
 
@@ -15,6 +15,7 @@ var uncommon = []
 var rare = []
 var mythic = []
 var signet = []
+var phy_transform = []
 
 @onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
 @onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")

@@ -3,12 +3,21 @@ extends Node2D
 var set_name = "mom"
 var serial_max = 500
 
+var common = [2, 3, 4, 5, 7, 8, 10, 14, 15, 18, 19, 24, 25, 27, 34, 33, 37, 39, 42, 43, 47, 54, 55, 56, 57, 59, 60, 66, 67, 68, 69, 72, 73, 74, 76, 79, 80, 81, 82, 87, 88, 91, 97, 98, 99, 100, 101, 102, 103, 104, 105, 108, 111, 112, 118, 120, 126, 127, 128, 129, 130, 131, 133, 136, 140, 142, 150, 153, 154, 156, 157, 158, 161, 163, 164, 167, 168, 170, 172, 173, 175, 176, 177, 178, 179, 180, 182, 183, 186, 195, 197, 199, 201, 204, 205, 210, 212, 214, 215, 216, 259, 260, 261, 262, 264, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276]
+var uncommon = [13, 20, 21, 29, 30, 31, 35, 36, 38, 41, 44, 45, 46, 48, 49, 50, 53, 62, 64, 70, 71, 78, 84, 85, 92, 95, 96, 106, 107, 113, 116, 117, 119, 121, 123, 124, 138, 139, 141, 143, 147, 148, 151, 152, 159, 162, 165, 166, 181, 188, 189, 192, 194, 196, 202, 203, 206, 207, 208, 209, 220, 223, 227, 231, 232, 233, 234, 235, 236, 237, 238, 240, 242, 243, 246, 247, 248, 251, 253, 254]
+var rare = [9, 11, 16, 17, 22, 23, 26, 32, 40, 51, 52, 58, 61, 63, 75, 77, 83, 86, 89, 90, 93, 94, 109, 110, 114, 122, 132, 135, 137, 144, 145, 146, 155, 160, 171, 174, 184, 185, 187, 190, 191, 198, 200, 211, 218, 221, 222, 224, 225, 226, 228, 229, 230, 241, 244, 249, 250, 252, 256, 263]
+var mythic = [1, 6, 12, 28, 65, 115, 125, 134, 149, 169, 193, 213, 217, 219, 239, 245, 255, 257, 258, 265]
+
+var transf_common = [7, 18, 39, 43, 47, 57, 69, 72, 88, 111, 127, 153, 157, 163, 177, 178, 180]
+var transf_uncommon = [29, 30, 36, 38, 44, 49, 53, 78, 92, 96, 106, 117, 119, 139, 143, 151, 188, 189, 209, 223, 248, 253]
+var transf_rare = [17, 32, 40, 51, 90, 93, 137, 187, 200, 226]
+
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/mom")
-	for x in range(338, 339):
-		#grabCardExtra(x, 5, 0, 0, false, true, 69)
+	for x in range(1, 1):
+		grabCardExtra(x, 5, 0, 0, false, true, false)
 		await get_tree().create_timer(0.5).timeout
-	#grabCardExtra(1, 0, 0, 0, true, false, 0)
+	grabCardExtra(1, 0, 0, 0, true, true, false)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -19,10 +28,34 @@ func _ready() -> void:
 	print(("mythic: "),Player.mythic)
 	print("signet: ", Player.signet)
 
-
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing, serialNum) -> void:
 	var pos = Vector2(posX, posY)
-	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
+	var grab = Card_Grabber.new(list, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, false, serialNum, serial_max);
 	print("started")
 	add_child(grab)
 	pass
+
+func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
+	var pos = Vector2(posX, posY)
+	var num = list.pick_random();
+	var grab = Card_Grabber.new(num, set_name, foilEnum, "user://Cards/" + set_name, pos, isLast);
+	print("started")
+	add_child(grab)
+	pass
+
+func createDraftPack():
+	var counter = 0;
+	for x in range(2):
+		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	
+	for x in range(2):
+		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		counter += 1
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.startShowBar()
+	$"..".drawBackButton();

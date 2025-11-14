@@ -1,6 +1,6 @@
 extends Label
 func setText ():
-	text = "Level " + str(Player.level) +  "\n" + str(Player.xpToLevelUp[Player.level] - Player.xp) + " xp to go\n" + "Tokens: " + str(Player.tokens)
+	text = "Level " + str(Player.level) +  "\n" + str(Player.xpToLevelUp[Player.level] - Player.xp) + " xp to go\n" + "Tix: " + str(Player.tix)
 
 func _ready() -> void:
 	var new_sb = StyleBoxFlat.new()
