@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=39 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -30,11 +30,14 @@
 [ext_resource type="Script" uid="uid://psbmivduoxid" path="res://button.gd" id="20_kq58d"]
 [ext_resource type="Script" uid="uid://dny8hg74tng27" path="res://rank_button.gd" id="20_qsp4k"]
 [ext_resource type="Script" uid="uid://bnh574u40rrbg" path="res://sell_all.gd" id="21_4k2k6"]
+[ext_resource type="Script" uid="uid://6ilo531d4748" path="res://inventory.gd" id="22_b1qrp"]
 [ext_resource type="Script" uid="uid://dmkel7vpc60wp" path="res://land_ranks.gd" id="22_jq2sk"]
+[ext_resource type="Script" uid="uid://brkg753i037ea" path="res://binder.gd" id="23_come4"]
 [ext_resource type="Script" uid="uid://bnvj64q3rrlkh" path="res://cmm_data.gd" id="24_0odxb"]
 [ext_resource type="Script" uid="uid://dtx0056u00xuf" path="res://rvr_data.gd" id="25_lswn8"]
 [ext_resource type="Script" uid="uid://daj8wlnw04tv3" path="res://mom_data.gd" id="27_xuqvo"]
 [ext_resource type="Script" uid="uid://bq5v8wdxek2t" path="res://lci_data.gd" id="34_0rl1p"]
+[ext_resource type="Script" uid="uid://dt1tlh3j6a11c" path="res://mul_data.gd" id="34_ok6jj"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -143,6 +146,16 @@ offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("21_4k2k6")
 
+[node name="inventory" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("22_b1qrp")
+
+[node name="binder" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("23_come4")
+
 [node name="Upgrade_Tree_button" type="Button" parent="CanvasLayer"]
 offset_right = 8.0
 offset_bottom = 8.0
@@ -192,6 +205,9 @@ script = ExtResource("25_lswn8")
 
 [node name="Mom_data" type="Node2D" parent="Pack_Data"]
 script = ExtResource("27_xuqvo")
+
+[node name="Mul_data" type="Node2D" parent="Pack_Data/Mom_data"]
+script = ExtResource("34_ok6jj")
 
 [node name="Lci_data" type="Node2D" parent="Pack_Data"]
 script = ExtResource("34_0rl1p")

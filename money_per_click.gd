@@ -24,6 +24,8 @@ func init(amount: float, critical: bool, money: bool) -> void:
 
 	# Position relative to parent (a Control node)
 	position = get_parent().get_local_mouse_position()
+	position.y -= 15
+	position.x -= 15
 	visible = true
 
 func _process(delta: float) -> void:

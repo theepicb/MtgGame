@@ -74,6 +74,8 @@ func reloadInv():
 
 var IDInventory = [];
 var cardInventory = [];
+var binder = []
+var IDbinder = []
 var cardsToShow = [];
 var cardsToDelete = [];
 var sortedInventory = [];
@@ -87,12 +89,16 @@ func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: boo
 
 func returnDictionary() -> Dictionary:
 	var inv = []
-	
+	var bin = []
 	for item in Player.cardInventory:
 		inv.append(item.returnDictionary())
+	for item in Player.binder:
+		bin.append(item.returnDictionary())
 	var dict = {
 		"inventory": inv,
+		"binder": bin,
 		"IDinv": IDInventory,
+		"IDbinder": IDbinder,
 		"money": money,
 		"xp": xp,
 		"level": level,
@@ -106,6 +112,24 @@ func setDictionary (dict: Dictionary):
 	Player.level = int(dict.get("level", 1))
 	Player.money = dict.get("money", 0)
 	Player.IDInventory = dict.get("IDinv", [])
+	var bin = dict.get("binder", [])
+	loadBinder(bin)
+	Player.IDbinder = dict.get("IDbinder", [])
+	pass
+
+func loadBinder(list: Array):
+	for item in list:
+		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0), item["serial"], item["serialNum"], item["serialMax"])
+		if item["serial"]:
+			tempCard.serialise(item["serialNum"], item["serialMax"])
+		tempCard.setPrice(item["price"])
+		tempCard.setName(item["cardName"])
+		if !tempCard.loadImage():
+			await tempCard.redownload()
+			tempCard.loadImage()
+		Player.add_child(tempCard)
+		Player.binder.append(tempCard)
+		pass
 	pass
 
 func loadInv(list: Array):

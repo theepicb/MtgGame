@@ -14,12 +14,12 @@ var extendedRare = [323, 324, 326, 327, 328, 329, 331, 332, 333, 334, 335, 337, 
 
 var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
-var draft_luck = 1
+var draft_luck = 0
 var draft_conf_luck = 0
-var set_luck = 1
+var set_luck = 0
 var set_bonus_foil = 0
-var collector_luck = 1;
-var confetti_luck = 1;
+var collector_luck = 0;
+var confetti_luck = 0;
 
 func returnDictionary () -> Dictionary:
 	var dictionary = {}
@@ -120,7 +120,7 @@ func createCollectorPack () -> void:
 	counter += 1
 	
 	packs = [rare, mythic]
-	odds = [85.7, 14.3 * collector_luck]
+	odds = [85.7, 14.3 + collector_luck]
 	
 	grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
@@ -141,7 +141,7 @@ func createCollectorPack () -> void:
 		grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
-	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 * collector_luck, 6.7 + collector_luck, 10 + collector_luck])
+	var rarity = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic"], [73.3, 10 + collector_luck, 6.7 + collector_luck, 10 + collector_luck])
 	$Wot_data.getWithRarity(rarity, 1, counter, false)
 	counter += 1
 	

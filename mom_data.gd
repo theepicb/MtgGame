@@ -3,14 +3,22 @@ extends Node2D
 var set_name = "mom"
 var serial_max = 500
 
-var common = [2, 3, 4, 5, 7, 8, 10, 14, 15, 18, 19, 24, 25, 27, 34, 33, 37, 39, 42, 43, 47, 54, 55, 56, 57, 59, 60, 66, 67, 68, 69, 72, 73, 74, 76, 79, 80, 81, 82, 87, 88, 91, 97, 98, 99, 100, 101, 102, 103, 104, 105, 108, 111, 112, 118, 120, 126, 127, 128, 129, 130, 131, 133, 136, 140, 142, 150, 153, 154, 156, 157, 158, 161, 163, 164, 167, 168, 170, 172, 173, 175, 176, 177, 178, 179, 180, 182, 183, 186, 195, 197, 199, 201, 204, 205, 210, 212, 214, 215, 216, 259, 260, 261, 262, 264, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276]
-var uncommon = [13, 20, 21, 29, 30, 31, 35, 36, 38, 41, 44, 45, 46, 48, 49, 50, 53, 62, 64, 70, 71, 78, 84, 85, 92, 95, 96, 106, 107, 113, 116, 117, 119, 121, 123, 124, 138, 139, 141, 143, 147, 148, 151, 152, 159, 162, 165, 166, 181, 188, 189, 192, 194, 196, 202, 203, 206, 207, 208, 209, 220, 223, 227, 231, 232, 233, 234, 235, 236, 237, 238, 240, 242, 243, 246, 247, 248, 251, 253, 254]
-var rare = [9, 11, 16, 17, 22, 23, 26, 32, 40, 51, 52, 58, 61, 63, 75, 77, 83, 86, 89, 90, 93, 94, 109, 110, 114, 122, 132, 135, 137, 144, 145, 146, 155, 160, 171, 174, 184, 185, 187, 190, 191, 198, 200, 211, 218, 221, 222, 224, 225, 226, 228, 229, 230, 241, 244, 249, 250, 252, 256, 263]
-var mythic = [1, 6, 12, 28, 65, 115, 125, 134, 149, 169, 193, 213, 217, 219, 239, 245, 255, 257, 258, 265]
+var common = [2, 3, 4, 5, 7, 8, 10, 14, 15, 18, 19, 24, 25, 27, 33, 34, 37, 39, 42, 43, 47, 54, 55, 56, 57, 59, 60, 66, 67, 68, 69, 72, 73, 74, 76, 79, 80, 81, 82, 87, 88, 91, 97, 98, 99, 100, 101, 102, 103, 104, 105, 108, 111, 112, 118, 120, 126, 127, 128, 129, 130, 131, 133, 136, 140, 142, 150, 153, 154, 156, 157, 158, 161, 163, 164, 167, 168, 170, 172, 173, 175, 176, 177, 178, 179, 180, 182, 183, 186, 195, 197, 199, 201, 204, 205, 210, 212, 214, 215, 216, 259, 260, 261, 262, 264, 266]
+var uncommon = [13, 29, 30, 31, 35, 36, 38, 41, 44, 45, 46, 48, 49, 50, 53, 70, 71, 78, 84, 85, 92, 95, 96, 106, 107, 117, 119, 121, 123, 124, 138, 139, 141, 143, 151, 152, 159, 162, 165, 166, 181, 188, 189, 196, 202, 203, 206, 207, 208, 209, 220, 223, 227, 243, 246, 247, 248, 251, 253, 254]
+var rare = [1, 9, 11, 16, 17, 26, 32, 40, 51, 52, 58, 75, 77, 83, 86, 89, 90, 93, 94, 109, 110, 122, 132, 135, 137, 144, 155, 160, 171, 174, 184, 185, 187, 198, 200, 211, 218, 221, 222, 224, 225, 226, 228, 229, 244, 249, 250, 252, 256, 263]
+var mythic = [6, 12, 28, 65, 125, 134, 169, 213, 217, 219, 245, 255, 257, 258, 265]
 
 var transf_common = [7, 18, 39, 43, 47, 57, 69, 72, 88, 111, 127, 153, 157, 163, 177, 178, 180]
 var transf_uncommon = [29, 30, 36, 38, 44, 49, 53, 78, 92, 96, 106, 117, 119, 139, 143, 151, 188, 189, 209, 223, 248, 253]
 var transf_rare = [17, 32, 40, 51, 90, 93, 137, 187, 200, 226]
+var transf_mythic = [12, 65, 125, 169, 213]
+
+var invasion_uncommon = [20, 21, 62, 64, 113, 116, 147, 148, 192, 194, 231, 232, 233, 234, 235, 236, 237, 238, 240, 242]
+var invasion_rare = [22, 23, 61, 63, 114, 145, 146, 190, 191, 241]
+var invasion_mythic = [1, 115, 149, 193, 239]
+
+var non_basic_land = []
+var draftLuck = 0
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/mom")
@@ -44,14 +52,36 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 	pass
 
 func createDraftPack():
+	var luck = draftLuck + Player.luck
 	var counter = 0;
-	for x in range(2):
+	var foil = false
+	var commonAm = 9
+	if randf_range(0, 100) + luck >= 67:
+		foil = true
+		commonAm = 8
+	for x in range(commonAm):
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	
 	for x in range(2):
 		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
+	grabCard($"..".getRarityByWeight([transf_common, transf_uncommon, transf_rare, transf_mythic], [60, 25, 10 + luck, 5 + luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	grabCard($"..".getRarityByWeight([invasion_uncommon, invasion_rare, invasion_mythic], [65, 30 + luck, 5 + luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	$Mul_data.grabNormal(luck, true, 0, false)
+	counter += 1
+	
+	grabCard($"..".getRarityByWeight([rare, mythic],[84, 16]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
+	
+	if foil:
+		grabCard($"..".getRarityByWeight([common, uncommon, rare, mythic],[60, 25, 10 + luck, 5 + luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	
+	
+	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())

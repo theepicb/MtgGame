@@ -3,6 +3,7 @@ extends Button
 var completion = 0;
 
 var complete = false;
+var complete_Button = false
 
 var completionPerClick = 1;
 var autoCompletion = 0;
@@ -36,12 +37,16 @@ func setDictionary(dict: Dictionary):
 	autoCompletion = dict.get("autoCompletion")
 	maxCompletion = dict.get("maxCompletion")
 	chanceLuck = dict.get("chanceLuck", 0)
+	if completion >= 100:
+		complete_Button = true
+		createClaimButton()
 	updateText()
 
 func _ready() -> void:
 	size = Vector2(600, 220)
 	position = Vector2((get_viewport_rect().size.x / 2) - 300, (get_viewport_rect().size.y / 2) );
 	text = "Click to get packs! \n" + str(completion) + "/100%";
+	
 	pass
 
 func _pressed() -> void:
@@ -60,16 +65,19 @@ func _pressed() -> void:
 		complete = false
 		pass
 	
-	if complete && get_child_count() == 0:
-		var claimButton = Button.new();
-		add_child(claimButton)
-		claimButton.text = "claim pack!"
-		claimButton.pressed.connect(claimButtonPressed);
-		claimButton.size = Vector2(180, 60);
-		claimButton.position = Vector2((get_viewport_rect().size.x / 2) - 360, (get_viewport_rect().size.y / 2) - 100);
-		pass
+	if complete && !complete_Button:
+		createClaimButton()
 	updateText();
 	pass
+
+func createClaimButton():
+	complete_Button = true
+	var claimButton = Button.new();
+	add_child(claimButton)
+	claimButton.text = "claim pack!"
+	claimButton.pressed.connect(claimButtonPressed);
+	claimButton.size = Vector2(180, 60);
+	claimButton.position = Vector2((get_viewport_rect().size.x / 2) - 360, (get_viewport_rect().size.y / 2) - 100);
 
 func updateText():
 	text = "Click to get packs! \n" + str(completion) + "/100%";
@@ -80,6 +88,7 @@ func claimButtonPressed():
 	completion = completion - 100;
 	if completion < 100:
 		deleteChildren()
+		complete_Button = false
 	
 	var outCome = getRarityByWeight(["common", "uncommon", "rare", "legendary"], chances)
 	

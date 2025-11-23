@@ -20,9 +20,9 @@ func getPosition(x) -> Vector2:
 	var pos = Vector2(100 + ((x % 10) * 200), 200 + (290 *(floor(x/ 10))))
 	return pos
 
-func getLuck(pack_luck: float = 1) -> int:
+func getLuck(pack_luck: float = 0) -> int:
 	var num = randi_range(0, 100)
-	num = num * (Player.luck * pack_luck)
+	num = num * (Player.luck + pack_luck)
 	return num
 	
 func drawBackButton ():

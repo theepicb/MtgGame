@@ -126,7 +126,6 @@ func _ready() -> void:
 			await implamentData(loading)
 		else:
 			defultLoad()
-	var screen = 0;
 	$Money_Clicker.visible = true
 	$Pack_Clicker.visible = true
 	$CanvasLayer/Click_Screen_button.visible = true
