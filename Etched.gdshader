@@ -19,9 +19,9 @@ void fragment() {
 
     // Time-based foil effect
     vec3 rainbow_color = vec3(
-        sin(time * 1.0),
         sin(time * 2.0),
-        sin(time * 3.0)
+        sin(time * 4.0),
+        sin(time * 6.0)
     );
     float rainbow_opacity = 0.0;
     vec3 blended_rgb = mix(image_color.rgb, rainbow_color, rainbow_opacity);

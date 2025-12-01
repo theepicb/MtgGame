@@ -25,6 +25,7 @@ func _pressed():
 	$"../level_Label".setText()
 	Player.checkLevel()
 	$"../VScrollBar_PackOpening".visible = false;
+	$"../..".save_game()
 	pass
 
 func draw() -> void:

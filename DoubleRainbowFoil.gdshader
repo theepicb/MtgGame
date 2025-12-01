@@ -16,14 +16,14 @@ void fragment() {
 
     // Rainbow tint (on base image only)
     vec3 rainbow_color = vec3(
-        sin(time * 8.0),
-        sin(time * 9.0),
-        sin(time * 5.0)
+        sin(time * 1.0),
+        sin(time * 2.0),
+        sin(time * 3.0)
     );
-    vec3 base_rgb = mix(tex.rgb, rainbow_color, 0.12);
+    vec3 base_rgb = mix(tex.rgb, rainbow_color / 2.0, 0.12);
 
     // Diagonal wave factor for overlay
-    float wave = 0.5 + 0.5 * sin((UV.x + UV.y) * 11.0 + time * 6.0);
+    float wave = 0.5 + 0.5 * sin((UV.x + UV.y) * 11.0 + time * 2.0);
 
     // Sample overlay texture
     vec4 overlay = texture(overlay_texture, UV);

@@ -54,7 +54,8 @@ func getRarityByWeight(arrays: Array, weights: Array):
 func returnDictionary() -> Dictionary:
 	var dict = {
 		"woe": $Woe_data.returnDictionary(),
-		"rvr": $Rvr_data.returnDictionary()
+		"rvr": $Rvr_data.returnDictionary(),
+		"mom": $Mom_data.returnDictionary(),
 	}
 	return dict
 

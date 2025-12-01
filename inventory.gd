@@ -7,6 +7,7 @@ func _ready() -> void:
 	text = "Inventory"
 
 func _pressed() -> void:
+	$"../VScrollBar".value = 0
 	$"../Inventory_Button".currentInv = 0
 	for x in Player.binder:
 		x.visible = false

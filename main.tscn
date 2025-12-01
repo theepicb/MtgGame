@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=40 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://daj8wlnw04tv3" path="res://mom_data.gd" id="27_xuqvo"]
 [ext_resource type="Script" uid="uid://bq5v8wdxek2t" path="res://lci_data.gd" id="34_0rl1p"]
 [ext_resource type="Script" uid="uid://dt1tlh3j6a11c" path="res://mul_data.gd" id="34_ok6jj"]
+[ext_resource type="Script" uid="uid://c2alsqc1mkhuq" path="res://moc_data.gd" id="37_come4"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_h2yge")
@@ -208,6 +209,9 @@ script = ExtResource("27_xuqvo")
 
 [node name="Mul_data" type="Node2D" parent="Pack_Data/Mom_data"]
 script = ExtResource("34_ok6jj")
+
+[node name="Moc_data" type="Node2D" parent="Pack_Data/Mom_data"]
+script = ExtResource("37_come4")
 
 [node name="Lci_data" type="Node2D" parent="Pack_Data"]
 script = ExtResource("34_0rl1p")

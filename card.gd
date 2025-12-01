@@ -4,7 +4,7 @@ class_name Card
 @onready var inventory_button = get_node("/root/Main/CanvasLayer/Inventory_Button")
 # shader data
 var shader_material 
-var shader_time = randi_range(0, 10)
+var shader_time = randf_range(0, 10)
 # amount owned
 var count: int
 # price of card
@@ -83,7 +83,8 @@ func _ready():
 	if mat is Resource:
 		mat.set_shader_parameter("time", shader_time)
 		self.material = mat
-	
+	else:
+		print("mat is not recourse", self.ID)
 		
 		
 		
@@ -134,7 +135,11 @@ func showCard(posX, posY, scale1, offset: float = 0) -> void:
 
 func _process(delta):
 	if self.foil == 1:
-		shader_time += delta / 1.5
+		self.shader_time += delta / 1.5
+		if self.material:
+			self.material.set_shader_parameter("time", shader_time)
+	else:
+		self.shader_time += delta / 1.25
 		if self.material:
 			self.material.set_shader_parameter("time", shader_time)
 	pass
@@ -204,7 +209,7 @@ func _unhandled_input(event):
 			self.add_child(moveButton)
 			moveButton.size = Vector2(60, 20);
 			if inventory_button.currentInv == 0:
-				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 35))
+				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 40))
 				moveButton.text = "move to binder"
 			elif inventory_button.currentInv == 1:
 				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 5))
@@ -259,6 +264,10 @@ func moveCard():
 	if not found:
 		print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
 		var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
+		if self.serial:
+			new_card.serial_number = self.serial_number
+			new_card.max_number = self.max_number
+			new_card.serial = true
 		new_card.call_deferred("loadImage")
 		new_card.cardName = self.cardName
 		new_card.price = self.price
@@ -306,8 +315,7 @@ func returnDictionary()->Dictionary:
 
 func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number
-	self.price = (pow(self.price + 1, 2) * 2) + 80
-	self.ID = self.ID + "z"
+	self.price = (pow(self.price + 1 , 1.5) * 3) + 80
 	self.serial = true
 	self.max_number = maxNumber
 	drawSerial(self.serial_number)
@@ -317,8 +325,8 @@ func drawSerial (number):
 	match self.set_name:
 		"rvr":
 			sPos = Vector2(-43, 1)
-		"mom":
-			sPos = Vector2(-60, 1)
+		"mom", "mul":
+			sPos = Vector2(-60, 4)
 	
 	if not is_inside_tree():
 		await ready

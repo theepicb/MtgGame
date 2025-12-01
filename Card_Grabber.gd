@@ -34,7 +34,6 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 	self.set_name = set_name;
 	self.isFoil = foilEnum;
 	self.save_path = save_path;
-	self.cardID = createID()
 	self.pos = position
 	self.isLast = isLast
 	self.grabbingRarity = gettingRarity
@@ -44,6 +43,7 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 		extraLetter = "z"
 		self.serialNum = serialNum
 		self.serialMaxNum = serialMaxNum
+	self.cardID = createID()
 	# create new instance of card then adds it as a child of the player
 	#print(self.isFoil)
 	
@@ -91,6 +91,7 @@ func generateCard () -> void:
 	pass
 
 func firstPing(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	var _ID = cardID
 	if response_code != 200:
 		push_error("API request failed number: %s with code %d" % [str(number), response_code])
 		return
@@ -124,13 +125,23 @@ func process_card_json(json: Dictionary) -> void:
 	new_card.setName(cardname)
 
 	var prices = json.get("prices", {})
-	match isFoil:
-		0: card_value = get_safe_float(prices, "usd", ID)
-		1: card_value = get_safe_float(prices, "usd_foil", ID)
-		2: card_value = get_safe_float(prices, "usd_etched", ID)
-		3, 4: card_value = get_safe_float(prices, "usd_foil", ID)
-		5: card_value = get_safe_float(prices, "eur_foil", ID)
-		_: card_value = 0.0
+	var specialPrices = ["mom338z", "mom339z", "mom340z", "mom341z", "mom342z"]
+	print("card substring ", cardID.substr(0, 7))
+	if specialPrices.has(cardID.substr(0, 7)):
+		match cardID.substr(0, 7):
+			"mom338z": card_value = 100
+			"mom339z": card_value = 80
+			"mom340z": card_value = 90
+			"mom341z": card_value = 52
+			"mom342z": card_value = 50 
+	else:
+		match isFoil:
+			0: card_value = get_safe_float(prices, "usd", ID)
+			1: card_value = get_safe_float(prices, "usd_foil", ID)
+			2: card_value = get_safe_float(prices, "usd_etched", ID)
+			3, 4: card_value = get_safe_float(prices, "usd_foil", ID)
+			5: card_value = get_safe_float(prices, "usd_foil", ID)
+			_: card_value = 0.0
 
 	var image_uris = json.get("image_uris", {})
 	if image_uris.is_empty() and json.has("card_faces"):
@@ -158,6 +169,7 @@ func process_card_json(json: Dictionary) -> void:
 		httpRequest2.request(image_uris["png"])
 
 func secondPing (result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	var _ID = cardID
 	if response_code != 200:
 		push_error("Image download failed with code: %d" % response_code)
 		return
@@ -204,6 +216,7 @@ func createID() -> String:
 		1: foil = "f"
 		2: foil = "ef"
 		3: foil = "cf"
+		5: foil = "z" + str(serialNum)
 	#print("ID created: " + set_name + str(number) + foil)
 	return set_name + str(number) + foil;
 
@@ -217,6 +230,7 @@ func startPing ():
 	pass
 
 func serialPriceAduster (number, price) -> float:
+	
 	match number:
 		100, 200, 300, 400, 500:
 			price = price * 1.35
@@ -238,7 +252,7 @@ func serialPriceAduster (number, price) -> float:
 			price = price * 1.15
 		111,222,333,444:
 			price = price * 1.25
-	return price
+	return price + sin(serialNum)
 
 func get_safe_float(prices: Dictionary, key: String, ID: String) -> float:
 	var value = prices.get(key)

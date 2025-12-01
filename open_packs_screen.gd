@@ -122,6 +122,9 @@ func open_pack_contents(pack_id: String):
 			pass
 		"mom_draft":
 			$"../../Pack_Data/Mom_data".createDraftPack()
+		"mom_set":
+			$"../../Pack_Data/Mom_data".createSetPack()
+			pass
 	
 	
 	# You might call something like:

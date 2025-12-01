@@ -119,7 +119,7 @@ var col_mythics = [449, 459, 465]
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/rvr")
-	for x in range(452, 466):
+	for x in range(0, 0):
 		#grabCardExtra(x, 5, 0, 0, false, true, 69)
 		await get_tree().create_timer(0.5).timeout
 	#grabCardExtra(1, 0, 0, 0, true, false, 69)
@@ -144,7 +144,7 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing, serialNum) -> void:
 	var pos = Vector2(posX, posY)
-	var grab = Card_Grabber.new("415z", set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
+	var grab = Card_Grabber.new(str(list) + "z", set_name, foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
 	print("started")
 	add_child(grab)
 	pass

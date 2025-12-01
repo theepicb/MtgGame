@@ -45,7 +45,7 @@ func loadInventory() -> void:
 	xAmount = int(xSize / 195)
 	yAmount = int((get_viewport_rect().size.y - 100)/ 300)
 	print("Y amount: ", yAmount)
-	if Player.cardInventory.size() > xAmount * yAmount:
+	if chosenScreen.size() > xAmount * yAmount:
 		$"../VScrollBar".max_value = (ceil(((chosenScreen.size() - 1)/$"../Inventory_Button".xAmount)) - ($"../Inventory_Button".yAmount - 1 ) - 0.7)
 		$"../VScrollBar".visible = true;
 	else:

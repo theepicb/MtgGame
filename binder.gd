@@ -7,6 +7,7 @@ func _ready() -> void:
 	text = "Binder"
 
 func _pressed() -> void:
+	$"../VScrollBar".value = 0
 	$"../Inventory_Button".currentInv = 1
 	for x in Player.cardInventory:
 		if is_instance_valid(x):
