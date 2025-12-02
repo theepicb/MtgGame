@@ -144,6 +144,11 @@ func createSetPack ():
 	$Mul_data.grabNormal(luck, true, 0, counter)
 	counter += 1
 	
+	grabCard($"..".getRarityByWeight([rare, mythic], [80, 20 + luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
+	
+	
+	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -169,18 +174,43 @@ func createCollectorPack ():
 	grabCard($"..".getRarityByWeight([rare, mythic], [80, 20 + luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
+	
 	if randf_range(0, 100) >= 80:
 		grabCard(jumpstart_ext, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	else:
 		$Moc_data.getExtended(counter, luck, 0, false)
 	counter += 1
 	
-	var mulUncSer = false
-	if randf_range(0, 100) <= 0.2 * luck:
-		mulUncSer = true
+	grabCard($"..".getRarityByWeight([showcaseRare, showcaseMythic, extendedRare, extendedMythic], [40, 10 + luck, 40, 10 + luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	counter += 1
 	
-	if randf_range(0, 100) <= 0.2 * luck:
-		pass
+	if randf_range(0, 100) >= 99.6 - (float(luck) / 2):
+		if !$Mul_data.grabUncommonSerial(counter, false):
+			$Mul_data.grabUncommEtchOrSurge(counter, luck, false)
+			pass
+	else :
+		$Mul_data.grabUncommEtchOrSurge(counter, luck, false)
+	counter += 1
+	
+	if randf_range(0, 100) >= 99.8 - (float(luck) / 2):
+		if !grabSerial(counter, false):
+			grabCard($"..".getRarityByWeight([extendedRare, extendedMythic, showcaseRare, showcaseMythic], [40, 10, 40, 10]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	else:
+		grabCard($"..".getRarityByWeight([extendedRare, extendedMythic, showcaseRare, showcaseMythic], [40, 10, 40, 10]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	
+	if randf_range(0, 100) >= 99.6 - (float(luck) / 2):
+		if !$Mul_data.grabRareSerial(counter, true):
+			if randf_range(0, 100) >= 60 + luck:
+				$Mul_data.grabSurgeRare(luck, true, counter)
+			else:
+				$Mul_data.grabEtchedRare(luck, true, counter)
+			pass
+	else :
+		if randf_range(0, 100) >= 60 + luck:
+			$Mul_data.grabSurgeRare(luck, true, counter)
+		else:
+			$Mul_data.grabEtchedRare(luck, true, counter)
+	counter += 1
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -208,3 +238,13 @@ func setDictionary (dict: Dictionary):
 	$Mul_data.serialUncommon = dict.get("mulUncomSer", $Mul_data.serialUncommon)
 	$Mul_data.serialRareMythic = dict.get("mulRareSer", $Mul_data.serialRareMythic)
 	serial = dict.get("praetorSerial", serial)
+
+func grabSerial (counter, isLast) -> bool:
+	var number
+	var key
+	key = serial.keys().pick_random()
+	number = $"..".chooseSerialNumber(serial_max, serial[key])
+	if !number == -1:
+		grabCardExtra(key, 5, $"..".getPosition(counter).x, $"..".getPosition(counter).y, isLast, false, number)
+		return true
+	return false

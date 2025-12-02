@@ -46,9 +46,11 @@ func _ready():
 	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_collector.png"), 75)
 	create_pack("mom_draft", 10, preload("res://sprites/Packs/Mom_draft.png"), 10)
 	create_pack("mom_set", 15, preload("res://sprites/Packs/Mom_set.png"), 15)
+	create_pack("mom_col", 80, preload("res://sprites/Packs/mom_collector.png"), 80)
 	# Layout all unlocked packs
 	unlock_pack("mom_draft")
 	unlock_pack("mom_set")
+	unlock_pack("mom_col")
 
 func returnDictionary () -> Dictionary:
 	var dict = {}

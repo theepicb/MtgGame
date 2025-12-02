@@ -22,7 +22,7 @@ func getPosition(x) -> Vector2:
 
 func getLuck(pack_luck: float = 0) -> int:
 	var num = randi_range(0, 100)
-	num = num * (Player.luck + pack_luck)
+	num = num + (Player.luck + pack_luck)
 	return num
 	
 func drawBackButton ():

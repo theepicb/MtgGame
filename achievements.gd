@@ -57,25 +57,25 @@ func achievement_handler(name: String, ID: int):
 		"woe_draft":
 			match ID:
 				0:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d0"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d0"))
 				1: 
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d1"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d1"))
 				2:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d2"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d2"))
 				3:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_d3"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d3"))
 		"woe_set":
 			match ID:
 				0: 
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PU3"))
 				1:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s0"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s0"))
 				2:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s1"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s1"))
 				3:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s2"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s2"))
 				4:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.openingUpgradesWoe.get("woe_s3"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s3"))
 			
 var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]

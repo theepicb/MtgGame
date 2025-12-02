@@ -1,7 +1,7 @@
 extends Node2D
 
 var money = 50000;
-var luck = 1;
+var luck = 0;
 
 var tix = 0;
 

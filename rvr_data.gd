@@ -3,8 +3,8 @@ var set_name = "rvr"
 
 var serial_max = 500
 
-var draft_luck = 1
-var collector_luck = 1
+var draft_luck = 0
+var collector_luck = 0
 
 var serial = {
 	302: [],
@@ -156,39 +156,39 @@ func createDraftPack ():
 	var foil = false
 	var commons = 8
 	var isRetroRare = false
-	if (randi_range(0, 100) * total_luck > 66):
+	if (randi_range(0, 100) + total_luck > 66):
 		foil = true
 		commons = 7
-	if ((randi_range(0, 100) * total_luck > 84)):
+	if ((randi_range(0, 100) + total_luck > 84)):
 		isRetroRare = true
 	
 	
 	for x in commons:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
-	if (randi_range(0, 100) * total_luck > 66):
-		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 * total_luck, 5 * total_luck])
+	if (randi_range(0, 100) + total_luck > 66):
+		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 + total_luck, 5 + total_luck])
 		grabCard(rarity, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	else:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
 	if !isRetroRare:
-		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon],[66, 33 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon],[66, 33 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	else:
-		grabCard($"..".getRarityByWeight([common, uncommon],[66, 33 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		grabCard($"..".getRarityByWeight([common, uncommon],[66, 33 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	for x in 3:
 		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
-	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	if isRetroRare:
-		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, retro_shocks],[86, 16 * total_luck, 5 * total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
+		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, retro_shocks],[86, 16 + total_luck, 5 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
 	else:
 		grabCard($"..".getRarityByWeight([rare, mythic],[84, 16]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
 	counter += 1
 	if foil:
-		grabCard($"..".getRarityByWeight([common, uncommon, rare, mythic, retro_common, retro_uncommon, retro_rare, shocks],[62, 20, 13 * total_luck, 7 * total_luck, 62, 20, 13 * total_luck, 7 * total_luck, 7 * total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		grabCard($"..".getRarityByWeight([common, uncommon, rare, mythic, retro_common, retro_uncommon, retro_rare, shocks],[62, 20, 13 + total_luck, 7 + total_luck, 62, 20, 13 + total_luck, 7 + total_luck, 7 + total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -201,7 +201,7 @@ func createDraftPack ():
 
 func createCollectorPack ():
 	var isSerial = false
-	var total_luck = collector_luck * Player.luck
+	var total_luck = collector_luck + Player.luck
 	$"../../Achievements".outsideCall("rvr_col")
 	var counter = 0
 	for x in 4:
@@ -210,7 +210,7 @@ func createCollectorPack ():
 	for x in 3:
 		grabCard(uncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 		counter += 1
-	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 * total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 + total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	for x in 2:
 		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -227,7 +227,7 @@ func createCollectorPack ():
 	
 	var number
 	var key
-	if randf_range(0, 100) + (total_luck) > 99:
+	if randf_range(0, 100) + (float(total_luck) / 2) > 99:
 		key = serial.keys().pick_random()
 		number = $"..".chooseSerialNumber(500, serial[key])
 		if !number == -1:

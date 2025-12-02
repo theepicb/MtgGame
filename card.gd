@@ -315,7 +315,7 @@ func returnDictionary()->Dictionary:
 
 func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number
-	self.price = (pow(self.price + 1 , 1.5) * 3) + 80
+	self.price = (pow(self.price + 5 , 1.5) * 4) + 80
 	self.serial = true
 	self.max_number = maxNumber
 	drawSerial(self.serial_number)
@@ -325,9 +325,10 @@ func drawSerial (number):
 	match self.set_name:
 		"rvr":
 			sPos = Vector2(-43, 1)
-		"mom", "mul":
+		"mom":
 			sPos = Vector2(-60, 4)
-	
+		"mul":
+			sPos = Vector2(-54, 4)
 	if not is_inside_tree():
 		await ready
 	var serial = Sprite2D.new()

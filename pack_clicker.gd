@@ -90,7 +90,8 @@ func claimButtonPressed():
 		deleteChildren()
 		complete_Button = false
 	
-	var outCome = getRarityByWeight(["common", "uncommon", "rare", "legendary"], chances)
+	var outCome = getRarityByWeight(["common", "uncommon", "rare", "legendary"], returnChances())
+	
 	
 	match outCome:
 		"common":
@@ -108,6 +109,10 @@ func claimButtonPressed():
 			
 	updateText()
 	pass
+
+func returnChances() -> Array:
+	var chance = [80, 20 + (chanceLuck / 2), 1 + (chanceLuck / 4), -2 + (chanceLuck / 2), -10 + (chanceLuck / 1.5)]
+	return chance
 
 func getLegendaryPack():
 	if unlockedLegendaryPacks.is_empty():

@@ -7,7 +7,6 @@ func start() -> void:
 
 
 func generateNewUpgrade (array: Array):
-
 	print(array)
 	var upgrade = Upgrade.new(array[0], array[2], array[1], array[3])
 	$"..".register_upgrade(upgrade)
@@ -117,6 +116,9 @@ var clickerUpgrades = {
 
 
 var packUpgrades = {
+	## pack unlocks upgrades
+	##################################################
+	##################################################
 	"PU0": [
 	"PU0",
 	"Unlocks March of the Machine: Aftermath Collector Boosters",
@@ -160,14 +162,41 @@ var packUpgrades = {
 	"PU5": [
 		"PU5",
 		"unlocks ravnica remastered collector booster packs",
-		25,
+		40,
 		func ():
 			registorPack("rvr_col", "epic")
+			return true
+],
+	"PU6": [
+		"PU6",
+		"unlocks march of the machine draft packs",
+		15,
+		func ():
+			registorPack("mom_draft", "common")
+			return true
+],
+"PU7": [
+		"PU7",
+		"unlocks march of the machine set packs",
+		30,
+		func ():
+			registorPack("mom_draft", "common")
+			return true
+],
+"PU8": [
+		"PU8",
+		"unlocks march of the machine collector packs",
+		80,
+		func ():
+			registorPack("mom_draft", "epic")
 			return true
 ],
 }
 
 var MPSUpgrades = {
+	## Money per second upgrades
+	##################################################
+	##################################################
 	"MP0": [
 	"MP0",
 	"increases money per second by 0.01c",
@@ -194,7 +223,10 @@ var MPSUpgrades = {
 ],
 }
 
-var openingUpgradesWoe = {
+var packOpeningUpgrades = {
+	## Wilds of eldraine draft
+	##################################################
+	##################################################
 	"woe_d0": [
 		"woe_d0",
 		"increases your odds with wilds of eldraine draft packs slightly",
@@ -241,6 +273,10 @@ var openingUpgradesWoe = {
 		$"../../Pack_Data/Woe_data".draft_conf_luck += 1;
 		return true
 ],
+
+## Wilds of eldraine set
+##################################################
+##################################################
 "woe_s0": [
 	"woe_s0",
 	"slightly increases luck in wilds of eldraine set boosters",
@@ -249,7 +285,6 @@ var openingUpgradesWoe = {
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
 		return true
 ],
-
 "woe_s1": [
 	"woe_s1",
 	"slightly increases luck in wilds of eldraine set boosters and gives a chance for a bonus foil card",
@@ -326,6 +361,14 @@ var packClicker = {
 		$"../../Pack_Clicker".maxCompletion += 10
 		return true
 ],
+"PL1": [
+	"PL1",
+	"increases your luck for the pack clicker",
+	7.5,
+	func ():
+		$"../../Pack_Clicker".packLuck += 10
+		return true
+],
 }
 
 func returnDictionaryAvaliable ():
@@ -346,7 +389,7 @@ func createUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades, packClicker]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, packOpeningUpgrades, playerUpgrades, packClicker]:
 		for key in d.keys():
 			combined[key] = d[key]
 
@@ -360,7 +403,7 @@ func createPurchasedUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, openingUpgradesWoe, playerUpgrades, packClicker]:
+	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, packOpeningUpgrades, playerUpgrades, packClicker]:
 		for key in d.keys():
 			combined[key] = d[key]
 

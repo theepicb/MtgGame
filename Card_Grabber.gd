@@ -94,6 +94,7 @@ func firstPing(result: int, response_code: int, headers: PackedStringArray, body
 	var _ID = cardID
 	if response_code != 200:
 		push_error("API request failed number: %s with code %d" % [str(number), response_code])
+		finished()
 		return
 
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -130,10 +131,10 @@ func process_card_json(json: Dictionary) -> void:
 	if specialPrices.has(cardID.substr(0, 7)):
 		match cardID.substr(0, 7):
 			"mom338z": card_value = 100
-			"mom339z": card_value = 80
-			"mom340z": card_value = 90
-			"mom341z": card_value = 52
-			"mom342z": card_value = 50 
+			"mom339z": card_value = 77
+			"mom340z": card_value = 85
+			"mom341z": card_value = 44
+			"mom342z": card_value = 41 
 	else:
 		match isFoil:
 			0: card_value = get_safe_float(prices, "usd", ID)
