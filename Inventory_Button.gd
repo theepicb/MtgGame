@@ -69,6 +69,10 @@ func getPosition(x) -> Vector2:
 	return pos
 
 func _on_window_size_changed ():
+	$ResizeDebounceTimer.start()
+
+	
+func _on_resize_debounce_timer_timeout() -> void:
 	if Player.inInventory:
 		loadInventory()
 
@@ -82,3 +86,7 @@ func leaveInventory () -> void:
 		x.visible = false;
 	for x in Player.binder:
 		x.visible = false
+
+
+
+	

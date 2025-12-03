@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=41 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -30,6 +30,7 @@
 [ext_resource type="Script" uid="uid://psbmivduoxid" path="res://button.gd" id="20_kq58d"]
 [ext_resource type="Script" uid="uid://dny8hg74tng27" path="res://rank_button.gd" id="20_qsp4k"]
 [ext_resource type="Script" uid="uid://bnh574u40rrbg" path="res://sell_all.gd" id="21_4k2k6"]
+[ext_resource type="Script" uid="uid://berqfsvgk03yj" path="res://resize_debounce_timer.gd" id="21_h8e4i"]
 [ext_resource type="Script" uid="uid://6ilo531d4748" path="res://inventory.gd" id="22_b1qrp"]
 [ext_resource type="Script" uid="uid://dmkel7vpc60wp" path="res://land_ranks.gd" id="22_jq2sk"]
 [ext_resource type="Script" uid="uid://brkg753i037ea" path="res://binder.gd" id="23_come4"]
@@ -142,6 +143,11 @@ offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("13_2cqfq")
 
+[node name="ResizeDebounceTimer" type="Timer" parent="CanvasLayer/Inventory_Button"]
+wait_time = 0.2
+one_shot = true
+script = ExtResource("21_h8e4i")
+
 [node name="Sell_All" type="Button" parent="CanvasLayer"]
 offset_right = 8.0
 offset_bottom = 8.0
@@ -218,3 +224,5 @@ script = ExtResource("34_0rl1p")
 
 [node name="HttpData" type="Node2D" parent="."]
 script = ExtResource("14_w48qg")
+
+[connection signal="timeout" from="CanvasLayer/Inventory_Button/ResizeDebounceTimer" to="CanvasLayer/Inventory_Button" method="_on_resize_debounce_timer_timeout"]

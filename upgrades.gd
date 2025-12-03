@@ -59,6 +59,7 @@ func _on_upgrade_button_pressed(upgrade: Upgrade):
 			
 			# Refresh buttons to remove purchased upgrade
 			create_upgrade_buttons();
+			$"../CanvasLayer/level_Label".setText()
 
 func deleteChildren():
 	inInv = false

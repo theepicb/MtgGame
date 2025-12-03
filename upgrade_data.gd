@@ -366,7 +366,23 @@ var packClicker = {
 	"increases your luck for the pack clicker",
 	7.5,
 	func ():
-		$"../../Pack_Clicker".packLuck += 10
+		$"../../Pack_Clicker".packLuck += 1
+		return true
+],
+"PL2": [
+	"PL2",
+	"increases your luck for the pack clicker",
+	12.5,
+	func ():
+		$"../../Pack_Clicker".packLuck += 1
+		return true
+],
+"PL3": [
+	"PL3",
+	"increases your luck for the pack clicker",
+	17.5,
+	func ():
+		$"../../Pack_Clicker".packLuck += 1
 		return true
 ],
 }

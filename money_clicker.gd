@@ -54,6 +54,7 @@ func _ready() -> void:
 func _money_timer_timeout() -> void:
 	Player.money += money_per_second;
 	updateText();
+	$"../CanvasLayer/level_Label".setText()
 	pass
 
 #combo timer call
@@ -81,7 +82,7 @@ func _pressed() -> void:
 	combo += 1;
 	combo_timer.start();
 	updateText();
-	
+	$"../CanvasLayer/level_Label".setText()
 	pass
 
 func updateText() -> void:
