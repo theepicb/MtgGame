@@ -14,4 +14,5 @@ func _pressed() -> void:
 	$"../../Pack_Screen".deleteChildren();
 	$"../Inventory_Button".leaveInventory();
 	$"../../Upgrades".inInv = true
+	$"../VScrollBar_Upgrades".show()
 	pass

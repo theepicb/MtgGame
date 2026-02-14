@@ -109,9 +109,9 @@ func firstPing(result: int, response_code: int, headers: PackedStringArray, body
 func process_card_json(json: Dictionary) -> void:
 	if grabbingRarity:
 		var type = json.get("type_line")
-		print(type)
+		print("type: ", type)
 		var value = json.get("name")
-		if typeof(value) == TYPE_STRING and "Land" in value:
+		if typeof(value) == TYPE_STRING and type.contains("Legendary"):
 			Player.signet.append(number)
 		if type != ("Land") && !type.contains("Battle"):
 			print("transform found")

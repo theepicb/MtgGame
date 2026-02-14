@@ -201,7 +201,7 @@ func _unhandled_input(event):
 				var button = Button.new();
 				self.add_child(button)
 				button.size = Vector2(60, 20);
-				button.text = ("sell card: " + cardName)
+				button.text = ("sell card: " + cardName + ", $" + str("%1.2f" % (price * Player.sell_multi)))
 				button.z_index = 101
 				button.position = to_local(Vector2(event.position.x, event.position.y + 5))
 				button.connect("pressed", Callable(self, "sellCard"))
@@ -225,7 +225,7 @@ func deleteChildren():
 func sellCard ():
 	if self.count > 0:
 		self.count -= 1
-		Player.money += self.price
+		Player.money += self.price * Player.sell_multi
 		self.displayUI()
 		if self.count <= 0:
 			if inventory_button.currentInv == 0:

@@ -63,6 +63,8 @@ func _on_upgrade_button_pressed(upgrade: Upgrade):
 
 func deleteChildren():
 	inInv = false
+	$"../CanvasLayer/VScrollBar_Upgrades".visible = false
+	$"../CanvasLayer/VScrollBar_Upgrades".value = 0
 	buttons.clear()
 	for child in get_children():
 		if child is Button:
@@ -80,7 +82,11 @@ func registorPack(PackID: String, packRarity: String):
 		"uncommon": $"../../Pack_Clicker".unlockedUncommonPacks.push_back(PackID)
 		"rare": $"../../Pack_Clicker".unlockedRarePacks.push_back(PackID)
 		"epic": $"../../Pack_Clicker".unlockedEpicPacks.push_back(PackID)
+		"legendary": $"../../Pack_Clicker".unlockedLegendaryPacks.push_back(PackID)
+
+func increaseClickerCombo (amount):
+	$"../Money_Clicker".max_combo += amount
 
 func increaseMPSValue(amount: float):
-	$"../../Money_Clicker".money_per_second += 0.01
+	$"../../Money_Clicker".money_per_second += amount
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene load_steps=43 format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -37,6 +37,8 @@
 [ext_resource type="Script" uid="uid://bnvj64q3rrlkh" path="res://cmm_data.gd" id="24_0odxb"]
 [ext_resource type="Script" uid="uid://dtx0056u00xuf" path="res://rvr_data.gd" id="25_lswn8"]
 [ext_resource type="Script" uid="uid://daj8wlnw04tv3" path="res://mom_data.gd" id="27_xuqvo"]
+[ext_resource type="Script" uid="uid://dc3i685veqydx" path="res://quest_button.gd" id="29_0cp0l"]
+[ext_resource type="Script" uid="uid://favejygnh1yg" path="res://quests.gd" id="30_d2t1y"]
 [ext_resource type="Script" uid="uid://bq5v8wdxek2t" path="res://lci_data.gd" id="34_0rl1p"]
 [ext_resource type="Script" uid="uid://dt1tlh3j6a11c" path="res://mul_data.gd" id="34_ok6jj"]
 [ext_resource type="Script" uid="uid://c2alsqc1mkhuq" path="res://moc_data.gd" id="37_come4"]
@@ -186,6 +188,14 @@ offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("17_ryguw")
+
+[node name="Quest_button" type="Button" parent="CanvasLayer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("29_0cp0l")
+
+[node name="Quests" type="Node" parent="CanvasLayer/Quest_button"]
+script = ExtResource("30_d2t1y")
 
 [node name="Casino_Button" type="Button" parent="."]
 offset_right = 8.0

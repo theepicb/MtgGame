@@ -1,8 +1,10 @@
 extends UpgradeManager
 
+
 func start() -> void:
 	generateNewUpgrade(clickerUpgrades.get("CU0"))
-	generateNewUpgrade(MPSUpgrades.get("MP1"))
+	generateNewUpgrade(MPSUpgrades.get("MP0"))
+	generateNewUpgrade(packClicker.get("PP0"))
 
 
 
@@ -23,11 +25,11 @@ var cardAchUpgrades = {
 ],
 	"smothering tithe": [
 		"smotheringTithe",
-		"increases your coins per click and coins per second by $0.05",
+		"increases your coins per click and coins per second by $0.02",
 		100,
 		func ():
-			$"../../Money_Clicker".money_per_click += 0.05
-			$"../../Money_Clicker".money_per_second += 0.05
+			$"../../Money_Clicker".money_per_click += 0.02
+			$"../../Money_Clicker".money_per_second += 0.02
 			return true
 ],
 
@@ -56,7 +58,6 @@ var clickerUpgrades = {
 	1.5, 
 	func (): 
 		increaseClickerValue(0.01)
-		generateNewUpgrade(clickerUpgrades.get("CU1"))
 		return true],
 "CU1": ["CU1",
 	"increase click value +0.01c per click", 
@@ -77,41 +78,101 @@ var clickerUpgrades = {
 		increaseClickerValue(0.01)
 		return true
 ],
+"CU4": ["CU4",
+	"increase click value +0.01c per click", 
+	14.5,
+	func (): 
+		increaseClickerValue(0.01)
+		return true
+],
 "CC1": ["CC1",
-	"increases your chance to critical click by 3%", 
-	15,
-	func (): 
-		$"../../Money_Clicker".crit_chance += 3
-		return true
-],
-"CC2": ["CC2",
-	"increases your chance to critical click by 3%", 
-	30,
-	func (): 
-		$"../../Money_Clicker".crit_chance += 3
-		return true
-],
-"CC3": ["CC3",
 	"increases your chance to critical click by 2%", 
-	60,
+	10,
 	func (): 
 		$"../../Money_Clicker".crit_chance += 2
 		return true
 ],
+"CC2": ["CC2",
+	"increases your chance to critical click by 2%", 
+	30,
+	func (): 
+		$"../../Money_Clicker".crit_chance += 2
+		return true
+],
+"CC3": ["CC3",
+	"increases your chance to critical click by 3%", 
+	50,
+	func (): 
+		$"../../Money_Clicker".crit_chance += 3
+		return true
+],
 "CM1": ["CM1",
 	"increases your crit multi by +0.2x", 
-	20,
+	15,
 	func (): 
 		$"../../Money_Clicker".crit_multi += 2
 		return true
 ],
 "CM2": ["CM2",
 	"increases your crit multi by +0.2x", 
-	55,
+	30,
 	func (): 
 		$"../../Money_Clicker".crit_multi += 2
 		return true
 ],
+
+"CM3": ["CM3",
+	"increases your crit multi by +0.2x", 
+	50,
+	func (): 
+		$"../../Money_Clicker".crit_multi += 2
+		return true
+],
+
+"CO1": [
+	"C01",
+	"your crit chance is increase by 0.1% of your combo",
+	40,
+	func():
+		$"../../Money_Clicker".combo_crit_chance_multiplier += 1
+		return true
+],
+"CO2": [
+	"C02",
+	"your crit chance is increase by 0.1% of your combo",
+	90,
+	func():
+		$"../../Money_Clicker".combo_crit_chance_multiplier += 1
+		return true
+],
+
+"MC1": [
+	"MC1",
+	"increases your max combo by 10",
+	3,
+	func():
+		$"../../Money_Clicker".max_combo += 10
+		return true
+],
+
+"MC2": [
+	"MC2",
+	"increases your max combo by 10",
+	15,
+	func():
+		$"../../Money_Clicker".max_combo += 10
+		return true
+],
+
+"MC3": [
+	"MC3",
+	"increases your max combo by 30",
+	50,
+	func():
+		$"../../Money_Clicker".max_combo += 30
+		return true
+],
+
 }
 
 
@@ -122,7 +183,7 @@ var packUpgrades = {
 	"PU0": [
 	"PU0",
 	"Unlocks March of the Machine: Aftermath Collector Boosters",
-	10,
+	45,
 	func ():
 		registorPack("mat_col", "uncommon")
 		return true
@@ -144,11 +205,11 @@ var packUpgrades = {
 			return true
 			],
 	"PU3": [
-		"woe_s1",
-		"increases your overall luck",
-		20,
+		"PU3",
+		"Unlocks Wilds of Eldraine Collector Packs",
+		55,
 		func ():
-			Player.luck += 0.01
+			registorPack("woe_col", "epic")
 			return true
 ],
 	"PU4": [
@@ -327,20 +388,61 @@ var playerUpgrades = {
 		return true
 ],
 "Pl2": [
-	"P21",
+	"P2",
+	"slightly increases your over all luck",
+	50,
+	func ():
+		Player.luck += 0.015
+		return true
+],
+"Pl3": [
+	"P3",
 	"slightly increases your over all luck",
 	80,
 	func ():
 		Player.luck += 0.015
 		return true
 ],
+"SM1": [
+	"SM1",
+	"increases you card sell value by +0.05%",
+	5,
+	func ():
+		Player.sell_multi += 0.05
+		return true
+],
+
+"SM2": [
+	"SM2",
+	"increases you card sell value by +0.05%",
+	17,
+	func ():
+		Player.sell_multi += 0.05
+		return true
+],
+"SM3": [
+	"SM3",
+	"increases you card sell value by +0.05%",
+	32,
+	func ():
+		Player.sell_multi += 0.05
+		return true
+],
 }
 
 var packClicker = {
+"PP0": [
+	"PP0",
+	"slightly increases your pack progress per click",
+	3,
+	func ():
+		$"../../Pack_Clicker".completionPerClick += 0.5
+		return true
+],
 "PP1": [
 	"PP1",
 	"slightly increases your pack progress per click",
-	5,
+	8,
 	func ():
 		$"../../Pack_Clicker".completionPerClick += 0.5
 		return true
@@ -348,43 +450,70 @@ var packClicker = {
 "PA1": [
 	"PA1",
 	"slightly increases your pack progress per second",
-	15,
+	7.5,
 	func ():
-		$"../../Pack_Clicker".autoCompletion += 0.1
+		$"../../Pack_Clicker".autoCompletion += 0.2
+		return true
+],
+"PA2": [
+	"PA2",
+	"slightly increases your pack progress per second",
+	20,
+	func ():
+		$"../../Pack_Clicker".autoCompletion += 0.2
 		return true
 ],
 "PM1": [
 	"PM1",
-	"increases your max progression for the pack clicker",
+	"increases your max progression for the pack clicker by 10%",
 	7.5,
 	func ():
 		$"../../Pack_Clicker".maxCompletion += 10
 		return true
 ],
+
+"PM2": [
+	"PM2",
+	"increases your max progression for the pack clicker by 10%",
+	20,
+	func ():
+		$"../../Pack_Clicker".maxCompletion += 10
+		return true
+],
+
 "PL1": [
 	"PL1",
-	"increases your luck for the pack clicker",
+	"increases your luck for the pack clicker by 1",
 	7.5,
 	func ():
-		$"../../Pack_Clicker".packLuck += 1
+		$"../../Pack_Clicker".chanceLuck += 1
 		return true
 ],
 "PL2": [
 	"PL2",
-	"increases your luck for the pack clicker",
+	"increases your luck for the pack clicker by 1",
 	12.5,
 	func ():
-		$"../../Pack_Clicker".packLuck += 1
+		$"../../Pack_Clicker".chanceLuck += 1
 		return true
 ],
 "PL3": [
 	"PL3",
-	"increases your luck for the pack clicker",
+	"increases your luck for the pack clicker by 1",
 	17.5,
 	func ():
-		$"../../Pack_Clicker".packLuck += 1
+		$"../../Pack_Clicker".chanceLuck += 1
 		return true
 ],
+"PL4": [
+	"PL4",
+	"increases your luck for the pack clicker by 2",
+	25,
+	func ():
+		$"../../Pack_Clicker".chanceLuck += 2
+		return true
+],
+
 }
 
 func returnDictionaryAvaliable ():
@@ -416,9 +545,7 @@ func createUpgrades(saved_array: Array):
 			generateNewUpgrade(combined.get(savedID))
 
 func createPurchasedUpgrades(saved_array: Array):
-	
 	var combined = {}
-
 	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, packOpeningUpgrades, playerUpgrades, packClicker]:
 		for key in d.keys():
 			combined[key] = d[key]

@@ -50,10 +50,10 @@ var texturedMythic = [1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/cmm")
-	for x in range(0, 0):
-		#grabCardExtra(x, 4, 0, 0, false, true)
+	for x in range(0, 5):
+		grabCardExtra(x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
-	#grabCardExtra(1, 0, 0, 0, true, false)
+	grabCardExtra(1, 0, 0, 0, true, false)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:

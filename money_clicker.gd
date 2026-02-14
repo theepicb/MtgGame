@@ -5,10 +5,15 @@ var money_per_click = 0.01;
 var money_per_second = 0;
 var money_multiplier = 1;
 
+var combo_crit_chance_multiplier = 0
+var combo_crit_multi_multiplier = 0
+
 var timeoutTime = 1;
 
 var combo_wait_time = 1;
 var combo = 0;
+
+var max_combo = 100;
 
 var crit_chance = 0
 var crit_multi = 2
@@ -16,6 +21,35 @@ var crit_multi = 2
 var doubler = 0;
 
 var rhysticUpgrade = false
+
+func setDictionary (dict: Dictionary):
+	money_per_click = dict.get("money_per_click", 0.01)
+	money_per_second = dict.get("money_per_second", 0)
+	money_multiplier = dict.get("money_multiplier", 0)
+	combo_crit_chance_multiplier = dict.get("combo_crit_chance_multiplier", 0)
+	combo_crit_multi_multiplier = dict.get("combo_crit_multi_multiplier", 0)
+	combo_wait_time = dict.get("combo_wait_time", 1)
+	crit_chance = dict.get("crit_chance", 0)
+	crit_multi = dict.get("crit_multi", 2)
+	doubler = dict.get("doubler", 0)
+	rhysticUpgrade = dict.get("rhysticUpgrade", false)
+	pass
+
+func returnDictionary () -> Dictionary:
+	var dict = {
+		"money_per_click": money_per_click,
+		"money_per_second": money_per_second,
+		"money_multiplier": money_multiplier,
+		"combo_crit_chance_multiplier": combo_crit_chance_multiplier,
+		"combo_crit_multi_multiplier": combo_crit_multi_multiplier,
+		"combo_wait_time": combo_wait_time,
+		"crit_chance": crit_chance,
+		"crit_multi": crit_multi,
+		"doubler": doubler,
+		"rhysticUpgrade": rhysticUpgrade
+	}
+	
+	return dict
 
 @onready var combo_timer = Timer.new();
 signal update_all(delta)
@@ -64,11 +98,11 @@ func _comboTimer_timeout() -> void:
 	pass
 
 func _pressed() -> void:
-	if rhysticUpgrade && $"../Pack_Data".getLuck() >= 80:
+	if rhysticUpgrade && randf() >= 0.8:
 		$"../Pack_Clicker"._pressed()
 	combo_timer.stop();
-	if randf_range(0, 100) <= crit_chance:
-		Player.money += (money_per_click * (1 + float(combo) / 1000)) * (money_multiplier * crit_multi);
+	if randf_range(0, 100) <= crit_chance * 1.0 + (float(combo) / 100.0 * combo_crit_chance_multiplier):
+		Player.money += (money_per_click * 1.0 + (float(combo) / 1000.0)) * (money_multiplier * crit_multi * 1.0 + (float(combo / 10000.0 * combo_crit_multi_multiplier)));
 		var popup = money_popup.new()
 		add_child(popup)
 		popup.init((money_per_click * (1 + float(combo) / 1000)) * (money_multiplier) * (crit_multi), true, true)
@@ -77,9 +111,12 @@ func _pressed() -> void:
 		var popup = money_popup.new()  # money_popup is the script/class
 		add_child(popup)
 		popup.init((money_per_click * (1 + float(combo)/1000)) * money_multiplier, false, true)
-		print("mpc:", money_per_click, " combo:", combo, " mm:", money_multiplier, " cm:", crit_multi, " cc:", crit_chance)
+		print("mpc:", money_per_click, " combo:", combo, " mm:", money_multiplier, " cm:", crit_multi * 1.0 + (float(combo / 10000.0 * combo_crit_multi_multiplier)), " cc:", crit_chance * 1.0 + (float(combo) / 100.0 * combo_crit_chance_multiplier))
 		
-	combo += 1;
+	if combo < max_combo:
+		combo += 1;
+	else:
+		combo = max_combo
 	combo_timer.start();
 	updateText();
 	$"../CanvasLayer/level_Label".setText()

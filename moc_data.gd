@@ -13,9 +13,9 @@ var extendedMythic = [83, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97]
 func _ready() -> void:
 	$"../..".ensure_directory_exists("user://Cards/moc")
 	for x in range(0, 0):
-		grabCardExtra(x, 0, 0, 0, false, true, false)
+		#grabCardExtra(x, 0, 0, 0, false, true, false)
 		await get_tree().create_timer(0.5).timeout
-	grabCardExtra(1, 0, 0, 0, true, true, false)
+	#grabCardExtra(1, 0, 0, 0, true, true, false)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())

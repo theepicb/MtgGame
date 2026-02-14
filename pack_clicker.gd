@@ -25,18 +25,25 @@ func returnDictionary()->Dictionary:
 		"autoCompletion": autoCompletion,
 		"maxCompletion": maxCompletion,
 		"chances": chances,
-		"chanceLuck": chanceLuck
+		"chanceLuck": chanceLuck,
+		"unlockedPacks": {"common": unlockedCommonPacks, "uncommon": unlockedUncommonPacks, "rare": unlockedRarePacks, "epic": unlockedEpicPacks, "legendary": unlockedLegendaryPacks,}
 	}
 	print(dict)
 	return dict
 
 func setDictionary(dict: Dictionary):
 	print("dictionary: ", dict)
-	completion = dict.get("completion")
-	completionPerClick = dict.get("completionPerClick")
-	autoCompletion = dict.get("autoCompletion")
-	maxCompletion = dict.get("maxCompletion")
+	completion = dict.get("completion", 0)
+	completionPerClick = dict.get("completionPerClick", 1)
+	autoCompletion = dict.get("autoCompletion", 0)
+	maxCompletion = dict.get("maxCompletion", 100)
 	chanceLuck = dict.get("chanceLuck", 0)
+	var packs = dict.get("unlockedPacks", {})
+	unlockedCommonPacks = packs.get("common", [])
+	unlockedUncommonPacks = packs.get("uncommon", [])
+	unlockedRarePacks = packs.get("rare", [])
+	unlockedEpicPacks = packs.get("epic", [])
+	unlockedLegendaryPacks = packs.get("legendary", [])
 	if completion >= 100:
 		complete_Button = true
 		createClaimButton()
@@ -92,6 +99,7 @@ func claimButtonPressed():
 	
 	var outCome = getRarityByWeight(["common", "uncommon", "rare", "legendary"], returnChances())
 	
+	print(returnChances(), "com: ", unlockedCommonPacks)
 	
 	match outCome:
 		"common":

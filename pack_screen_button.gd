@@ -3,7 +3,7 @@ extends Button
 func _ready() -> void:
 	position = Vector2(2, 125);
 	size = Vector2(180, 60);
-	text = "Packs";
+	text = "Buy Packs";
 	pass
 
 func _pressed() -> void:

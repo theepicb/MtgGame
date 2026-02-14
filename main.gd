@@ -33,14 +33,7 @@ func _notification(what):
 func save_game():
 	var data = {
 		"version": version,
-		"Money_Clicker": {
-			"money_per_click": $Money_Clicker.money_per_click,
-			"combo_wait_time": $Money_Clicker.combo_wait_time,
-			"money_per_second": $Money_Clicker.money_per_second,
-			"money_multiplier": $Money_Clicker.money_multiplier,
-			"money_crit_chance": $Money_Clicker.crit_chance,
-			"money_crit_mult": $Money_Clicker.crit_multi,
-		},
+		"Money_Clicker": $Money_Clicker.returnDictionary(),
 		"pack_clicker": $Pack_Clicker.returnDictionary(),
 		"Player": Player.returnDictionary(),
 		"Upgrades": {
@@ -90,12 +83,7 @@ func implamentData (data: Dictionary):
 	$Upgrades/Upgrade_Data.createPurchasedUpgrades(purchasedUpgrades)
 	$Achievements.setDictionary(data["Achievements"])
 	$Pack_Screen.setDictionary(data["Packs"])
-	$Money_Clicker.money_per_click = data["Money_Clicker"].get("money_per_click", 0.01)
-	$Money_Clicker.combo_wait_time = data["Money_Clicker"].get("combo_wait_time", 1)
-	$Money_Clicker.money_per_second = data["Money_Clicker"].get("money_per_second", 0)
-	$Money_Clicker.money_multiplier = data["Money_Clicker"].get("money_multiplier", 1)
-	$Money_Clicker.crit_chance = data["Money_Clicker"].get("money_crit_chance", 0)
-	$Money_Clicker.crit_multi = data["Money_Clicker"].get("money_crit_mult", 2)
+	$Money_Clicker.setDictionary(data["Money_Clicker"])
 	$Pack_Data.setDictionary(data["PackData"])
 	$Pack_Clicker.setDictionary(data["pack_clicker"])
 	pass
@@ -136,7 +124,14 @@ func _ready() -> void:
 	$CanvasLayer/Inventory_Button.visible = true
 	$CanvasLayer/level_Label.visible = true
 	#$CanvasLayer/Upgrade_Tree_button.visible = true
+	listChildren(self, 0)
 	pass
+
+func listChildren (node: Node, layer: int):
+	print("-".repeat(layer),  node.name)
+	for child in node.get_children():
+		listChildren(child, layer + 1)
+
 
 func updateData(dataVersion):
 	while dataVersion != version:

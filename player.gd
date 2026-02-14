@@ -1,6 +1,6 @@
 extends Node2D
 
-var money = 50000;
+var money = 0;
 var luck = 0;
 
 var tix = 0;
@@ -8,7 +8,7 @@ var tix = 0;
 var level = 1;
 var xpToLevelUp = [0, 5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
 var xp = 0;
-
+var sell_multi = 0.25
 
 var common = []
 var uncommon = []
@@ -25,15 +25,27 @@ func levelUp (_level: int):
 			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU1"))
 			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP1"))
 			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC1"))
-		3:
 			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PP1"))
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU2"))
+			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("SM1"))
+		3:
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("MC1"))
+			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP2"))
+			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PM1"))
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU6"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU4"))
 		4:
 			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC2"))
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU0"))
+			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("SM2"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU1"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CM1"))
+			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("MC2"))
 		5:
 			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU3"))
-		
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU2"))
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU4"))
+			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("Pl1"))
+		6:
+			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU7"))
 	levelLabel.setText()
 			
 
@@ -102,6 +114,7 @@ func returnDictionary() -> Dictionary:
 		"money": money,
 		"xp": xp,
 		"level": level,
+		"sell_multi": sell_multi,
 	}
 	return dict
 
@@ -115,6 +128,7 @@ func setDictionary (dict: Dictionary):
 	var bin = dict.get("binder", [])
 	loadBinder(bin)
 	Player.IDbinder = dict.get("IDbinder", [])
+	Player.sell_multi = dict.get(sell_multi, 0.25)
 	pass
 
 func loadBinder(list: Array):

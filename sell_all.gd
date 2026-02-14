@@ -10,7 +10,7 @@ func _pressed() -> void:
 	if $"../Inventory_Button".currentInv == 0:
 		var amount = 0
 		for card in Player.cardInventory:
-			amount += card.price * card.count
+			amount += card.price * card.count * Player.sell_multi
 			card.visible = false
 		Player.money += amount
 		Player.cardInventory.clear()
