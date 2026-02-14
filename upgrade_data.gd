@@ -241,7 +241,7 @@ var packUpgrades = {
 		"unlocks march of the machine set packs",
 		30,
 		func ():
-			registorPack("mom_draft", "common")
+			registorPack("mom_set", "uncommon")
 			return true
 ],
 "PU8": [
