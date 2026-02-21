@@ -66,15 +66,13 @@ func achievement_handler(name: String, ID: int):
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d3"))
 		"woe_set":
 			match ID:
-				0: 
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packUpgrades.get("PU3"))
-				1:
+				0:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s0"))
-				2:
+				1:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s1"))
-				3:
+				2:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s2"))
-				4:
+				3:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s3"))
 			
 var foilAch = ["confettiFoil"]

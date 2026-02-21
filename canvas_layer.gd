@@ -6,3 +6,4 @@ func _ready() -> void:
 func resetInv():
 	$Inventory_Button.loadInventory()
 	
+	

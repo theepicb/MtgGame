@@ -52,7 +52,7 @@ func setDictionary(dict: Dictionary):
 func _ready() -> void:
 	size = Vector2(600, 220)
 	position = Vector2((get_viewport_rect().size.x / 2) - 300, (get_viewport_rect().size.y / 2) );
-	text = "Click to get packs! \n" + str(completion) + "/100%";
+	text = "Click to get packs! \n" + str(completion) + "/" + str(maxCompletion) + "%";
 	
 	pass
 

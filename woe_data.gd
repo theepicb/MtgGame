@@ -15,29 +15,30 @@ var extendedRare = [323, 324, 326, 327, 328, 329, 331, 332, 333, 334, 335, 337, 
 var extendedMythic = [325, 330, 336, 350, 354, 360, 363, 366]
 
 var draft_luck = 0
-var draft_conf_luck = 0
 var set_luck = 0
 var set_bonus_foil = 0
 var collector_luck = 0;
 var confetti_luck = 0;
 
+var list_Chance = 0
+
 func returnDictionary () -> Dictionary:
 	var dictionary = {}
 	dictionary["draft"] = draft_luck
-	dictionary["draft_con"] = draft_conf_luck
 	dictionary["set"] = set_luck
 	dictionary["collector"] = collector_luck
 	dictionary["set_bonus_foil"] = set_bonus_foil
 	dictionary["confetti"] = confetti_luck
+	dictionary["list_chance"] = list_Chance
 	return dictionary
 
 func setDictionary (dict: Dictionary) -> void:
-	draft_luck = dict.get("draft", 1)
-	set_luck = dict.get("set", 1)
-	collector_luck = dict.get("collector", 1)
-	confetti_luck = dict.get("confetti", 1)
+	draft_luck = dict.get("draft", 0)
+	set_luck = dict.get("set", 0)
+	collector_luck = dict.get("collector", 0)
+	confetti_luck = dict.get("confetti", 0)
 	set_bonus_foil = dict.get("set_bonus_foil", 0)
-	draft_conf_luck = dict.get("draft_con", 0)
+	list_Chance = dict.get("list_chance", 0)
 	pass
 
 func _ready() -> void:
@@ -60,6 +61,10 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func createDraftPack () -> void:
+	var list
+	if $"..".getLuck() >= 0:
+		list = true
+	else: list = false
 	$"../../Achievements".outsideCall("woe_draft")
 	var counter = 0
 	for x in 9:
@@ -73,21 +78,15 @@ func createDraftPack () -> void:
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
-	var confetti = false
-	if (randf_range(0, 100) <= draft_conf_luck + Player.luck + draft_luck && draft_conf_luck > 0):
-		confetti = true
 	
 	if ($"..".getLuck() >= 84 - draft_luck):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !confetti)
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
 	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !confetti)
-	
-	if confetti:
-		var arr = getRarityByWeight(["rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [49.8, 6.6, 2.2, 3.4, 1.1 + draft_luck + Player.luck, 1.7 + draft_luck + Player.luck])
-		if (arr == "confettiRare" || arr == "confettiMythic"):
-			$Wot_data.getWithRarity(arr, 3, counter, true)
-		else:
-			$Wot_data.getWithRarity(arr, getRarityByWeight([0, 1], [90, 10 + Player.luck + draft_luck]), counter, true)
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+	counter += 1
+	if list:
+		var list_card = P_list.new(counter, true)
+		add_child(list_card)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -176,6 +175,11 @@ func createSetPack () -> void:
 	$"../../Achievements".outsideCall("woe_set")
 	var odds
 	var packs
+	var list
+	if randi() - set_luck <= list_Chance:
+		list = true
+	else:
+		list = false
 	var counter = 0
 	for x in 3:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -222,13 +226,16 @@ func createSetPack () -> void:
 		counter += 1
 	
 	$Wot_data.grabETCardDraft(counter, 0, false)
-	
 	counter += 1
 	
 	if ($"..".getLuck() >= 84):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
 	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+	
+	if list:
+		var listCard = P_list.new(counter, true)
+		add_child(listCard)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:

@@ -16,6 +16,7 @@ class Upgrade:
 		description = p_desc
 		effect = p_effect
 		
+		
 var available_upgrades: Array[Upgrade] = []  # Upgrades not yet purchased
 var purchased_upgrades: Array[Upgrade] = []  # Track purchased upgrades
 
@@ -42,8 +43,8 @@ func create_upgrade_buttons():
 		var upgrade = available_upgrades[i]
 		var button = Button.new()
 		button.text = "%s - $%.2f" % [upgrade.description, upgrade.price]
-		button.position = Vector2(210, 20 + i * 70)
-		button.size = Vector2(700, 65)
+		button.position = Vector2(210, 20 + i * 90)
+		button.size = Vector2(get_viewport_rect().size.x - 310, 85)
 		button.pressed.connect(_on_upgrade_button_pressed.bind(upgrade))
 		add_child(button)
 		buttons.append(button);

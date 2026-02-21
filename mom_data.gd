@@ -42,7 +42,7 @@ var extendedMythic = [347, 375]
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/mom")
 	for x in range(0,0):
-		grabCardExtra(x, 5, 0, 0, false, true, false)
+		#grabCardExtra(x, 5, 0, 0, false, true, false)
 		await get_tree().create_timer(0.5).timeout
 	#grabCardExtra(1, 0, 0, 0, true, true, false)
 	await HttpData.Finished

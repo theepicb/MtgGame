@@ -125,6 +125,7 @@ func _ready() -> void:
 	$CanvasLayer/level_Label.visible = true
 	#$CanvasLayer/Upgrade_Tree_button.visible = true
 	listChildren(self, 0)
+	
 	pass
 
 func listChildren (node: Node, layer: int):

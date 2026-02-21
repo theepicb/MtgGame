@@ -249,7 +249,7 @@ var packUpgrades = {
 		"unlocks march of the machine collector packs",
 		80,
 		func ():
-			registorPack("mom_draft", "epic")
+			registorPack("mom_col", "epic")
 			return true
 ],
 }
@@ -290,10 +290,11 @@ var packOpeningUpgrades = {
 	##################################################
 	"woe_d0": [
 		"woe_d0",
-		"increases your odds with wilds of eldraine draft packs slightly",
+		"increases your odds with wilds of eldraine draft packs slightly and increases your odds to get a card off the list",
 		10,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.02
+			$"../../Pack_Data/Woe_data".list_chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -303,6 +304,7 @@ var packOpeningUpgrades = {
 		25,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.02
+			$"../../Pack_Data/Woe_data".list_chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -311,27 +313,29 @@ var packOpeningUpgrades = {
 		"increases your odds with wilds of eldraine draft packs by a lot",
 		50,
 		func ():
-			$"../../Pack_Data/Woe_data".draft_luck += 0.02
+			$"../../Pack_Data/Woe_data".draft_luck += 0.03
+			$"../../Pack_Data/Woe_data".list_chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
 "woe_d3": [
 	"woe_d3",
 	"decreases price of wilds of eldraine draft packs by $1.50 and increases your luck further",
-	65,
+	50,
 	func ():
 		for pack in PackManager.instance.packs:
 			if pack.id == "woe_draft":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".draft_luck += 0.02
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		return true
 ],
 "woe_d4": [
 	"woe_d4",
-	"adds a slight chance to get anime cards or confetti foils at the end of the pack",
+	"increases your odds to get a list card even more",
 	120,
 	func ():
-		$"../../Pack_Data/Woe_data".draft_conf_luck += 1;
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		return true
 ],
 
@@ -344,6 +348,7 @@ var packOpeningUpgrades = {
 	12.5,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		return true
 ],
 "woe_s1": [
@@ -352,6 +357,7 @@ var packOpeningUpgrades = {
 	30,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1
 		return true
 ],
@@ -361,6 +367,7 @@ var packOpeningUpgrades = {
 	60,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1.5
 		return true
 ],
@@ -373,6 +380,7 @@ var packOpeningUpgrades = {
 			if pack.id == "woe_set":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".set_luck += 0.02
+		$"../../Pack_Data/Woe_data".list_chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 2.5
 		return true
 ]
