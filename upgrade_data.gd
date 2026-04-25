@@ -294,7 +294,7 @@ var packOpeningUpgrades = {
 		10,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.02
-			$"../../Pack_Data/Woe_data".list_chance += 2.5
+			$"../../Pack_Data/Woe_data".list_Chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -304,7 +304,7 @@ var packOpeningUpgrades = {
 		25,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.02
-			$"../../Pack_Data/Woe_data".list_chance += 2.5
+			$"../../Pack_Data/Woe_data".list_Chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -314,7 +314,7 @@ var packOpeningUpgrades = {
 		50,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.03
-			$"../../Pack_Data/Woe_data".list_chance += 2.5
+			$"../../Pack_Data/Woe_data".list_Chance += 2.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -327,7 +327,7 @@ var packOpeningUpgrades = {
 			if pack.id == "woe_draft":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".draft_luck += 0.02
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		return true
 ],
 "woe_d4": [
@@ -335,7 +335,7 @@ var packOpeningUpgrades = {
 	"increases your odds to get a list card even more",
 	120,
 	func ():
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		return true
 ],
 
@@ -348,7 +348,7 @@ var packOpeningUpgrades = {
 	12.5,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		return true
 ],
 "woe_s1": [
@@ -357,7 +357,7 @@ var packOpeningUpgrades = {
 	30,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1
 		return true
 ],
@@ -367,7 +367,7 @@ var packOpeningUpgrades = {
 	60,
 	func ():
 		$"../../Pack_Data/Woe_data".set_luck += 0.01
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 1.5
 		return true
 ],
@@ -380,7 +380,7 @@ var packOpeningUpgrades = {
 			if pack.id == "woe_set":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".set_luck += 0.02
-		$"../../Pack_Data/Woe_data".list_chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 2.5
 		return true
 ]

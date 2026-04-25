@@ -2,7 +2,7 @@ extends Node
 class_name Card_Grabber
 
 var cardID: String
-var number: int
+var number: String
 @warning_ignore("shadowed_variable_base_class")
 var set_name: String
 var isFoil: int
@@ -30,7 +30,7 @@ var serialMaxNum
 
 func _init(number, set_name: String, foilEnum: int, save_path: String, position: Vector2, isLast: bool, gettingRarity: bool = false, isSerial:bool = false, serialNum: int = 0, serialMaxNum:int = 0) -> void:
 	# defining variables
-	self.number = number;
+	self.number = str(number);
 	self.set_name = set_name;
 	self.isFoil = foilEnum;
 	self.save_path = save_path;
@@ -56,12 +56,12 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 	pass
 
 func generateCard () -> void:
-	if (!Player.IDInventory.has(self.cardID) || self.isSerial || self.grabbingRarity):
+	if (!Player.cardInventory.has(self.cardID) || self.isSerial || self.grabbingRarity):
+		print("new card found")
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		if !grabbingRarity:
-			Player.IDInventory.push_back(new_card.ID);
-			Player.cardInventory.push_back(new_card)
+			Player.cardInventory[cardID] = (new_card)
 			Player.cardsToShow.push_back(new_card);
 		startPing();
 		pass
@@ -111,11 +111,13 @@ func process_card_json(json: Dictionary) -> void:
 		var type = json.get("type_line")
 		print("type: ", type)
 		var value = json.get("name")
-		if typeof(value) == TYPE_STRING and type.contains("Legendary"):
-			Player.signet.append(number)
-		if type != ("Land") && !type.contains("Battle"):
-			print("transform found")
-		#else:
+		if typeof(value) == TYPE_STRING and type.contains("//"):
+			match json.get("rarity"):
+				"common": Player.common_trans.append(number)
+				"uncommon": Player.uncommon_trans.append(number)
+				"rare": Player.rare_trans.append(number)
+				"mythic": Player.mythic_trans.append(number)
+		else:
 			match json.get("rarity"):
 				"common": Player.common.append(number)
 				"uncommon": Player.uncommon.append(number)
@@ -151,7 +153,7 @@ func process_card_json(json: Dictionary) -> void:
 			var front_face = card_faces[0]
 			if front_face.has("image_uris"):
 				image_uris = front_face["image_uris"]
-
+	print(json)
 	if not image_uris.has("png"):
 		push_error("No PNG image available for this card")
 		return
@@ -226,7 +228,7 @@ func startPing ():
 	httpRequest1 = HTTPRequest.new();
 	HttpData.add_child(httpRequest1);
 	httpRequest1.request_completed.connect(firstPing);
-	var url = "https://api.scryfall.com/cards/%s/%d?lang=en" % [set_name.to_lower(), number]
+	var url = "https://api.scryfall.com/cards/%s/%s/en" % [set_name.to_lower(), number]
 	httpRequest1.request(url);
 	pass
 
@@ -256,11 +258,15 @@ func serialPriceAduster (number, price) -> float:
 	return price + sin(serialNum)
 
 func get_safe_float(prices: Dictionary, key: String, ID: String) -> float:
+	
+	if self.cardID == "spg17af":
+		return 3111.74
 	var value = prices.get(key)
 
 	# If it's null or missing
 	if value == null:
 		push_error("Price key '%s' is null for card ID: %s" % [key, self.cardID])
+		push_error(prices)
 		return 0.0
 
 	# If it's a string, check if it's numeric

@@ -126,6 +126,10 @@ func open_pack_contents(pack_id: String):
 			$"../../Pack_Data/Mom_data".createSetPack()
 		"mom_col":
 			$"../../Pack_Data/Mom_data".createCollectorPack()
+		"lci_draft":
+			$"../../Pack_Data/Lci_data".createDraftPack()
+		"lci_set":
+			$"../../Pack_Data/Lci_data".createSetPack()
 	
 	# You might call something like:
 	# card_reward_system.generate_rewards(pack_id)

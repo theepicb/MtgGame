@@ -1,7 +1,8 @@
 extends VScrollBar
 
+
 func _ready() -> void:
-	visible = false
+
 
 	anchor_left = 1
 	anchor_right = 1
@@ -15,8 +16,6 @@ func _ready() -> void:
 
 	connect("value_changed", Callable(self, "_on_value_changed"))
 
-
-
 func _on_value_changed(amount: float) -> void:
-	var inv = $"../Inventory_Button"
-	inv.set_scroll(amount)
+	var openScreen = $"../Pack_Screen"
+	openScreen.set_scroll(amount)

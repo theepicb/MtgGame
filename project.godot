@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 HttpData="*res://http_data.gd"
 Upgrades="*res://upgrades.gd"
 Player="*res://player.gd"
+Lib="*res://pack_library.gd"
 
 [rendering]
 

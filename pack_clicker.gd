@@ -87,7 +87,7 @@ func createClaimButton():
 	claimButton.position = Vector2((get_viewport_rect().size.x / 2) - 360, (get_viewport_rect().size.y / 2) - 100);
 
 func updateText():
-	text = "Click to get packs! \n" + str(completion) + "/100%";
+	text = "Click to get packs! \n" + str(completion) + "/" + str(maxCompletion) + "%";
 	pass
 	
 func claimButtonPressed():

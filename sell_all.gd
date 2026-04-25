@@ -7,12 +7,12 @@ func _ready() -> void:
 	text = "Sell All"
 
 func _pressed() -> void:
-	if $"../Inventory_Button".currentInv == 0:
+	if $"../Inventory_Button".inventoryScreen == 0:
 		var amount = 0
-		for card in Player.cardInventory:
+		for key in Player.cardInventory:
+			var card = Player.cardInventory[key]
 			amount += card.price * card.count * Player.sell_multi
 			card.visible = false
 		Player.money += amount
 		Player.cardInventory.clear()
-		Player.IDInventory.clear()
 		$"../Inventory_Button".loadInventory()

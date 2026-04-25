@@ -14,9 +14,15 @@ func _pressed():
 	$"../Open_Packs_Screen".showUI()
 	visible = false;
 	for x in Player.cardsToDelete:
-		for child in Player.cardInventory:
-			if x.ID == child.ID:
-				child.count += 1
+		if x is VBoxContainer:
+			Player.cardsToDelete.erase(x)
+			if is_instance_valid(x):
+				x.queue_free()
+			continue
+		
+		if Player.cardInventory.has(x.ID):
+			Player.cardInventory[x.ID].count += 1
+				
 	for child in Player.cardsToDelete:
 		if is_instance_valid(child):
 			child.queue_free()

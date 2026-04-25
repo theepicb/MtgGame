@@ -197,7 +197,7 @@ func _unhandled_input(event):
 				child.queue_free()
 		var click_pos = event.position
 		if get_rect().has_point(to_local(click_pos)):
-			if inventory_button.currentInv == 0:
+			if inventory_button.inventoryScreen == 0:
 				var button = Button.new();
 				self.add_child(button)
 				button.size = Vector2(60, 20);
@@ -208,10 +208,10 @@ func _unhandled_input(event):
 			var moveButton = Button.new()
 			self.add_child(moveButton)
 			moveButton.size = Vector2(60, 20);
-			if inventory_button.currentInv == 0:
+			if inventory_button.inventoryScreen == 0:
 				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 40))
 				moveButton.text = "move to binder"
-			elif inventory_button.currentInv == 1:
+			elif inventory_button.inventoryScreen == 1:
 				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 5))
 				moveButton.text = "move to inventory"
 			moveButton.z_index = 101
@@ -244,36 +244,31 @@ func sellCard ():
 			self.queue_free()
 
 func moveCard():
-	var moving_to_binder = inventory_button.currentInv == 0
+	var moving_to_binder = inventory_button.inventoryScreen == 0
 
 	var source_list = Player.cardInventory if moving_to_binder else Player.binder
 	var target_list = Player.binder if moving_to_binder else Player.cardInventory
-	var target_id_list = Player.IDbinder if moving_to_binder else Player.IDInventory
-	var source_id_list = Player.IDInventory if moving_to_binder else Player.IDbinder
+
 
 	# ---- 1. Try to add to existing stack in target ----
-	var found = false
-	if target_id_list.has(self.ID):
-		for item in target_list:
-			if item.ID == self.ID:
-				item.count += 1
-				found = true
-				break
+	if target_list.has(self.ID):
+		target_list[self.ID].amount += 1
+		return
 
 	# ---- 2. If not found, create a new card ----
-	if not found:
-		print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
-		var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
-		if self.serial:
-			new_card.serial_number = self.serial_number
-			new_card.max_number = self.max_number
-			new_card.serial = true
-		new_card.call_deferred("loadImage")
-		new_card.cardName = self.cardName
-		new_card.price = self.price
-		Player.add_child(new_card)
-		target_list.append(new_card)
-		target_id_list.append(self.ID)
+	
+	print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
+	var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
+	if self.serial:
+		new_card.serial_number = self.serial_number
+		new_card.max_number = self.max_number
+		new_card.serial = true
+	new_card.call_deferred("loadImage")
+	new_card.cardName = self.cardName
+	new_card.price = self.price
+	Player.add_child(new_card)
+	target_list[self.ID] = new_card
+
 
 	# ---- 3. Reduce the original card ----
 	self.count -= 1
@@ -281,22 +276,18 @@ func moveCard():
 	# ---- 4. Remove original card if empty ----
 	if self.count == 0:
 		# Remove from source lists
-		source_list = source_list.filter(func(item): return item.ID != self.ID)
-		source_id_list = source_id_list.filter(func(id): return id != self.ID)
+		source_list.erase(self.ID)
 
-		# Assign back to Player arrays (important!)
+
+		#
 		if moving_to_binder:
 			Player.cardInventory = source_list
-			Player.IDInventory = source_id_list
 		else:
 			Player.binder = source_list
-			Player.IDbinder = source_id_list
-		for item in Player.binder:
-			if item.ID == self.ID:
-				print("ID copy found with self count: ", self.count)
 		
-		inventory_button.choseScreenReload()
+		
 		inventory_button.loadInventory()
+		
 		self.queue_free()
 	
 

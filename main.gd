@@ -11,6 +11,8 @@ func _notification(what):
 		print("Game is closing...")
 		# moves cards from pack opening to inventory
 		for card in Player.cardsToShow:
+			if !(card is Sprite2D):
+				continue
 			var found = false
 			for child in Player.cardInventory:
 				if card.ID == child.ID:

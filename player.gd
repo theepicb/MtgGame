@@ -2,6 +2,7 @@ extends Node2D
 
 var money = 0;
 var luck = 0;
+var spg_luck = 2
 
 var tix = 0;
 
@@ -16,6 +17,10 @@ var rare = []
 var mythic = []
 var signet = []
 var phy_transform = []
+var common_trans = []
+var uncommon_trans = []
+var rare_trans = []
+var mythic_trans = []
 
 @onready var upgradeData = get_node("/root/Main/Upgrades/Upgrade_Data")
 @onready var levelLabel = get_node("/root/Main/CanvasLayer/level_Label")
@@ -84,9 +89,8 @@ func reloadInv():
 	
 	canvas_layer.resetInv()
 
-var IDInventory = [];
-var cardInventory = [];
-var binder = []
+var cardInventory = {};
+var binder = {}
 var IDbinder = []
 var cardsToShow = [];
 var cardsToDelete = [];
@@ -100,21 +104,28 @@ func grabCard (number: int, foilEnum: int, posX: float, posY: float, isLast: boo
 	pass
 
 func returnDictionary() -> Dictionary:
+	print()
 	var inv = []
 	var bin = []
-	for item in Player.cardInventory:
-		inv.append(item.returnDictionary())
-	for item in Player.binder:
-		bin.append(item.returnDictionary())
+	for key in Player.binder:
+		var value = Player.binder[key]
+		bin.append(value.returnDictionary())
+		print("return value: ", value.returnDictionary())
+	
+	for key in Player.cardInventory:
+		var value = Player.cardInventory[key]
+		inv.append(value.returnDictionary())
+		print("return value: ", value.returnDictionary())
+	
+	print("bin: ", bin)
 	var dict = {
 		"inventory": inv,
 		"binder": bin,
-		"IDinv": IDInventory,
-		"IDbinder": IDbinder,
 		"money": money,
 		"xp": xp,
 		"level": level,
 		"sell_multi": sell_multi,
+		"specialGuestLuck": spg_luck,
 	}
 	return dict
 
@@ -124,11 +135,11 @@ func setDictionary (dict: Dictionary):
 	Player.xp = dict.get("xp", 0)
 	Player.level = int(dict.get("level", 1))
 	Player.money = dict.get("money", 0)
-	Player.IDInventory = dict.get("IDinv", [])
 	var bin = dict.get("binder", [])
 	loadBinder(bin)
 	Player.IDbinder = dict.get("IDbinder", [])
-	Player.sell_multi = dict.get(sell_multi, 0.25)
+	Player.sell_multi = dict.get("sell_multi", 0.25)
+	Player.spg_luck = dict.get("specialGuestLuck", spg_luck)
 	pass
 
 func loadBinder(list: Array):
@@ -142,7 +153,7 @@ func loadBinder(list: Array):
 			await tempCard.redownload()
 			tempCard.loadImage()
 		Player.add_child(tempCard)
-		Player.binder.append(tempCard)
+		Player.binder[item["ID"]] = tempCard
 		pass
 	pass
 
@@ -157,6 +168,7 @@ func loadInv(list: Array):
 			await tempCard.redownload()
 			tempCard.loadImage()
 		Player.add_child(tempCard)
-		Player.cardInventory.append(tempCard)
+		Player.cardInventory[item["ID"]] = tempCard
 		pass
+	print("Player inv: ",Player.cardInventory)
 	pass

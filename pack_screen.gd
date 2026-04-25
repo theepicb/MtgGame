@@ -33,21 +33,26 @@ var packs: Array[Pack] = []
 
 func _ready():
 	# Initialize some example packs
-	create_pack("mat_ep", 4.5, preload("res://sprites/Packs/MOTM-E-pack.png"), 2)
+	create_pack("mat_ep", 4, preload("res://sprites/Packs/MOTM-E-pack.png"), 2)
 	unlock_pack("mat_ep");
 	
 	
 	$"../Pack_Clicker".unlockedCommonPacks.append("mat_ep")
 	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"), 25)
-	create_pack("woe_draft", 10, preload("res://sprites/Packs/eldraine_draft.png"), 10)
-	create_pack("woe_set", 13, preload("res://sprites/Packs/eldraine_set.png"), 13)
+	create_pack("woe_draft", 5.5, preload("res://sprites/Packs/eldraine_draft.png"), 10)
+	create_pack("woe_set", 12, preload("res://sprites/Packs/eldraine_set.png"), 13)
 	create_pack("woe_col", 45, preload("res://sprites/Packs/woe_collector.png"), 45)
 	create_pack("rvr_draft", 15, preload("res://sprites/Packs/Rvr_draft.png"), 12)
 	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_collector.png"), 75)
 	create_pack("mom_draft", 10, preload("res://sprites/Packs/Mom_draft.png"), 10)
 	create_pack("mom_set", 15, preload("res://sprites/Packs/Mom_set.png"), 15)
 	create_pack("mom_col", 80, preload("res://sprites/Packs/mom_collector.png"), 80)
+	create_pack("lci_draft", 0, preload("res://sprites/Packs/LCI_draft.png"), 12)
+	create_pack("lci_set", 0, preload("res://sprites/Packs/LCI_set.png"), 12)
 	# Layout all unlocked packs
+	
+	unlock_pack("lci_draft")
+	unlock_pack("lci_set")
 
 func returnDictionary () -> Dictionary:
 	var dict = {}
@@ -81,7 +86,7 @@ func create_pack(id: String, price: float, texture: Texture2D, xp: int):
 func layout_pack_buttons():
 	var start_x = 220
 	var start_y = 20
-	var columns = 4
+	var columns = floor((get_viewport_rect().size.x - 180) / 250)
 	var button_width = 220
 	var button_height = 320
 	var horizontal_spacing = 20
@@ -175,3 +180,9 @@ func deleteChildren():
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
+
+func getPack (ID: String, amount: int):
+	for pack in packs:
+		if pack.id == ID:
+			pack.owned += amount
+			break

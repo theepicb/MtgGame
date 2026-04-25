@@ -65,7 +65,6 @@ func createDraftPack () -> void:
 	
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
 	levelLabel.startShowBar()
-	print("Inventory ", Player.IDInventory)
 	$"..".drawBackButton();
 
 func createCollectorPack ():

@@ -8,8 +8,7 @@ func _ready() -> void:
 
 func _pressed() -> void:
 	$"../VScrollBar".value = 0
-	$"../Inventory_Button".currentInv = 1
-	for x in Player.cardInventory:
-		if is_instance_valid(x):
-			x.visible = false
+	$"../Inventory_Button".inventoryScreen = 1
+	for key in Player.cardInventory:
+		Player.cardInventory[key].visible = false
 	$"../Inventory_Button".loadInventory()

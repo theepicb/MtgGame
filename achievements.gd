@@ -79,6 +79,8 @@ var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
 func cardAchieve(items: Array):
 	for item in items:
+		if !(item is Sprite2D):
+			continue
 		print(item.cardName.to_lower())
 		if itemAch.has(item.cardName.to_lower()):
 			getItemAch(item.cardName.to_lower())

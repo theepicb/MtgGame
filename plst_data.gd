@@ -33,13 +33,13 @@ func generateListCard ():
 	var url
 	match rarity:
 		0:
-			url = "https://api.scryfall.com/cards/random?q=set:plst%20rarity:common"
+			url = "https://api.scryfall.com/cards/random?q=set%3Aplst%20rarity%3Acommon%20usd%3E0.01"
 		1:
-			url = "https://api.scryfall.com/cards/random?q=set:plst%20rarity:uncommon"
+			url = "https://api.scryfall.com/cards/random?q=rarity%3Auncommon%20usd%3E0.01"
 		2:
-			url = "https://api.scryfall.com/cards/random?q=set:plst%20rarity:rare"
+			url = "https://api.scryfall.com/cards/random?q=rarity%3Arare%20usd%3E0.01"
 		3:
-			url = "https://api.scryfall.com/cards/random?q=set:plst%20rarity:mythic"
+			url = "https://api.scryfall.com/cards/random?q=rarity%3Amythic%20usd%3E0.01"
 	httpRequest1.request(url);
 	
 func firstPing(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:

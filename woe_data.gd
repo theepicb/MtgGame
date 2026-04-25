@@ -80,9 +80,9 @@ func createDraftPack () -> void:
 	
 	
 	if ($"..".getLuck() >= 84 - draft_luck):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, list)
 	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, list)
 	counter += 1
 	if list:
 		var list_card = P_list.new(counter, true)
@@ -95,7 +95,7 @@ func createDraftPack () -> void:
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
 	levelLabel.startShowBar()
 	
-	print("Inventory ", Player.IDInventory)
+
 	$"..".drawBackButton();
 
 func createCollectorPack () -> void:

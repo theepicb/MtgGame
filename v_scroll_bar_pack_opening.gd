@@ -30,8 +30,9 @@ func showBar():
 	else:
 		self.visible = false
 	for x in Player.cardsToShow.size():
-		Player.cardsToShow[x].showCard(getPosition(x).x, getPosition(x).y, 1)
-		Player.cardsToShow[x].displayPrice()
+		if Player.cardsToShow[x] is Sprite2D:
+			Player.cardsToShow[x].showCard(getPosition(x).x, getPosition(x).y, 1)
+			Player.cardsToShow[x].displayPrice()
 	$"../Back_Button".position = Vector2((get_viewport_rect().size.x / 2) - 80, get_viewport_rect().size.y - 85);
 
 func _on_VScrollBar_value_changed (value_changed):
@@ -41,6 +42,8 @@ func _on_VScrollBar_value_changed (value_changed):
 	print("Scrollbar moved to: ", value)
 	
 	for x in Player.cardsToShow.size():
+		if Player.cardsToShow[x] is VBoxContainer:
+			continue
 		Player.cardsToShow[x].showCard(getPosition(x).x, getPosition(x).y, 1)
 	
 

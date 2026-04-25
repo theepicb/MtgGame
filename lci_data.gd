@@ -1,1 +1,112 @@
 extends Node2D
+
+var set_name = "lci"
+var levelLabel 
+var draft_luck = 0
+
+var set_luck = 0
+
+var collector_luck = 0
+
+var common = [2, 3, 4, 7, 9, 11, 13, 15, 18, 24, 27, 28, 30, 31, 35, 37, 38, 40, 45, 46, 49, 53, 57, 64, 66, 68, 69, 70, 71, 72, 73, 75, 77, 82, 84, 85, 89, 90, 95, 99, 100, 101, 104, 105, 106, 109, 110, 112, 114, 116, 117, 118, 119, 130, 131, 132, 136, 138, 140, 142, 144, 149, 151, 154, 159, 160, 163, 166, 167, 168, 169, 172, 174, 175, 177, 182, 190, 192, 199, 200, 201, 202, 203, 205, 206, 207, 209, 210, 214, 218, 246, 248, 250, 253, 255, 259, 268, 273, 274, 275, 276, 277, 279]
+
+
+var uncommon = [5, 8, 10, 16, 17, 19, 21, 22, 23, 25, 33, 42, 48, 50, 51, 54, 58, 59, 65, 74, 76, 78, 79, 86, 87, 91, 93, 96, 97, 102, 103, 107, 111, 120, 124, 125, 133, 139, 141, 143, 147, 148, 150, 152, 162, 165, 170, 173, 178, 179, 180, 183, 184, 186, 187, 194, 198, 213, 215, 216, 220, 224, 226, 227, 230, 232, 236, 242, 245, 247, 251, 252, 254, 260, 261, 263, 270, 272, 278, 286]
+
+var rare = [1, 12, 14, 20, 34, 43, 44, 52, 61, 63, 80, 81, 94, 98, 113, 115, 121, 122, 123, 127, 137, 153, 156, 157, 161, 171, 176, 181, 191, 193, 196, 208, 211, 219, 221, 223, 225, 228, 234, 237, 241, 244, 258, 264, 265, 271, 280, 281, 282, 283, 284, 285]
+
+var mythic = [32, 92, 134, 185, 212, 222, 229, 235, 238, 239, 240, 243, 249, 257, 269]
+
+var trans_common = [29, 60, 128, 155, 197]
+
+var trans_uncommon = [6, 36, 62, 83, 108, 129, 146, 164, 195, 217, 233, 262]
+
+var trans_rare = [39, 41, 47, 56, 126, 135, 145, 188, 231, 256, 266, 267]
+
+var trans_mythic = [26, 55, 67, 88, 158, 189, 204]
+
+var show_unc = [298, 301, 302, 303, 304, 306, 310, 312]
+
+var show_rare = [292, 293, 294, 295, 297, 299, 300]
+
+var show_mythic = [305, 307, 308, 309, 311, 319]
+
+var spg_nonMyth = []
+
+var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] 
+
+func _ready() -> void:
+	Lib.ensure_directory_exists(set_name)
+	for x in range(0, 0):
+		Lib.grabCardExtra(set_name, x, 0, 0, 0, false, true)
+		await get_tree().create_timer(0.5).timeout
+	Lib.grabCardExtra(set_name, 1, 0, 0, 0, true, true)
+	levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	print("trans common ", Player.common_trans)
+	print("trans uncommon ", Player.uncommon_trans)
+	print("trans rare ", Player.rare_trans)
+	print("trans mythic ", Player.mythic_trans)
+	
+func createDraftPack ():
+	var counter = 0
+	var cAmount = 9
+	var foil = false
+	if Lib.getLuck(draft_luck) >= 77:
+		foil = true
+		cAmount = 8
+	for z in cAmount:
+		Lib.grabCard(set_name, common, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
+		counter += 1
+	
+	if foil:
+		Lib.grabCard(set_name, common, 1, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
+		counter += 1
+	
+	for z in 3:
+		Lib.grabCard(set_name, uncommon, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
+		counter += 1
+	
+	if Lib.getLuck(draft_luck) >= 64:
+		Lib.grabCard(set_name, trans_uncommon, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
+	else:
+		Lib.grabCard(set_name, trans_common, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
+	counter += 1
+	
+	if Lib.getLuck(draft_luck) >= 84:
+		Lib.grabCard(set_name, mythic, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, true)
+	else:
+		Lib.grabCard(set_name, rare, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, true)
+	counter += 1
+	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	levelLabel.startShowBar()
+	
+	$"..".drawBackButton();
+
+func createSetPack():
+	#var spg = (randf_range(0, 100) < Player.spg_luck)
+	var counter = 0
+	counter += 1
+	for x in 3:
+		Lib.grabCardEasy(set_name, common, 0, counter, false)
+		counter += 1
+	counter += 1
+	
+	
+	for x in 3:
+		Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
+		counter += 1
+	
+	
+	
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	levelLabel.startShowBar()
+	
+	print("Inventory ", Player.IDInventory)
+	$"..".drawBackButton();
