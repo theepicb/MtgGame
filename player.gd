@@ -143,6 +143,7 @@ func setDictionary (dict: Dictionary):
 	pass
 
 func loadBinder(list: Array):
+	print(list)
 	for item in list:
 		var tempCard = Card.new(item["count"], item["ID"], item["foil"], item["image_path"], Vector2(0, 0), item["serial"], item["serialNum"], item["serialMax"])
 		if item["serial"]:

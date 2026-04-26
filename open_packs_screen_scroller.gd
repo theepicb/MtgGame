@@ -2,8 +2,7 @@ extends VScrollBar
 
 
 func _ready() -> void:
-
-
+	visible = true
 	anchor_left = 1
 	anchor_right = 1
 	anchor_top = 0

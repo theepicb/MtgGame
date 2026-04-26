@@ -228,68 +228,54 @@ func sellCard ():
 		Player.money += self.price * Player.sell_multi
 		self.displayUI()
 		if self.count <= 0:
-			if inventory_button.currentInv == 0:
-				for i in range(Player.cardInventory.size()):
-					if Player.IDInventory[i] == self.ID:
-						Player.IDInventory.remove_at(i)
-						break
-				Player.cardInventory = Player.cardInventory.filter(func(item): return item.ID != self.ID)
-			elif inventory_button.currentInv == 1:
-				for i in range(Player.binder.size()):
-					if Player.IDbinder[i] == self.ID:
-						Player.IDbinder.remove_at(i)
-						break
-				Player.binder = Player.binder.filter(func(item): return item.ID != self.ID)
+			if inventory_button.inventoryScreen == 0:
+				Player.cardInventory.erase(self.ID)
+			elif inventory_button.inventoryScreen == 1:
+				Player.binder.erase(self.ID)
 			Player.reloadInv()
 			self.queue_free()
 
 func moveCard():
+	# gets if you are in current inv
 	var moving_to_binder = inventory_button.inventoryScreen == 0
-
 	var source_list = Player.cardInventory if moving_to_binder else Player.binder
 	var target_list = Player.binder if moving_to_binder else Player.cardInventory
-
-
-	# ---- 1. Try to add to existing stack in target ----
-	if target_list.has(self.ID):
-		target_list[self.ID].amount += 1
-		return
-
-	# ---- 2. If not found, create a new card ----
 	
-	print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
-	var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
-	if self.serial:
-		new_card.serial_number = self.serial_number
-		new_card.max_number = self.max_number
-		new_card.serial = true
-	new_card.call_deferred("loadImage")
-	new_card.cardName = self.cardName
-	new_card.price = self.price
-	Player.add_child(new_card)
-	target_list[self.ID] = new_card
-
-
+	# checks if target list already has key
+	if target_list.has(self.ID):
+		target_list[self.ID].count += 1
+	else:
+		# creates new card if target does not have key and adds it to target with ID as key
+		print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
+		var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
+		if self.serial:
+			new_card.serial_number = self.serial_number
+			new_card.max_number = self.max_number
+			new_card.serial = true
+		new_card.call_deferred("loadImage")
+		new_card.cardName = self.cardName
+		new_card.price = self.price
+		Player.add_child(new_card)
+		target_list[self.ID] = new_card
+		
 	# ---- 3. Reduce the original card ----
-	self.count -= 1
+	source_list[self.ID].count -= 1
+	print(source_list[self.ID].count)
+	# updates text
 	self.displayUI()
 	# ---- 4. Remove original card if empty ----
 	if self.count == 0:
 		# Remove from source lists
 		source_list.erase(self.ID)
-
-
-		#
+		# updates inventory
 		if moving_to_binder:
 			Player.cardInventory = source_list
 		else:
 			Player.binder = source_list
-		
-		
+		# reloads inventory
 		inventory_button.loadInventory()
-		
+		# deletes self
 		self.queue_free()
-	
 
 func returnDictionary()->Dictionary:
 	return {
@@ -324,7 +310,6 @@ func drawSerial (number):
 		await ready
 	var serial = Sprite2D.new()
 	self.add_child(serial)
-	var image = Image.new()
 	var tex = load("res://serialised.png") as Texture2D
 	# Use this instead of create_from_image
 	serial.texture = tex

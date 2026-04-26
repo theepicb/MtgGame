@@ -31,13 +31,17 @@ var show_rare = [292, 293, 294, 295, 297, 299, 300]
 
 var show_mythic = [305, 307, 308, 309, 311, 319]
 
+var rare_oltec = ["333", "335", "337", "338", "342", "343", "344", "346", "347", "350", "349", "351", "348"]
+
+var mythic_oltec = ["334", "336", "340", "345"]
+
 var spg_nonMyth = []
 
 var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] 
 
 func _ready() -> void:
 	Lib.ensure_directory_exists(set_name)
-	for x in range(0, 0):
+	for x in range(333, 352):
 		Lib.grabCardExtra(set_name, x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
 	Lib.grabCardExtra(set_name, 1, 0, 0, 0, true, true)
@@ -87,7 +91,7 @@ func createDraftPack ():
 	$"..".drawBackButton();
 
 func createSetPack():
-	#var spg = (randf_range(0, 100) < Player.spg_luck)
+	var spg = (randf_range(0, 100) < Player.spg_luck)
 	var counter = 0
 	counter += 1
 	for x in 3:
