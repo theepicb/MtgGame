@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://flgnxqv25dpr"]
+[gd_scene format=3 uid="uid://flgnxqv25dpr"]
 
 [ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
@@ -47,16 +47,16 @@
 [ext_resource type="Script" uid="uid://dm2viy5g76t4d" path="res://pack_library.gd" id="43_gngh3"]
 [ext_resource type="Script" uid="uid://deppogvqilu5p" path="res://Spg_data.gd" id="44_0n3wm"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=403456400]
 script = ExtResource("1_h2yge")
 
-[node name="Player" type="Node2D" parent="."]
+[node name="Player" type="Node2D" parent="." unique_id=983471627]
 script = ExtResource("2_1bvp3")
 
-[node name="Card" type="Sprite2D" parent="."]
+[node name="Card" type="Sprite2D" parent="." unique_id=321852612]
 script = ExtResource("10_4c57u")
 
-[node name="Money_Clicker" type="Button" parent="."]
+[node name="Money_Clicker" type="Button" parent="." unique_id=1885948257]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -68,71 +68,71 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_lquwl")
 
-[node name="money_per_click" type="Label" parent="Money_Clicker"]
+[node name="money_per_click" type="Label" parent="Money_Clicker" unique_id=1894422558]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("5_htxhm")
 
-[node name="Pack_Clicker" type="Button" parent="."]
+[node name="Pack_Clicker" type="Button" parent="." unique_id=1402844107]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("4_kek77")
 
-[node name="Upgrades" type="Node2D" parent="."]
+[node name="Upgrades" type="Node2D" parent="." unique_id=1810749057]
 script = ExtResource("4_7mycd")
 
-[node name="Upgrade_Data" type="Node2D" parent="Upgrades"]
+[node name="Upgrade_Data" type="Node2D" parent="Upgrades" unique_id=1746136560]
 script = ExtResource("7_yaehf")
 
-[node name="Pack_Screen" type="Node2D" parent="."]
+[node name="Pack_Screen" type="Node2D" parent="." unique_id=417454719]
 script = ExtResource("5_272bh")
 
-[node name="Open_Packs_Screen_scroller" type="VScrollBar" parent="."]
+[node name="Open_Packs_Screen_scroller" type="VScrollBar" parent="." unique_id=1703153294]
 offset_left = 1100.0
 offset_top = 179.0
 offset_right = 1108.0
 offset_bottom = 423.0
 script = ExtResource("10_qnost")
 
-[node name="Achievements" type="Node2D" parent="."]
+[node name="Achievements" type="Node2D" parent="." unique_id=185860097]
 script = ExtResource("9_1u8w0")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1238089894]
 script = ExtResource("9_cegan")
 
-[node name="Click_Screen_button" type="Button" parent="CanvasLayer"]
+[node name="Click_Screen_button" type="Button" parent="CanvasLayer" unique_id=1893060978]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("4_1bvp3")
 
-[node name="Upgrades_Button" type="Button" parent="CanvasLayer"]
+[node name="Upgrades_Button" type="Button" parent="CanvasLayer" unique_id=776278988]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("6_272bh")
 
-[node name="VScrollBar_Upgrades" type="VScrollBar" parent="CanvasLayer"]
+[node name="VScrollBar_Upgrades" type="VScrollBar" parent="CanvasLayer" unique_id=1576113219]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("13_seu75")
 
-[node name="Pack_Screen_Button" type="Button" parent="CanvasLayer"]
+[node name="Pack_Screen_Button" type="Button" parent="CanvasLayer" unique_id=1265912142]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("8_5vw27")
 
-[node name="Open_Packs_Screen" type="Button" parent="CanvasLayer"]
+[node name="Open_Packs_Screen" type="Button" parent="CanvasLayer" unique_id=1943308755]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("10_dg77c")
 
-[node name="Back_Button" type="Button" parent="CanvasLayer"]
+[node name="Back_Button" type="Button" parent="CanvasLayer" unique_id=1155333228]
 offset_right = 45.0
 offset_bottom = 40.0
 text = "back"
 script = ExtResource("12_vivmo")
 
-[node name="VScrollBar" type="VScrollBar" parent="CanvasLayer"]
+[node name="VScrollBar" type="VScrollBar" parent="CanvasLayer" unique_id=1432889044]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -146,113 +146,113 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("14_074og")
 
-[node name="VScrollBar_PackOpening" type="VScrollBar" parent="CanvasLayer"]
+[node name="VScrollBar_PackOpening" type="VScrollBar" parent="CanvasLayer" unique_id=420549146]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("16_d13ii")
 
-[node name="Inventory_Button" type="Button" parent="CanvasLayer"]
+[node name="Inventory_Button" type="Button" parent="CanvasLayer" unique_id=1133569649]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("13_2cqfq")
 
-[node name="ResizeDebounceTimer" type="Timer" parent="CanvasLayer/Inventory_Button"]
+[node name="ResizeDebounceTimer" type="Timer" parent="CanvasLayer/Inventory_Button" unique_id=2102357349]
 wait_time = 0.2
 one_shot = true
 script = ExtResource("21_h8e4i")
 
-[node name="Sell_All" type="Button" parent="CanvasLayer"]
+[node name="Sell_All" type="Button" parent="CanvasLayer" unique_id=245079505]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("21_4k2k6")
 
-[node name="inventory" type="Button" parent="CanvasLayer"]
+[node name="inventory" type="Button" parent="CanvasLayer" unique_id=508657890]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("22_b1qrp")
 
-[node name="binder" type="Button" parent="CanvasLayer"]
+[node name="binder" type="Button" parent="CanvasLayer" unique_id=412067231]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("23_come4")
 
-[node name="Upgrade_Tree_button" type="Button" parent="CanvasLayer"]
+[node name="Upgrade_Tree_button" type="Button" parent="CanvasLayer" unique_id=1876684681]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("20_qsp4k")
 
-[node name="Land_Ranks" type="Control" parent="CanvasLayer/Upgrade_Tree_button"]
+[node name="Land_Ranks" type="Control" parent="CanvasLayer/Upgrade_Tree_button" unique_id=1914762533]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("22_jq2sk")
 
-[node name="Forests" type="Button" parent="CanvasLayer/Upgrade_Tree_button/Land_Ranks"]
+[node name="Forests" type="Button" parent="CanvasLayer/Upgrade_Tree_button/Land_Ranks" unique_id=1331397530]
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("20_kq58d")
 
-[node name="level_Label" type="Label" parent="CanvasLayer"]
+[node name="level_Label" type="Label" parent="CanvasLayer" unique_id=1584923416]
 offset_right = 40.0
 offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("17_ryguw")
 
-[node name="Quest_button" type="Button" parent="CanvasLayer"]
+[node name="Quest_button" type="Button" parent="CanvasLayer" unique_id=851790855]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("29_0cp0l")
 
-[node name="Quests" type="Node" parent="CanvasLayer/Quest_button"]
+[node name="Quests" type="Node" parent="CanvasLayer/Quest_button" unique_id=2042329857]
 script = ExtResource("30_d2t1y")
 
-[node name="Casino_Button" type="Button" parent="."]
+[node name="Casino_Button" type="Button" parent="." unique_id=87153078]
 offset_right = 8.0
 offset_bottom = 8.0
 script = ExtResource("15_a6jrf")
 
-[node name="Pack_Data" type="Node2D" parent="."]
+[node name="Pack_Data" type="Node2D" parent="." unique_id=970776884]
 script = ExtResource("12_ycdy4")
 
-[node name="Pack_Library" type="Node2D" parent="Pack_Data"]
+[node name="Pack_Library" type="Node2D" parent="Pack_Data" unique_id=321700360]
 script = ExtResource("43_gngh3")
 
-[node name="Mat_data" type="Node2D" parent="Pack_Data"]
+[node name="Mat_data" type="Node2D" parent="Pack_Data" unique_id=1887007234]
 script = ExtResource("11_efxa6")
 
-[node name="Woe_data" type="Node2D" parent="Pack_Data"]
+[node name="Woe_data" type="Node2D" parent="Pack_Data" unique_id=432337106]
 script = ExtResource("19_82xsv")
 
-[node name="Wot_data" type="Node2D" parent="Pack_Data/Woe_data"]
+[node name="Wot_data" type="Node2D" parent="Pack_Data/Woe_data" unique_id=742199293]
 script = ExtResource("20_getpj")
 
-[node name="Cmm_data" type="Node2D" parent="Pack_Data"]
+[node name="Cmm_data" type="Node2D" parent="Pack_Data" unique_id=1518940582]
 script = ExtResource("24_0odxb")
 
-[node name="Rvr_data" type="Node2D" parent="Pack_Data"]
+[node name="Rvr_data" type="Node2D" parent="Pack_Data" unique_id=635741643]
 script = ExtResource("25_lswn8")
 
-[node name="Mom_data" type="Node2D" parent="Pack_Data"]
+[node name="Mom_data" type="Node2D" parent="Pack_Data" unique_id=1645668011]
 script = ExtResource("27_xuqvo")
 
-[node name="Mul_data" type="Node2D" parent="Pack_Data/Mom_data"]
+[node name="Mul_data" type="Node2D" parent="Pack_Data/Mom_data" unique_id=1520098415]
 script = ExtResource("34_ok6jj")
 
-[node name="Moc_data" type="Node2D" parent="Pack_Data/Mom_data"]
+[node name="Moc_data" type="Node2D" parent="Pack_Data/Mom_data" unique_id=1266709756]
 script = ExtResource("37_come4")
 
-[node name="Lci_data" type="Node2D" parent="Pack_Data"]
+[node name="Lci_data" type="Node2D" parent="Pack_Data" unique_id=1047496268]
 script = ExtResource("34_0rl1p")
 
-[node name="Plst_data" type="Node2D" parent="Pack_Data"]
+[node name="Plst_data" type="Node2D" parent="Pack_Data" unique_id=1618348117]
 script = ExtResource("42_d2t1y")
 
-[node name="Spg_data" type="Node2D" parent="Pack_Data"]
+[node name="Spg_data" type="Node2D" parent="Pack_Data" unique_id=146222289]
 script = ExtResource("44_0n3wm")
 
-[node name="HttpData" type="Node2D" parent="."]
+[node name="HttpData" type="Node2D" parent="." unique_id=152888002]
 script = ExtResource("14_w48qg")
 
 [connection signal="timeout" from="CanvasLayer/Inventory_Button/ResizeDebounceTimer" to="CanvasLayer/Inventory_Button" method="_on_resize_debounce_timer_timeout"]

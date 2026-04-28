@@ -76,11 +76,7 @@ func createDraftPack ():
 		Lib.grabCard(set_name, trans_common, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, false)
 	counter += 1
 	
-	if Lib.getLuck(draft_luck) >= 84:
-		Lib.grabCard(set_name, mythic, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, true)
-	else:
-		Lib.grabCard(set_name, rare, 0, Lib.getPosition(counter).x,Lib.getPosition(counter).y, true)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic, rare_oltec, mythic_oltec], [65, 20, 12, 3]), 0, counter, true)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -93,17 +89,22 @@ func createDraftPack ():
 func createSetPack():
 	var spg = (randf_range(0, 100) < Player.spg_luck)
 	var counter = 0
-	counter += 1
 	for x in 3:
 		Lib.grabCardEasy(set_name, common, 0, counter, false)
 		counter += 1
-	counter += 1
-	
 	
 	for x in 3:
 		Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
 		counter += 1
 	
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([trans_common, trans_uncommon, show_unc], [60, 20, 20]), 0, counter, false)
+	counter += 1
+	
+	for x in 2:
+		if Lib.doesPass(set_luck, 95):
+			Lib.grabCardEasy("rex", rex, 0, counter, false)
+		else:
+			Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic, show_unc, show_rare, show_mythic],[40, 20, 10, 5, 15, 7, 3]), 0, counter, false)
 	
 	
 	await HttpData.Finished

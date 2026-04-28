@@ -75,7 +75,7 @@ func loadGame ():
 
 func implamentData (data: Dictionary):
 	await get_tree().create_timer(1).timeout
-	updateData(data["version"])
+	updateData(data.get("version", version))
 	Player.setDictionary(data["Player"])
 	$Money_Clicker.updateText()
 	$CanvasLayer/level_Label.setText()
