@@ -16,6 +16,26 @@ var halouncommon = [186, 188, 191, 192, 196, 197, 208]
 var halorare = [200, 195, 209, 187, 228, 212, 189, 216, 218, 219, 221, 202, 222, 223, 226, 190, 213, 193, 204, 199, 194]
 var halomythic = [196, 207, 186,  197, 210, 191, 211, 188, 201, 198, 203, 192, 205, 206, 214, 215, 217, 220, 224, 227, 225]
 
+var draft_luck = 0;
+var collector_luck = 0;
+var list_chance = 0;
+var col_double_open = 100
+
+func setDictionary (dict: Dictionary) -> void:
+	draft_luck = dict.get("draft", 0)
+	collector_luck = dict.get("collector", 0)
+	list_chance = dict.get("list_chance", 0)
+	col_double_open = dict.get("double_open", 0)
+	pass
+
+func returnDictionary () -> Dictionary:
+	var dictionary = {}
+	dictionary["draft"] = draft_luck
+	dictionary["collector"] = collector_luck
+	dictionary["list_chance"] = list_chance
+	dictionary["double_open"] = col_double_open
+	return dictionary
+
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	preload("res://Card_Grabber.gd")
 	var pos = Vector2(posX, posY)
@@ -38,25 +58,27 @@ func _ready() -> void:
 	pass
 
 func createDraftPack () -> void:
+	var list = false
+	if (Lib.doesPass(draft_luck, 100-list_chance)):
+		list = true
+	
 	var counter = 0
 	for x in 2:
-			grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-			counter += 1
+			Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
 		
-	if ($"..".getLuck() > 84):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic], [84, 16]), 0, counter, false)
 	
-	grabCard(getRarity(mythic, rare, uncommon), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter+= 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([specialUncommon, specialRare, specialMythic], [50, 34, 16]), 0, counter, false)
 	
 	var foil = 0;
-	if ($"..".getLuck() > 84):
+	if (Lib.doesPass(0, 84)):
 		foil = 1; 
 	
-	grabCard(getRarity(specialMythic, specialRare, specialUncommon), foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([specialRare, specialMythic], [84, 16]), foil, counter, !list)
+	
+	if list:
+		var list_card = P_list.new(counter, true)
+		add_child(list_card)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -67,37 +89,25 @@ func createDraftPack () -> void:
 	levelLabel.startShowBar()
 	$"..".drawBackButton();
 
-func createCollectorPack ():
+func createCollectorPack (doubleOpen: bool = false):
+	var openAgain = false
+	if (Lib.doesPass(0, 100-col_double_open)):
+		openAgain = true
 	var counter = 0;
 	
-	grabCard(specialUncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, specialUncommon, 1, counter, false)
 	
-	grabCard(etchedUncommon, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, etchedUncommon, 2, counter, false)
 	
-	if $"..".getLuck() >= 84:
-		grabCard(mythic, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	else:
-		grabCard(rare, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic], [84, 16]), 1, counter, false)
 	
-	if $"..".getLuck() >= 84:
-		grabCard(mythic, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	else:
-		grabCard(rare, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic], [84, 16]), 1, counter, false)
 	
-	var foil
-	if $"..".getLuck() >= 84:
+	var foil = 0
+	if Lib.doesPass(0, 84):
 		foil = 1
-	else: foil = 0;
 	
-	if $"..".getLuck() >= 84:
-		grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	else:
-		grabCard(extendedRare, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([extendedRare, extendedMythic], [84, 16]), foil, counter, false)
 	
 	if $"..".getLuck() >= 84:
 		grabCard(etchedMythic, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -105,15 +115,16 @@ func createCollectorPack ():
 		grabCard(etchedRare, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
-	var halo: bool
-	if $"..".getLuck() >= 84:
+	var halo = false
+	if Lib.doesPass(0, 84):
 		halo = true
-	else: halo = false
 	
 	if halo:
-		grabCard(getRarity(halouncommon, halorare, halomythic), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([halouncommon, halorare, halomythic], [50, 34, 16]), 1, counter, !openAgain)
 	else:
-		grabCard(getRarity(specialUncommon, specialRare, specialMythic), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([specialUncommon, specialRare, specialMythic], [50, 34, 16]), 1, counter, !openAgain)
+		if openAgain:
+			createCollectorPack(true)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -123,12 +134,3 @@ func createCollectorPack ():
 	levelLabel.startShowBar()
 	$"..".drawBackButton();
 	pass
-
-func getRarity (mythicc: Array, rarec: Array, uncommonc: Array) -> Array:
-	if ($"..".getLuck() > 84):
-		if ($"..".getLuck() > 84):
-			return mythicc
-		else:
-			return rarec
-	else:
-		return uncommonc

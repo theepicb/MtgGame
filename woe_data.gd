@@ -19,7 +19,7 @@ var set_luck = 0
 var set_bonus_foil = 0
 var collector_luck = 0;
 var confetti_luck = 0;
-
+var col_double_open = 0
 var list_Chance = 0
 
 func returnDictionary () -> Dictionary:
@@ -43,7 +43,6 @@ func setDictionary (dict: Dictionary) -> void:
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/woe")
-	
 
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
@@ -65,7 +64,7 @@ func createDraftPack () -> void:
 	if $"..".getLuck() >= 0:
 		list = true
 	else: list = false
-	$"../../Achievements".outsideCall("woe_draft")
+	#$"../../Achievements".outsideCall("woe_draft")
 	var counter = 0
 	for x in 9:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -98,8 +97,12 @@ func createDraftPack () -> void:
 
 	$"..".drawBackButton();
 
-func createCollectorPack () -> void:
-	$"../../Achievements".outsideCall("woe_collector")
+func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
+	
+	var openAgain = false
+	if (Lib.doesPass(0, 100-(col_double_open/dCounter))):
+		openAgain = true
+	#$"../../Achievements".outsideCall("woe_collector")
 	var odds
 	var packs
 	var counter = 0
@@ -148,19 +151,21 @@ func createCollectorPack () -> void:
 	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 + collector_luck, 16.2, 7.7, 24.4, 3.3 + collector_luck, 1.1 + collector_luck, 1.7 + collector_luck, 1.1 + confetti_luck + collector_luck, 1.7 + confetti_luck + collector_luck])
 	if rarity is String:
 		if (rarity == "confettiRare" || rarity == "confettiMythic"):
-			$Wot_data.getWithRarity(rarity, 3, counter, true)
+			$Wot_data.getWithRarity(rarity, 3, counter, !doubleOpen)
 		elif rarity == "extendedRare":
 			var card = extendedRare.pick_random()
 			print("card", card)
 			if card >= 370:
-				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false)
+				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !openAgain, false)
 			else:
-				grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+				grabCard(extendedMythic, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !openAgain)
 		else:
-			$Wot_data.getWithRarity(rarity, 1, counter, true)
+			$Wot_data.getWithRarity(rarity, 1, counter, !openAgain)
 	else:
-		grabCard(rarity, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
+		grabCard(rarity, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !openAgain)
 	
+	if openAgain:
+		createCollectorPack(true, dCounter+1)
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -172,7 +177,7 @@ func createCollectorPack () -> void:
 	pass
 
 func createSetPack () -> void:
-	$"../../Achievements".outsideCall("woe_set")
+	#$"../../Achievements".outsideCall("woe_set")
 	var odds
 	var packs
 	var list

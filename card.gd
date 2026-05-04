@@ -214,9 +214,20 @@ func _unhandled_input(event):
 			elif inventory_button.inventoryScreen == 1:
 				moveButton.position = to_local(Vector2(event.position.x, event.position.y + 5))
 				moveButton.text = "move to inventory"
-			moveButton.z_index = 101
+			var moveAllButton = Button.new()
+			self.add_child(moveAllButton)
+			moveAllButton.size = Vector2(60, 20);
+			if inventory_button.inventoryScreen == 0:
+				moveAllButton.position = to_local(Vector2(event.position.x + 135, event.position.y + 40))
+				moveAllButton.text = "move all binder"
+			elif inventory_button.inventoryScreen == 1:
+				moveAllButton.position = to_local(Vector2(event.position.x, event.position.y + 40))
+				moveAllButton.text = "move all inventory"
 			
-			moveButton.connect("pressed", Callable(self, "moveCard"))
+			moveButton.z_index = 101
+			moveAllButton.z_index = 101
+			
+			moveAllButton.pressed.connect(func(): moveCard(self.count))
 
 func deleteChildren():
 	for child in self.get_children():
@@ -235,7 +246,9 @@ func sellCard ():
 			Player.reloadInv()
 			self.queue_free()
 
-func moveCard():
+
+
+func moveCard(count: int = 1):
 	# gets if you are in current inv
 	var moving_to_binder = inventory_button.inventoryScreen == 0
 	var source_list = Player.cardInventory if moving_to_binder else Player.binder
@@ -243,11 +256,11 @@ func moveCard():
 	
 	# checks if target list already has key
 	if target_list.has(self.ID):
-		target_list[self.ID].count += 1
+		target_list[self.ID].count += count
 	else:
 		# creates new card if target does not have key and adds it to target with ID as key
 		print("id: ", self.ID, " foil: ", self.foil, " path: ", image_path)
-		var new_card = Card.new(1, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
+		var new_card = Card.new(count, self.ID, self.foil, self.image_path, self.pos, self.serial, self.serial_number, self.max_number)
 		if self.serial:
 			new_card.serial_number = self.serial_number
 			new_card.max_number = self.max_number
@@ -259,7 +272,7 @@ func moveCard():
 		target_list[self.ID] = new_card
 		
 	# ---- 3. Reduce the original card ----
-	source_list[self.ID].count -= 1
+	source_list[self.ID].count -= count
 	print(source_list[self.ID].count)
 	# updates text
 	self.displayUI()

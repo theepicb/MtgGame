@@ -41,7 +41,7 @@ func _ready():
 	create_pack("mat_col", 25, preload("res://sprites/Packs/collector booster motm.jpg"), 25)
 	create_pack("woe_draft", 5.5, preload("res://sprites/Packs/eldraine_draft.png"), 10)
 	create_pack("woe_set", 12, preload("res://sprites/Packs/eldraine_set.png"), 13)
-	create_pack("woe_col", 45, preload("res://sprites/Packs/woe_collector.png"), 45)
+	create_pack("woe_col", 60, preload("res://sprites/Packs/woe_collector.png"), 45)
 	create_pack("rvr_draft", 15, preload("res://sprites/Packs/Rvr_draft.png"), 12)
 	create_pack("rvr_col", 75, preload("res://sprites/Packs/Rvr_collector.png"), 75)
 	create_pack("mom_draft", 10, preload("res://sprites/Packs/Mom_draft.png"), 10)
@@ -50,7 +50,7 @@ func _ready():
 	create_pack("lci_draft", 0, preload("res://sprites/Packs/LCI_draft.png"), 12)
 	create_pack("lci_set", 0, preload("res://sprites/Packs/LCI_set.png"), 12)
 	# Layout all unlocked packs
-	
+	unlock_pack("woe_col")
 	unlock_pack("lci_draft")
 	unlock_pack("lci_set")
 

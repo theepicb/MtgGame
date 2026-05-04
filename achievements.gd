@@ -2,44 +2,23 @@ extends Node2D
 
 @onready var upgrade_manager = get_node("/root/Main/Upgrades/Upgrade_Data")
 
+var xpRequired = [50, 125, 275, 615, 1250, 2750, 6150, 9999999]
+
 var data = {
-	"woe_draft": {
-		"amounts": [2, 5, 10, 25, 50, 999999],
-		"achieNumber": 0,
-		"numberOpened": 0,
-		"function": func (): achievement_handler("woe_draft", data["woe_draft"]["achieNumber"]); data["woe_draft"]["achieNumber"] += 1
+	"woe": {
+		"xp": 0,
+		"level": 1,
 	},
-	"woe_set": {
-		"amounts": [2, 5, 10, 25, 50, 999999],
-		"achieNumber": 0,
-		"numberOpened": 0,
-		"function": func (): achievement_handler("woe_set", data["woe_set"]["achieNumber"]); data["woe_set"]["achieNumber"] += 1
-	},
-	"woe_collector": {
-		"amounts": [2, 5, 10, 25, 50, 999999],
-		"achieNumber": 0,
-		"numberOpened": 0,
-		"function": func(): achievement_handler("woe_col", data["woe_collector"]["achieNumber"]); data["woe_collector"]["achieNumber"] += 1
-	},
-	"rvr_draft": {
-		"amounts": [2, 5, 10, 25, 50, 999999],
-		"achieNumber": 0,
-		"numberOpened": 0,
-		"function": func (): achievement_handler("rvr_draft", data["rvr_draft"]["achieNumber"]); data["rvr_draft"]["achieNumber"] += 1
-	},
-	"rvr_col": {
-		"amounts": [2, 5, 10, 25, 50, 999999],
-		"achieNumber": 0,
-		"numberOpened": 0,
-		"function": func (): achievement_handler("rvr_draft", data["rvr_draft"]["achieNumber"]); data["rvr_draft"]["achieNumber"] += 1
+	"rvr": {
+		"xp": 0,
+		"level": 1,
 	}
 }
 
 func _ready() -> void:
-	checkAchievement(data["woe_draft"])
 	returnDictionary()
 
-func outsideCall (set_name: String):
+func outsideCall (set_name: String, amount: float):
 	data[set_name].numberOpened += 1
 	checkAchievement(data[set_name])
 
@@ -54,26 +33,23 @@ func checkAchievement(input: Dictionary):
 func achievement_handler(name: String, ID: int):
 	print("ach called")
 	match name:
-		"woe_draft":
+		"woe":
 			match ID:
 				0:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d0"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s0"))
 				1: 
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d1"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s1"))
+
 				2:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d2"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s2"))
+
 				3:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d3"))
-		"woe_set":
-			match ID:
-				0:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s0"))
-				1:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s1"))
-				2:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s2"))
-				3:
 					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s3"))
+
 			
 var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
@@ -99,8 +75,8 @@ func returnDictionary ():
 	}
 	for item in data.keys():
 		dict[item] = {}
-		dict[item]["achieNumber"] = data[item]["achieNumber"]
-		dict[item]["numberOpened"] = data[item]["numberOpened"]
+		dict[item]["xp"] = data[item]["xp"]
+		dict[item]["level"] = data[item]["level"]
 	
 	return dict
 
@@ -109,8 +85,8 @@ func setDictionary (input: Dictionary):
 	itemAch = data.get("itemAch", itemAch)
 	for item in input.keys():
 		if item != "foilAch" and item != "itemAch":
-			data[item]["achieNumber"] = input[item]["achieNumber"]
-			data[item]["numberOpened"] = input[item]["numberOpened"]
+			data[item]["xp"] = input[item]["xp"]
+			data[item]["level"] = input[item]["level"]
 	pass
 
 func getItemAch (item: String):

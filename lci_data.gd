@@ -45,6 +45,7 @@ var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
 func _ready() -> void:
 	Lib.ensure_directory_exists(set_name)
+	Lib.ensure_directory_exists("rex")
 	for x in range(1, 19):
 		Lib.grabCardExtra("spg", x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
@@ -90,7 +91,7 @@ func createDraftPack ():
 	$"..".drawBackButton();
 
 func createSetPack():
-	var spg = true #(randf_range(0, 100) < Player.spg_luck)
+	var spg = (randf_range(0, 100) < Player.spg_luck)
 	var counter = 0
 	for x in 3:
 		Lib.grabCardEasy(set_name, common, 0, counter, false)
@@ -104,7 +105,7 @@ func createSetPack():
 	counter += 1
 	
 	for x in 2:
-		if Lib.doesPass(set_luck, 95):
+		if Lib.doesPass(set_luck, 93):
 			Lib.grabCardEasy("rex", rex, 0, counter, false)
 		else:
 			Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic, show_unc, show_rare, show_mythic],[40, 20, 10, 5, 15, 7, 3]), 0, counter, false)
@@ -114,7 +115,7 @@ func createSetPack():
 	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic], [66, 33]), 0, counter, !spg)
 	
 	if spg:
-		Lib.grabCardEasy("spg", Lib.getRarityByWeight([spg_unc, spg_rare, spg_mythic], [66, 25, 9]), 0, counter, true)
+		Lib.grabCardEasy("spg", Lib.getRarityByWeight([spg_unc, spg_rare, spg_mythic], [60, 30, 10]), 0, counter, true)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
