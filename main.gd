@@ -13,13 +13,10 @@ func _notification(what):
 		for card in Player.cardsToShow:
 			if !(card is Sprite2D):
 				continue
-			var found = false
-			for child in Player.cardInventory:
-				if card.ID == child.ID:
-					found = true
-					child.count += 1
-			if !found:
-				Player.cardInventory.append(card)
+			if Player.cardInventory.has(card.ID):
+				Player.cardInventory.get(card.ID).count += 1;
+			else:
+				Player.cardInventory[card.ID] = card
 		for child in Player.cardsToShow:
 			if is_instance_valid(child):
 				child.queue_free()

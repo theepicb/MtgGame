@@ -1,7 +1,7 @@
 extends Node2D
 
 var set_name = "lci"
-var levelLabel 
+@onready var levelLabel = $"../../CanvasLayer/VScrollBar_PackOpening"
 var draft_luck = 0
 
 var set_luck = 0
@@ -35,17 +35,20 @@ var rare_oltec = ["333", "335", "337", "338", "342", "343", "344", "346", "347",
 
 var mythic_oltec = ["334", "336", "340", "345"]
 
-var spg_nonMyth = []
+var spg_unc = ["2", "5", "6", "7", "18"]
+
+var spg_rare = ["1", "3", "4", "8", "9", "11", "16"]
+
+var spg_mythic = ["10", "12", "13", "14", "15", "17"]
 
 var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] 
 
 func _ready() -> void:
 	Lib.ensure_directory_exists(set_name)
-	for x in range(333, 352):
-		Lib.grabCardExtra(set_name, x, 0, 0, 0, false, true)
+	for x in range(1, 19):
+		Lib.grabCardExtra("spg", x, 0, 0, 0, false, true)
 		await get_tree().create_timer(0.5).timeout
-	Lib.grabCardExtra(set_name, 1, 0, 0, 0, true, true)
-	levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	Lib.grabCardExtra("spg", 1, 0, 0, 0, true, true)
 	print("trans common ", Player.common_trans)
 	print("trans uncommon ", Player.uncommon_trans)
 	print("trans rare ", Player.rare_trans)
@@ -87,7 +90,7 @@ func createDraftPack ():
 	$"..".drawBackButton();
 
 func createSetPack():
-	var spg = (randf_range(0, 100) < Player.spg_luck)
+	var spg = true #(randf_range(0, 100) < Player.spg_luck)
 	var counter = 0
 	for x in 3:
 		Lib.grabCardEasy(set_name, common, 0, counter, false)
@@ -106,6 +109,12 @@ func createSetPack():
 		else:
 			Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic, show_unc, show_rare, show_mythic],[40, 20, 10, 5, 15, 7, 3]), 0, counter, false)
 	
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic], [60, 30, 7, 3]), 1, counter, false)
+	
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic], [66, 33]), 0, counter, !spg)
+	
+	if spg:
+		Lib.grabCardEasy("spg", Lib.getRarityByWeight([spg_unc, spg_rare, spg_mythic], [66, 25, 9]), 0, counter, true)
 	
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
@@ -113,5 +122,4 @@ func createSetPack():
 			await get_tree().process_frame
 	levelLabel.startShowBar()
 	
-	print("Inventory ", Player.IDInventory)
 	$"..".drawBackButton();
