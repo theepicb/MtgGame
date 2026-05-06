@@ -54,15 +54,13 @@ func firstPing(result: int, response_code: int, headers: PackedStringArray, body
 		return
 	print(json)
 	ID = json.get("id")
-	if Player.IDInventory.has(ID):
-		for item in Player.cardInventory:
-			if item.ID == ID:
-				item.count += 1
-				Player.add_child(card)
-				Player.cardsToShow.push_back(card);
-				Player.cardsToDelete.push_back(card)
-				finish()
-				return
+	if Player.cardInventory.has(ID):
+		Player.cardInventory[ID] += 1
+		Player.add_child(card)
+		Player.cardsToShow.push_back(card);
+		Player.cardsToDelete.push_back(card)
+		finish()
+		return
 	else:
 		var prices = json.get("prices")
 		print("is foil? ", prices.get("usd_foil"))
@@ -70,8 +68,7 @@ func firstPing(result: int, response_code: int, headers: PackedStringArray, body
 			createCard(prices.get("usd", 0), json.get("name", "unknown name"), 0)
 		else:
 			createCard(prices.get("usd_foil", 0), json.get("name", "unknown name"), 1)
-		Player.IDInventory.push_back(card.ID);
-		Player.cardInventory.push_back(card)
+		Player.cardInventory[ID] = card
 		Player.cardsToShow.push_back(card);
 	if FileAccess.file_exists(ProjectSettings.globalize_path("user://Cards/plst" + "/" + ID + ".png")):
 		card.call_deferred("loadImage")

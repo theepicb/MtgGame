@@ -84,7 +84,7 @@ func setDictionary (input: Dictionary):
 	foilAch = data.get("foilAch", foilAch)
 	itemAch = data.get("itemAch", itemAch)
 	for item in input.keys():
-		if item != "foilAch" and item != "itemAch":
+		if item != "foilAch" and item != "itemAch" and data.has(item):
 			data[item]["xp"] = input[item]["xp"]
 			data[item]["level"] = input[item]["level"]
 	pass

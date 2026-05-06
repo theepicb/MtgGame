@@ -50,7 +50,6 @@ func _ready():
 	create_pack("lci_draft", 0, preload("res://sprites/Packs/LCI_draft.png"), 12)
 	create_pack("lci_set", 0, preload("res://sprites/Packs/LCI_set.png"), 12)
 	# Layout all unlocked packs
-	unlock_pack("woe_col")
 	unlock_pack("lci_draft")
 	unlock_pack("lci_set")
 
