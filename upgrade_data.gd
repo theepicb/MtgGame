@@ -454,6 +454,14 @@ var UpgradeMain = {
 		return true
 ],
 
+"LU1": [
+	"LU1",
+	"increases your odds to get cards from the list",
+	7,
+	func ():
+		Player.list_luck += 0.5
+		return true
+],
 ## Pack Clicker upgrades
 ##################################################
 ##################################################
