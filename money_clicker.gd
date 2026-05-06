@@ -1,14 +1,13 @@
 extends Button
 
-
 var money_per_click = 0.01;
 var money_per_second = 0;
+var money_per_second_timeout = 60;
+var money_per_second_timeout_mult = 1;
 var money_multiplier = 1;
 
 var combo_crit_chance_multiplier = 0
 var combo_crit_multi_multiplier = 0
-
-var timeoutTime = 1;
 
 var combo_wait_time = 1;
 var combo = 0;
@@ -33,6 +32,8 @@ func setDictionary (dict: Dictionary):
 	crit_multi = dict.get("crit_multi", 2)
 	doubler = dict.get("doubler", 0)
 	rhysticUpgrade = dict.get("rhysticUpgrade", false)
+	money_per_second_timeout = dict.get("money_per_second_timeout", 60)
+	money_per_second_timeout_mult = dict.get("money_per_second_timeout_mult", 1)
 	pass
 
 func returnDictionary () -> Dictionary:
@@ -46,7 +47,9 @@ func returnDictionary () -> Dictionary:
 		"crit_chance": crit_chance,
 		"crit_multi": crit_multi,
 		"doubler": doubler,
-		"rhysticUpgrade": rhysticUpgrade
+		"rhysticUpgrade": rhysticUpgrade,
+		"money_per_second_timeout": money_per_second_timeout,
+		"money_per_second_timeout_mult": money_per_second_timeout_mult
 	}
 	
 	return dict
@@ -57,6 +60,7 @@ func _process(delta: float) -> void:
 	if self.get_child_count() > 0:
 		emit_signal("update_all", delta)
 
+var money_timer
 func _ready() -> void:
 	
 	#UI declerations
@@ -64,8 +68,8 @@ func _ready() -> void:
 	position = Vector2((get_viewport_rect().size.x / 2) - 300, (get_viewport_rect().size.y / 2) - 240);
 	
 	#money per second timer 
-	var money_timer = Timer.new();
-	money_timer.wait_time = 1.0;
+	money_timer = Timer.new();
+	money_timer.wait_time = money_per_second_timeout / money_per_second_timeout_mult;
 	money_timer.one_shot = false;
 	money_timer.connect("timeout", Callable(self, "_money_timer_timeout"));
 	add_child(money_timer);
@@ -89,6 +93,7 @@ func _money_timer_timeout() -> void:
 	Player.money += money_per_second;
 	updateText();
 	$"../CanvasLayer/level_Label".setText()
+	money_timer.wait_time = money_per_second_timeout / money_per_second_timeout_mult
 	pass
 
 #combo timer call

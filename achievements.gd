@@ -6,10 +6,12 @@ var xpRequired = [50, 125, 275, 615, 1250, 2750, 6150, 9999999]
 
 var data = {
 	"woe": {
+		"name": "woe",
 		"xp": 0,
 		"level": 1,
 	},
 	"rvr": {
+		"name": "rvr",
 		"xp": 0,
 		"level": 1,
 	}
@@ -19,38 +21,35 @@ func _ready() -> void:
 	returnDictionary()
 
 func outsideCall (set_name: String, amount: float):
-	data[set_name].numberOpened += 1
+	if (!data.has(set_name)) : printerr("set name not found")
+	data[set_name].xp += amount
 	checkAchievement(data[set_name])
 
 func checkAchievement(input: Dictionary):
-	var achie_number = input["achieNumber"]
-	var target_amount = input["amounts"][achie_number]
-	print("brrrr", achie_number, target_amount, input["numberOpened"])
-	if input["numberOpened"] >= target_amount:
-		input["function"].call()
-		print("called function")
+	if (input["xp"] >= xpRequired[input["level"]]):
+		input["xp"] -= xpRequired[input["level"]]
+		input["level"] += 1
+		print("leveled up %s to level %d", input["name"], input["level"])
 
-func achievement_handler(name: String, ID: int):
+func achievement_handler(Packname: String, ID: int):
 	print("ach called")
-	match name:
+	match Packname:
 		"woe":
 			match ID:
 				0:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d0"))
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s0"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_d0"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_s0"))
 				1: 
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d1"))
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s1"))
-
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_d1"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_s1"))
 				2:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d2"))
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s2"))
-
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_d2"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_s2"))
 				3:
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_d3"))
-					upgrade_manager.generateNewUpgrade(upgrade_manager.packOpeningUpgrades.get("woe_s3"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_d3"))
+					upgrade_manager.generateNewUpgrade(upgrade_manager.upgradeMain.get("woe_s3"))
 
-			
+
 var foilAch = ["confettiFoil"]
 var itemAch = ["doubling season", "smothering tithe", "rhystic study", ]
 func cardAchieve(items: Array):
@@ -64,9 +63,6 @@ func cardAchieve(items: Array):
 		if item.foil == 3 && foilAch.has("confettiFoil"):
 			foilAch.erase("confettiFoil")
 			getItemAch("confettiFoil")
-
-
-
 
 func returnDictionary ():
 	var dict = {

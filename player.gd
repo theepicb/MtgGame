@@ -3,6 +3,7 @@ extends Node2D
 var money = 0;
 var luck = 0;
 var spg_luck = 2
+var list_luck = 2
 
 var tix = 0;
 
@@ -27,30 +28,30 @@ var mythic_trans = []
 func levelUp (_level: int):
 	match _level:
 		2:
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU1"))
-			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP1"))
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC1"))
-			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PP1"))
-			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("SM1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PU1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("MP1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CC1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PP1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("SM1"))
 		3:
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("MC1"))
-			upgradeData.generateNewUpgrade(upgradeData.MPSUpgrades.get("MP2"))
-			upgradeData.generateNewUpgrade(upgradeData.packClicker.get("PM1"))
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU6"))
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU4"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("MC1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("MP2"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PM1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PU6"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CU4"))
 		4:
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CC2"))
-			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("SM2"))
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU1"))
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CM1"))
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("MC2"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CC2"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("SM2"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CU1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CM1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("MC2"))
 		5:
-			upgradeData.generateNewUpgrade(upgradeData.clickerUpgrades.get("CU3"))
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU2"))
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU4"))
-			upgradeData.generateNewUpgrade(upgradeData.playerUpgrades.get("Pl1"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("CU3"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PU2"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PU4"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("Pl1"))
 		6:
-			upgradeData.generateNewUpgrade(upgradeData.packUpgrades.get("PU7"))
+			upgradeData.generateNewUpgrade(upgradeData.UpgradeMain.get("PU7"))
 	levelLabel.setText()
 			
 
@@ -126,6 +127,7 @@ func returnDictionary() -> Dictionary:
 		"level": level,
 		"sell_multi": sell_multi,
 		"specialGuestLuck": spg_luck,
+		"list_luck": list_luck,
 	}
 	return dict
 
@@ -140,6 +142,7 @@ func setDictionary (dict: Dictionary):
 	Player.IDbinder = dict.get("IDbinder", [])
 	Player.sell_multi = dict.get("sell_multi", 0.25)
 	Player.spg_luck = dict.get("specialGuestLuck", spg_luck)
+	Player.list_luck = dict.get("list_luck", 2)
 	pass
 
 func loadBinder(list: Array):

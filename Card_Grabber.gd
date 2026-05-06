@@ -111,7 +111,7 @@ func process_card_json(json: Dictionary) -> void:
 		var type = json.get("type_line")
 		print("type: ", type)
 		var value = json.get("name")
-		if typeof(value) == TYPE_STRING and type.contains("//"):
+		if typeof(value) == TYPE_STRING:
 			match json.get("rarity"):
 				"common": Player.common_trans.append(number)
 				"uncommon": Player.uncommon_trans.append(number)
@@ -153,7 +153,7 @@ func process_card_json(json: Dictionary) -> void:
 			var front_face = card_faces[0]
 			if front_face.has("image_uris"):
 				image_uris = front_face["image_uris"]
-	print(json)
+	#print(json)
 	if not image_uris.has("png"):
 		push_error("No PNG image available for this card")
 		return

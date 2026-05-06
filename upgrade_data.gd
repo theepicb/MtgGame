@@ -2,9 +2,9 @@ extends UpgradeManager
 
 
 func start() -> void:
-	generateNewUpgrade(clickerUpgrades.get("CU0"))
-	generateNewUpgrade(MPSUpgrades.get("MP0"))
-	generateNewUpgrade(packClicker.get("PP0"))
+	generateNewUpgrade(UpgradeMain.get("CU0"))
+	generateNewUpgrade(UpgradeMain.get("MP0"))
+	generateNewUpgrade(UpgradeMain.get("PP0"))
 
 
 
@@ -32,7 +32,14 @@ var cardAchUpgrades = {
 			$"../../Money_Clicker".money_per_second += 0.02
 			return true
 ],
-
+	"mana crypt": [
+		"manaCrypt",
+		"increases your timeout divider by +1",
+		100,
+		func ():
+			$"../../Money_Clicker".money_per_second_timeout_mult += 1
+			return true
+],
 	"rhystic study": [
 		"rhysticStudy",
 		"whenever you click for money theres a 1/5 chance you also click for a pack",
@@ -51,7 +58,7 @@ var cardAchUpgrades = {
 ],
 }
 
-var clickerUpgrades = {
+var UpgradeMain = {
 "CU0": 
 	["CU0", 
 	"increase click value +0.01c per click", 
@@ -173,14 +180,10 @@ var clickerUpgrades = {
 		return true
 ],
 
-}
-
-
-var packUpgrades = {
 	## pack unlocks upgrades
 	##################################################
 	##################################################
-	"PU0": [
+"PU0": [
 	"PU0",
 	"Unlocks March of the Machine: Aftermath Collector Boosters",
 	45,
@@ -188,79 +191,77 @@ var packUpgrades = {
 		registorPack("mat_col", "uncommon")
 		return true
 ],
-	"PU1": [
-		"PU1",
-		"Unlocks Wilds of Eldraine Draft Packs",
-		5,
-		func ():
-			registorPack("woe_draft", "common")
-			return true
-			],
-	"PU2": [
-		"PU2",
-		"Unlocks Wilds of Eldraine Set Packs",
-		15,
-		func ():
-			registorPack("woe_set", "uncommon")
-			return true
-			],
-	"PU3": [
-		"PU3",
-		"Unlocks Wilds of Eldraine Collector Packs",
-		55,
-		func ():
-			registorPack("woe_col", "epic")
-			return true
+"PU1": [
+	"PU1",
+	"Unlocks Wilds of Eldraine Draft Packs",
+	5,
+	func ():
+		registorPack("woe_draft", "common")
+		return true
+		],
+"PU2": [
+	"PU2",
+	"Unlocks Wilds of Eldraine Set Packs",
+	15,
+	func ():
+		registorPack("woe_set", "uncommon")
+		return true
+		],
+"PU3": [
+	"PU3",
+	"Unlocks Wilds of Eldraine Collector Packs",
+	55,
+	func ():
+		registorPack("woe_col", "epic")
+		return true
 ],
-	"PU4": [
-		"PU4",
-		"unlocks ravnica remastered draft packs",
-		25,
-		func ():
-			registorPack("rvr_draft", "uncommon")
-			return true
+"PU4": [
+	"PU4",
+	"unlocks ravnica remastered draft packs",
+	25,
+	func ():
+		registorPack("rvr_draft", "uncommon")
+		return true
 ],
-	"PU5": [
-		"PU5",
-		"unlocks ravnica remastered collector booster packs",
-		40,
-		func ():
-			registorPack("rvr_col", "epic")
-			return true
+"PU5": [
+	"PU5",
+	"unlocks ravnica remastered collector booster packs",
+	40,
+	func ():
+		registorPack("rvr_col", "epic")
+		return true
 ],
-	"PU6": [
-		"PU6",
-		"unlocks march of the machine draft packs",
-		15,
-		func ():
-			registorPack("mom_draft", "common")
-			return true
+"PU6": [
+	"PU6",
+	"unlocks march of the machine draft packs",
+	15,
+	func ():
+		registorPack("mom_draft", "common")
+		return true
 ],
 "PU7": [
-		"PU7",
-		"unlocks march of the machine set packs",
-		30,
-		func ():
-			registorPack("mom_set", "uncommon")
-			return true
+	"PU7",
+	"unlocks march of the machine set packs",
+	30,
+	func ():
+		registorPack("mom_set", "uncommon")
+		return true
 ],
 "PU8": [
-		"PU8",
-		"unlocks march of the machine collector packs",
-		80,
-		func ():
-			registorPack("mom_col", "epic")
-			return true
+	"PU8",
+	"unlocks march of the machine collector packs",
+	80,
+	func ():
+		registorPack("mom_col", "epic")
+		return true
 ],
-}
 
-var MPSUpgrades = {
 	## Money per second upgrades
 	##################################################
 	##################################################
 	"MP0": [
 	"MP0",
-	"increases money per second by 0.01c",
+	"increases money per timeout by 0.01c",
 	2.5,
 	func ():
 		increaseMPSValue(0.01)
@@ -268,7 +269,7 @@ var MPSUpgrades = {
 ],
 "MP1": [
 	"MP1",
-	"increases money per second by 0.01c",
+	"increases money per timeout by 0.01c",
 	5,
 	func ():
 		increaseMPSValue(0.01)
@@ -276,19 +277,34 @@ var MPSUpgrades = {
 ],
 "MP2": [
 	"MP2",
-	"increases money per second by 0.01c",
+	"increases money per timeout by 0.01c",
 	17.5,
 	func ():
 		increaseMPSValue(0.01)
 		return true
 ],
-}
+"MT1": [
+	"MT1",
+	"reduces your automoney timeout by 1 second",
+	"5",
+	func ():
+		$"../../Money_Clicker".money_per_second_timeout -= 1
+		return true
+],
 
-var packOpeningUpgrades = {
+"MT2": [
+	"MT2",
+	"reduces your automoney timeout by 1 second",
+	"10",
+	func ():
+		$"../../Money_Clicker".money_per_second_timeout -= 1
+		return true
+],
+
 	## Wilds of eldraine draft
 	##################################################
 	##################################################
-	"woe_d0": [
+"woe_d0": [
 		"woe_d0",
 		"increases your odds with wilds of eldraine draft packs slightly and increases your odds to get a card off the list",
 		10,
@@ -314,7 +330,7 @@ var packOpeningUpgrades = {
 		50,
 		func ():
 			$"../../Pack_Data/Woe_data".draft_luck += 0.03
-			$"../../Pack_Data/Woe_data".list_Chance += 2.5
+			$"../../Pack_Data/Woe_data".list_Chance += 0.5
 			print($"../../Pack_Data/Woe_data".draft_luck)
 			return true
 ],
@@ -327,7 +343,7 @@ var packOpeningUpgrades = {
 			if pack.id == "woe_draft":
 				pack.price -= 1.5
 		$"../../Pack_Data/Woe_data".draft_luck += 0.02
-		$"../../Pack_Data/Woe_data".list_Chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 0.5
 		return true
 ],
 "woe_d4": [
@@ -335,7 +351,7 @@ var packOpeningUpgrades = {
 	"increases your odds to get a list card even more",
 	120,
 	func ():
-		$"../../Pack_Data/Woe_data".list_Chance += 2.5
+		$"../../Pack_Data/Woe_data".list_Chance += 0.5
 		return true
 ],
 
@@ -383,10 +399,11 @@ var packOpeningUpgrades = {
 		$"../../Pack_Data/Woe_data".list_Chance += 2.5
 		$"../../Pack_Data/Woe_data".set_bonus_foil += 2.5
 		return true
-]
-}
+],
 
-var playerUpgrades = {
+## Player Upgrades
+##################################################
+##################################################
 "Pl1": [
 	"PL1",
 	"slightly increases your over all luck",
@@ -436,9 +453,10 @@ var playerUpgrades = {
 		Player.sell_multi += 0.05
 		return true
 ],
-}
 
-var packClicker = {
+## Pack Clicker upgrades
+##################################################
+##################################################
 "PP0": [
 	"PP0",
 	"slightly increases your pack progress per click",
@@ -542,7 +560,7 @@ func createUpgrades(saved_array: Array):
 	
 	var combined = {}
 
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, packOpeningUpgrades, playerUpgrades, packClicker]:
+	for d in [UpgradeMain, cardAchUpgrades]:
 		for key in d.keys():
 			combined[key] = d[key]
 
@@ -554,7 +572,7 @@ func createUpgrades(saved_array: Array):
 
 func createPurchasedUpgrades(saved_array: Array):
 	var combined = {}
-	for d in [cardAchUpgrades, clickerUpgrades, packUpgrades, MPSUpgrades, packOpeningUpgrades, playerUpgrades, packClicker]:
+	for d in [UpgradeMain, cardAchUpgrades]:
 		for key in d.keys():
 			combined[key] = d[key]
 

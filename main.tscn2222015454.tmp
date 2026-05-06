@@ -1,0 +1,258 @@
+[gd_scene format=3 uid="uid://flgnxqv25dpr"]
+
+[ext_resource type="Script" uid="uid://dynaua2udud1b" path="res://main.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://bn8p7iqnxdaxv" path="res://player.gd" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://bhxagi2bqjbin" path="res://money_clicker.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://biwfb1tu5j62k" path="res://click_screen_button.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://bune4xmr3n333" path="res://upgrades.gd" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://drhjsdrlah301" path="res://pack_clicker.gd" id="4_kek77"]
+[ext_resource type="Script" uid="uid://b8dv6q1006iqp" path="res://pack_screen.gd" id="5_272bh"]
+[ext_resource type="Script" uid="uid://dvrxdfrsl68yp" path="res://money_per_click.gd" id="5_htxhm"]
+[ext_resource type="Script" uid="uid://du5yhnoioa0bo" path="res://upgrades_button.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://b447blbiguac5" path="res://upgrade_data.gd" id="7_yaehf"]
+[ext_resource type="Script" uid="uid://2gyk724rn3l7" path="res://pack_screen_button.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://bgvelf8v1hn0w" path="res://achievements.gd" id="9_1u8w0"]
+[ext_resource type="Script" uid="uid://dkthmxo54wvvv" path="res://canvas_layer.gd" id="9_cegan"]
+[ext_resource type="Script" uid="uid://d1fx4s8p2ui3n" path="res://card.gd" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://cqnrykeuofbg5" path="res://open_packs_screen.gd" id="10_dg77c"]
+[ext_resource type="Script" uid="uid://dvo7vxku3q5d6" path="res://open_packs_screen_scroller.gd" id="10_qnost"]
+[ext_resource type="Script" uid="uid://du8slyj84pk6e" path="res://mat_data.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://bie7vfhuyifeg" path="res://back_button.gd" id="12_vivmo"]
+[ext_resource type="Script" uid="uid://1qmwryctuwk2" path="res://pack_data.gd" id="12_ycdy4"]
+[ext_resource type="Script" uid="uid://3rjap2rupt4c" path="res://Inventory_Button.gd" id="13_2cqfq"]
+[ext_resource type="Script" uid="uid://bdkedm7lynwkt" path="res://v_scroll_bar_upgrades.gd" id="13_seu75"]
+[ext_resource type="Script" uid="uid://bwtih1gbrby62" path="res://v_scroll_bar.gd" id="14_074og"]
+[ext_resource type="Script" uid="uid://c1fb08nxpa3fi" path="res://http_data.gd" id="14_w48qg"]
+[ext_resource type="Script" uid="uid://cxj5p46r83bjm" path="res://casino_button.gd" id="15_a6jrf"]
+[ext_resource type="Script" uid="uid://cv6rbhx8v3i12" path="res://v_scroll_bar_pack_opening.gd" id="16_d13ii"]
+[ext_resource type="Script" uid="uid://b5eerxm8xvh8f" path="res://level_label.gd" id="17_ryguw"]
+[ext_resource type="Script" uid="uid://pospjktluou6" path="res://woe_data.gd" id="19_82xsv"]
+[ext_resource type="Script" uid="uid://cebj07utgufeb" path="res://wot_data.gd" id="20_getpj"]
+[ext_resource type="Script" uid="uid://psbmivduoxid" path="res://button.gd" id="20_kq58d"]
+[ext_resource type="Script" uid="uid://dny8hg74tng27" path="res://rank_button.gd" id="20_qsp4k"]
+[ext_resource type="Script" uid="uid://bnh574u40rrbg" path="res://sell_all.gd" id="21_4k2k6"]
+[ext_resource type="Script" uid="uid://berqfsvgk03yj" path="res://resize_debounce_timer.gd" id="21_h8e4i"]
+[ext_resource type="Script" uid="uid://6ilo531d4748" path="res://inventory.gd" id="22_b1qrp"]
+[ext_resource type="Script" uid="uid://dmkel7vpc60wp" path="res://land_ranks.gd" id="22_jq2sk"]
+[ext_resource type="Script" uid="uid://brkg753i037ea" path="res://binder.gd" id="23_come4"]
+[ext_resource type="Script" uid="uid://bnvj64q3rrlkh" path="res://cmm_data.gd" id="24_0odxb"]
+[ext_resource type="Script" uid="uid://dtx0056u00xuf" path="res://rvr_data.gd" id="25_lswn8"]
+[ext_resource type="Script" uid="uid://daj8wlnw04tv3" path="res://mom_data.gd" id="27_xuqvo"]
+[ext_resource type="Script" uid="uid://dc3i685veqydx" path="res://quest_button.gd" id="29_0cp0l"]
+[ext_resource type="Script" uid="uid://favejygnh1yg" path="res://quests.gd" id="30_d2t1y"]
+[ext_resource type="Script" uid="uid://bq5v8wdxek2t" path="res://lci_data.gd" id="34_0rl1p"]
+[ext_resource type="Script" uid="uid://dt1tlh3j6a11c" path="res://mul_data.gd" id="34_ok6jj"]
+[ext_resource type="Script" uid="uid://c2alsqc1mkhuq" path="res://moc_data.gd" id="37_come4"]
+[ext_resource type="Script" uid="uid://brpo6sjjytumy" path="res://plst_data.gd" id="42_d2t1y"]
+[ext_resource type="Script" uid="uid://dm2viy5g76t4d" path="res://pack_library.gd" id="43_gngh3"]
+[ext_resource type="Script" uid="uid://deppogvqilu5p" path="res://Spg_data.gd" id="44_0n3wm"]
+
+[node name="Main" type="Node2D" unique_id=403456400]
+script = ExtResource("1_h2yge")
+
+[node name="Player" type="Node2D" parent="." unique_id=983471627]
+script = ExtResource("2_1bvp3")
+
+[node name="Card" type="Sprite2D" parent="." unique_id=321852612]
+script = ExtResource("10_4c57u")
+
+[node name="Money_Clicker" type="Button" parent="." unique_id=1885948257]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_lquwl")
+
+[node name="money_per_click" type="Label" parent="Money_Clicker" unique_id=1894422558]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("5_htxhm")
+
+[node name="Pack_Clicker" type="Button" parent="." unique_id=1402844107]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("4_kek77")
+
+[node name="Upgrades" type="Node2D" parent="." unique_id=1810749057]
+script = ExtResource("4_7mycd")
+
+[node name="Upgrade_Data" type="Node2D" parent="Upgrades" unique_id=1746136560]
+script = ExtResource("7_yaehf")
+
+[node name="Pack_Screen" type="Node2D" parent="." unique_id=417454719]
+script = ExtResource("5_272bh")
+
+[node name="Open_Packs_Screen_scroller" type="VScrollBar" parent="." unique_id=1703153294]
+offset_left = 1100.0
+offset_top = 179.0
+offset_right = 1108.0
+offset_bottom = 423.0
+script = ExtResource("10_qnost")
+
+[node name="Achievements" type="Node2D" parent="." unique_id=185860097]
+script = ExtResource("9_1u8w0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1238089894]
+script = ExtResource("9_cegan")
+
+[node name="Click_Screen_button" type="Button" parent="CanvasLayer" unique_id=1893060978]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("4_1bvp3")
+
+[node name="Upgrades_Button" type="Button" parent="CanvasLayer" unique_id=776278988]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("6_272bh")
+
+[node name="VScrollBar_Upgrades" type="VScrollBar" parent="CanvasLayer" unique_id=1576113219]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("13_seu75")
+
+[node name="Pack_Screen_Button" type="Button" parent="CanvasLayer" unique_id=1265912142]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("8_5vw27")
+
+[node name="Open_Packs_Screen" type="Button" parent="CanvasLayer" unique_id=1943308755]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("10_dg77c")
+
+[node name="Back_Button" type="Button" parent="CanvasLayer" unique_id=1155333228]
+offset_right = 45.0
+offset_bottom = 40.0
+text = "back"
+script = ExtResource("12_vivmo")
+
+[node name="VScrollBar" type="VScrollBar" parent="CanvasLayer" unique_id=1432889044]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -11.5
+offset_top = -115.5
+offset_right = 11.5
+offset_bottom = 115.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_074og")
+
+[node name="VScrollBar_PackOpening" type="VScrollBar" parent="CanvasLayer" unique_id=420549146]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("16_d13ii")
+
+[node name="Inventory_Button" type="Button" parent="CanvasLayer" unique_id=1133569649]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("13_2cqfq")
+
+[node name="ResizeDebounceTimer" type="Timer" parent="CanvasLayer/Inventory_Button" unique_id=2102357349]
+wait_time = 0.2
+one_shot = true
+script = ExtResource("21_h8e4i")
+
+[node name="Sell_All" type="Button" parent="CanvasLayer" unique_id=245079505]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("21_4k2k6")
+
+[node name="inventory" type="Button" parent="CanvasLayer" unique_id=508657890]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("22_b1qrp")
+
+[node name="binder" type="Button" parent="CanvasLayer" unique_id=412067231]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("23_come4")
+
+[node name="Upgrade_Tree_button" type="Button" parent="CanvasLayer" unique_id=1876684681]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("20_qsp4k")
+
+[node name="Land_Ranks" type="Control" parent="CanvasLayer/Upgrade_Tree_button" unique_id=1914762533]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("22_jq2sk")
+
+[node name="Forests" type="Button" parent="CanvasLayer/Upgrade_Tree_button/Land_Ranks" unique_id=1331397530]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("20_kq58d")
+
+[node name="level_Label" type="Label" parent="CanvasLayer" unique_id=1584923416]
+offset_right = 40.0
+offset_bottom = 23.0
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("17_ryguw")
+
+[node name="Quest_button" type="Button" parent="CanvasLayer" unique_id=851790855]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("29_0cp0l")
+
+[node name="Quests" type="Node" parent="CanvasLayer/Quest_button" unique_id=2042329857]
+script = ExtResource("30_d2t1y")
+
+[node name="Casino_Button" type="Button" parent="." unique_id=87153078]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("15_a6jrf")
+
+[node name="Pack_Data" type="Node2D" parent="." unique_id=970776884]
+script = ExtResource("12_ycdy4")
+
+[node name="Pack_Library" type="Node2D" parent="Pack_Data" unique_id=321700360]
+script = ExtResource("43_gngh3")
+
+[node name="Mat_data" type="Node2D" parent="Pack_Data" unique_id=1887007234]
+script = ExtResource("11_efxa6")
+
+[node name="Woe_data" type="Node2D" parent="Pack_Data" unique_id=432337106]
+script = ExtResource("19_82xsv")
+
+[node name="Wot_data" type="Node2D" parent="Pack_Data/Woe_data" unique_id=742199293]
+script = ExtResource("20_getpj")
+
+[node name="Cmm_data" type="Node2D" parent="Pack_Data" unique_id=1518940582]
+script = ExtResource("24_0odxb")
+
+[node name="Rvr_data" type="Node2D" parent="Pack_Data" unique_id=635741643]
+script = ExtResource("25_lswn8")
+
+[node name="Mom_data" type="Node2D" parent="Pack_Data" unique_id=1645668011]
+script = ExtResource("27_xuqvo")
+
+[node name="Mul_data" type="Node2D" parent="Pack_Data/Mom_data" unique_id=1520098415]
+script = ExtResource("34_ok6jj")
+
+[node name="Moc_data" type="Node2D" parent="Pack_Data/Mom_data" unique_id=1266709756]
+script = ExtResource("37_come4")
+
+[node name="Lci_data" type="Node2D" parent="Pack_Data" unique_id=1047496268]
+script = ExtResource("34_0rl1p")
+
+[node name="Plst_data" type="Node2D" parent="Pack_Data" unique_id=1618348117]
+script = ExtResource("42_d2t1y")
+
+[node name="Spg_data" type="Node2D" parent="Pack_Data" unique_id=146222289]
+script = ExtResource("44_0n3wm")
+
+[node name="HttpData" type="Node2D" parent="." unique_id=152888002]
+script = ExtResource("14_w48qg")
+
+[connection signal="timeout" from="CanvasLayer/Inventory_Button/ResizeDebounceTimer" to="CanvasLayer/Inventory_Button" method="_on_resize_debounce_timer_timeout"]

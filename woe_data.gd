@@ -60,11 +60,11 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func createDraftPack () -> void:
-	var list
-	if $"..".getLuck() >= 0:
+	$"../../Achievements".outsideCall("woe", 10)
+	var list = false
+	if randi() - (set_luck + Player.list_luck) <= list_Chance:
 		list = true
-	else: list = false
-	#$"../../Achievements".outsideCall("woe_draft")
+	
 	var counter = 0
 	for x in 9:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
@@ -102,7 +102,7 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 	var openAgain = false
 	if (Lib.doesPass(0, 100-(col_double_open/dCounter))):
 		openAgain = true
-	#$"../../Achievements".outsideCall("woe_collector")
+	$"../../Achievements".outsideCall("woe", 50)
 	var odds
 	var packs
 	var counter = 0
@@ -177,14 +177,13 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 	pass
 
 func createSetPack () -> void:
-	#$"../../Achievements".outsideCall("woe_set")
+	$"../../Achievements".outsideCall("woe", 15)
 	var odds
 	var packs
-	var list
-	if randi() - set_luck <= list_Chance:
+	var list = false
+	if randi() - (set_luck + Player.list_luck) <= list_Chance:
 		list = true
-	else:
-		list = false
+
 	var counter = 0
 	for x in 3:
 		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
