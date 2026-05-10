@@ -57,12 +57,14 @@ func returnDictionary() -> Dictionary:
 		"rvr": $Rvr_data.returnDictionary(),
 		"mom": $Mom_data.returnDictionary(),
 		"mat": $Mat_data.returnDictionary(),
+		"lc1": $Lci_data.returnDictionary(),
 	}
 	return dict
 
 func setDictionary(dict: Dictionary):
-	$Woe_data.setDictionary(dict.get("woe"))
-	$Rvr_data.setDictionary(dict.get("rvr"))
-	$Mom_data.setDictionary(dict.get("mom"))
-	$Mat_data.setDictionary(dict.get("mat"))
+	$Woe_data.setDictionary(dict.get("woe"), {})
+	$Rvr_data.setDictionary(dict.get("rvr"), {})
+	$Mom_data.setDictionary(dict.get("mom"), {})
+	$Mat_data.setDictionary(dict.get("mat"), {})
+	$Lci_data.setDictionary(dict.get("lci"), {})
 	

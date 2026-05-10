@@ -401,6 +401,35 @@ var UpgradeMain = {
 		return true
 ],
 
+## lost caverns pack Upgrades
+##################################################
+##################################################
+"lci_d0": [
+		"lci_d0",
+		"increases your odds with lost caverns of ixilan draft packs",
+		10,
+		func ():
+			$"../../Pack_Data/Lci_data".draft_luck += 0.03
+			return true
+],
+"lci_d1": [
+		"lci_d1",
+		"increases your odds with lost caverns of ixilan draft packs",
+		25,
+		func ():
+			$"../../Pack_Data/Lci_data".draft_luck += 0.03
+			return true
+],
+"lci_d2": [
+		"lci_d2",
+		"increases your odds with lost caverns of ixilan draft packs and adds special guest cards to the card pool",
+		50,
+		func ():
+			$"../../Pack_Data/Lci_data".draft_luck += 0.03
+			$"../../Pack_Data/Lci_data".spg
+			return true
+],
+
 ## Player Upgrades
 ##################################################
 ##################################################
