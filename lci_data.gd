@@ -22,7 +22,7 @@ func returnDictionary () -> Dictionary:
 	dictionary["draft_spg_chance"] = draft_spg_chance
 	return dictionary
 
-func setDictionary (dict: Dictionary) -> void:
+func setDictionary (dict: Dictionary = {}) -> void:
 	draft_luck = dict.get("draft", 0)
 	set_luck = dict.get("set", 0)
 	collector_luck = dict.get("collector", 0)

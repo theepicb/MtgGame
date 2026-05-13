@@ -150,80 +150,62 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func createDraftPack ():
-	$"../../Achievements".outsideCall("rvr_draft")
-	var total_luck = Player.luck * draft_luck
+	# init ---------------------------------------------------------------------
+	$"../../Achievements".outsideCall("rvr", 15)
 	var counter = 0
 	var foil = false
 	var commons = 8
 	var isRetroRare = false
-	if (randi_range(0, 100) + total_luck > 66):
+	if (Lib.getLuck(draft_luck) > 66):
 		foil = true
 		commons = 7
-	if ((randi_range(0, 100) + total_luck > 84)):
+	if (Lib.getLuck(draft_luck)> 84):
 		isRetroRare = true
-	
-	
+	# pack draw -------------------------------------------------------------------------------------------
 	for x in commons:
-		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
-	if (randi_range(0, 100) + total_luck > 66):
-		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 + total_luck, 5 + total_luck])
-		grabCard(rarity, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, common, 0, counter, false)
+	if (Lib.getLuck(draft_luck) > 66):
+		var rarity = $"..".getRarityByWeight([common, uncommon, rare, mythic], [60, 25, 10 + Lib.pLuck(draft_luck), 5 + Lib.pLuck(draft_luck)])
+		Lib.grabCardEasy(set_name, rarity, 0, counter, false)
 	else:
-		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, common, 0, counter, false)
 	if !isRetroRare:
-		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon],[66, 33 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_common, retro_uncommon],[66, 33 + Lib.getLuck(draft_luck)]), 0, counter, false)
 	else:
-		grabCard($"..".getRarityByWeight([common, uncommon],[66, 33 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon],[66, 33 + Lib.getLuck(draft_luck)]), 0, counter, false)
 	for x in 3:
-		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
-	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+		Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
+	Lib.grabCardEasy(set_name,Lib.getRarityByWeight([gates, signet, shocks],[60, 31, 9 + Lib.getLuck(draft_luck)]), 0, counter, false)
 	if isRetroRare:
-		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, retro_shocks],[86, 16 + total_luck, 5 + total_luck]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_rare, retro_mythic, Lib.getLuck(draft_luck)],[86, 16 + Lib.getLuck(draft_luck), 5 + Lib.getLuck(draft_luck)]), 0, counter, !foil)
 	else:
-		grabCard($"..".getRarityByWeight([rare, mythic],[84, 16]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !foil)
-	counter += 1
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic],[84, 16]), 0, counter, !foil)
 	if foil:
-		grabCard($"..".getRarityByWeight([common, uncommon, rare, mythic, retro_common, retro_uncommon, retro_rare, shocks],[62, 20, 13 + total_luck, 7 + total_luck, 62, 20, 13 + total_luck, 7 + total_luck, 7 + total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
-	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
-	pass
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic, retro_common, retro_uncommon, retro_rare, shocks],[62, 20, 13 + Lib.getLuck(draft_luck), 7 + Lib.getLuck(draft_luck), 62, 20, 13 + Lib.getLuck(draft_luck), 7 + Lib.getLuck(draft_luck), 7 + Lib.getLuck(draft_luck)]), 1, counter, true)
+	# finish ------------------------------------------------------------------------------------------------------------
+	Lib.finish()
+	# end draft pack ----------------------------------------------------------------------------------
 
 func createCollectorPack ():
+	# init -------------------------------------------------------------------------------------------
 	var isSerial = false
 	var total_luck = collector_luck + Player.luck
-	$"../../Achievements".outsideCall("rvr_col")
+	$"../../Achievements".outsideCall("rvr", 50)
 	var counter = 0
+	# pack draw -------------------------------------------------------------------------------------
 	for x in 4:
-		grabCard(common, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, common, 1, counter, false)
 	for x in 3:
-		grabCard(uncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
-	grabCard($"..".getRarityByWeight([gates, signet, shocks],[60, 31, 9 + total_luck]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+		Lib.grabCardEasy(set_name, uncommon, 1, counter, false)
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([gates, signet, shocks],[60, 31, 9 + total_luck]), 1, counter, false)
 	for x in 2:
-		grabCard($"..".getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 0, counter, false)
 	
-	grabCard($"..".getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_common, retro_uncommon, col_common, col_uncommon],[55.81, 30.23, 2.33, 11.63]), 1, counter, false)
 	
-	grabCard($"..".getRarityByWeight([rare, mythic],[88, 12]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([rare, mythic],[88, 12]), 1, counter, false)
 	
-	grabCard($"..".getRarityByWeight([boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[52, 5.5, 15, 27.5]), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[52, 5.5, 15 + total_luck, 27.5]), 0, counter, false)
 	
 	var number
 	var key
@@ -237,17 +219,10 @@ func createCollectorPack ():
 	if isSerial:
 		grabCardExtra(int(key), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false, number)
 	else:
-		grabCard($"..".getRarityByWeight([retro_rare, retro_mythic, col_rares, col_mythics, boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[55.2,5.3,10.6,2.1,13.4,1.4,4,7]), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true)
-	
-	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
-	pass
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_rare, retro_mythic, col_rares, col_mythics, boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[55.2,5.3 + total_luck,10.6,2.1 + total_luck,13.4,1.4 + total_luck,4,7 + total_luck]), 1, counter, true)
+	# finish --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	Lib.finish()
+	# end collector pack ---------------------------------------------------------------------------------------------------
 
 func returnDictionary ():
 	var dict = {

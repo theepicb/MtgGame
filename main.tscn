@@ -89,6 +89,7 @@ script = ExtResource("7_yaehf")
 script = ExtResource("5_272bh")
 
 [node name="Open_Packs_Screen_scroller" type="VScrollBar" parent="." unique_id=1703153294]
+z_index = 2
 offset_left = 1100.0
 offset_top = 179.0
 offset_right = 1108.0

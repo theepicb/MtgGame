@@ -7,6 +7,8 @@ var list_luck = 2
 
 var tix = 0;
 
+var godMode = true
+
 var level = 1;
 var xpToLevelUp = [0, 5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
 var xp = 0;

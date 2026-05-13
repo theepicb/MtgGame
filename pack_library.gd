@@ -5,10 +5,24 @@ func _ready() -> void:
 
 #returns luck as float with an input for added bonus
 func getLuck (inputLuck: float) -> float:
-	return randf_range(0, 100) + inputLuck
+	return randf_range(0, 100) + inputLuck + Player.luck
+#returns input + player luck
+func pLuck (inputLuck: float) -> float:
+	return inputLuck + Player.luck
+
 # returns whether a check passed with an input for luck bonus and a check float
 func doesPass(inputLuck: float, check: float) -> bool:
 	return randf_range(0, 100) + inputLuck > check
+
+
+func finish() -> void: # function at the end of all pack draws
+	await HttpData.Finished
+	while HttpData.get_child_count() > 0:
+			print("waiting", HttpData.get_child_count())
+			await get_tree().process_frame
+	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	levelLabel.startShowBar()
+	$"..".drawBackButton();
 
 # formula for returning card position at count x
 func getPosition(x: int) -> Vector2:

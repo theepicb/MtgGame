@@ -90,7 +90,7 @@ func layout_pack_buttons():
 	var button_height = 320
 	var horizontal_spacing = 20
 	var vertical_spacing = 30
-	
+	$"../Open_Packs_Screen_scroller".visible = true
 	var row = 0
 	var col = 0
 	
@@ -98,9 +98,8 @@ func layout_pack_buttons():
 	for child in get_children():
 		if child is Button:
 			child.queue_free()
-	
 	for pack in packs:
-		if pack.unlocked:
+		if pack.unlocked || Player.godMode:
 			# Create button
 			var button = Button.new()
 			button.custom_minimum_size = Vector2(button_width, button_height)
@@ -154,20 +153,19 @@ func layout_pack_buttons():
 				row += 1
 
 func _on_pack_button_pressed(pack: Pack):
-	if money_manager.money >= pack.price:
+	if Player.godMode:
+		pack.owned += 1
+	elif money_manager.money >= pack.price:
 		money_manager.money -= pack.price
 		pack.owned += 1
-		
-		# Update owned count display
-		var container = pack.button.get_child(0) as VBoxContainer
-		if container:
-			var owned_label = container.get_node("OwnedLabel") as Label
-			if owned_label:
-				owned_label.text = "Owned: %d" % pack.owned
-		
-		print("Purchased %s pack! Total owned: %d" % [pack.id, pack.owned])
-	else:
-		print("Not enough money to buy %s pack!" % pack.id)
+	
+	# Update owned count display
+	var container = pack.button.get_child(0) as VBoxContainer
+	if container:
+		var owned_label = container.get_node("OwnedLabel") as Label
+		if owned_label:
+			owned_label.text = "Owned: %d" % pack.owned
+
 
 func unlock_pack(pack_id: String):
 	for pack in packs:

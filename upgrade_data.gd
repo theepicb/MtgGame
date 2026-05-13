@@ -356,8 +356,7 @@ var UpgradeMain = {
 ],
 
 ## Wilds of eldraine set
-##################################################
-##################################################
+
 "woe_s0": [
 	"woe_s0",
 	"slightly increases luck in wilds of eldraine set boosters",
@@ -401,6 +400,15 @@ var UpgradeMain = {
 		return true
 ],
 
+"woe_c0": [
+	"woe_c0",
+	"increases luck in wilds of eldraine collector packs",
+	20,
+	func ():
+		$"../../Pack_Data/Woe_data".collector_luck += 0.03
+		return true
+],
+
 ## lost caverns pack Upgrades
 ##################################################
 ##################################################
@@ -426,7 +434,7 @@ var UpgradeMain = {
 		50,
 		func ():
 			$"../../Pack_Data/Lci_data".draft_luck += 0.03
-			$"../../Pack_Data/Lci_data".spg
+			$"../../Pack_Data/Lci_data".draft_spg_chance += 1
 			return true
 ],
 

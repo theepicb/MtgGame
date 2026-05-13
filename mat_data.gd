@@ -57,11 +57,12 @@ func _ready() -> void:
 	#grabCardExtra(94,1, 0, 0, true, false)
 	pass
 
-func createDraftPack () -> void:
+func createDraftPack () -> void: 
+	# init -------------------------------------------------
 	var list = false
 	if (Lib.doesPass(draft_luck, 100-list_chance)):
 		list = true
-	
+	# pack --------------------------------------------------
 	var counter = 0
 	for x in 2:
 			Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
@@ -80,16 +81,9 @@ func createDraftPack () -> void:
 		var list_card = P_list.new(counter, true)
 		add_child(list_card)
 	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
+	Lib.finish()
 
-func createCollectorPack (doubleOpen: bool = false):
+func createCollectorPack (doubleOpen: bool = false, doubleCounter: int = 1):
 	var openAgain = false
 	if (Lib.doesPass(0, 100-col_double_open)):
 		openAgain = true
@@ -110,10 +104,9 @@ func createCollectorPack (doubleOpen: bool = false):
 	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([extendedRare, extendedMythic], [84, 16]), foil, counter, false)
 	
 	if $"..".getLuck() >= 84:
-		grabCard(etchedMythic, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, etchedMythic, 2, counter, false)
 	else:
-		grabCard(etchedRare, 2, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+		Lib.grabCardEasy(set_name, etchedRare, 2, counter, false)
 	
 	var halo = false
 	if Lib.doesPass(0, 84):
@@ -123,14 +116,8 @@ func createCollectorPack (doubleOpen: bool = false):
 		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([halouncommon, halorare, halomythic], [50, 34, 16]), 1, counter, !openAgain)
 	else:
 		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([specialUncommon, specialRare, specialMythic], [50, 34, 16]), 1, counter, !openAgain)
-		if openAgain:
-			createCollectorPack(true)
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
 	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
-	pass
+	if openAgain:
+		createCollectorPack(true)
+	else:
+		Lib.finish()

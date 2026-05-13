@@ -60,45 +60,39 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func createDraftPack () -> void:
+	# init-----------------------------------------------------
 	$"../../Achievements".outsideCall("woe", 10)
 	var list = false
-	if randi() - (set_luck + Player.list_luck) <= list_Chance:
+	if Lib.getLuck(draft_luck + Player.list_luck) <= 100 - list_Chance:
 		list = true
 	
 	var counter = 0
+	# Draft pack draw ----------------------------------------
 	for x in 9:
-		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, common, 0, counter, false)
 	
 	for x in 3:
-		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
 	
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
 	
-	if ($"..".getLuck() >= 84 - draft_luck):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, list)
+	if (Lib.getLuck(draft_luck) >= 84):
+		Lib.grabCardEasy(set_name, mythic, 0, counter, !list)
 	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, list)
-	counter += 1
+		Lib.grabCardEasy(set_name, rare, 0, counter, !list)
+	
 	if list:
 		var list_card = P_list.new(counter, true)
 		add_child(list_card)
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
 	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	
-
-	$"..".drawBackButton();
+	# final ------------------------------------------
+	Lib.finish()
+	# end draft pack ----------------------------------------------
 
 func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
-	
+	# init -------------------------------------------------
 	var openAgain = false
 	if (Lib.doesPass(0, 100-(col_double_open/dCounter))):
 		openAgain = true
@@ -106,14 +100,12 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 	var odds
 	var packs
 	var counter = 0
-	
+	# pack draw -----------------------------------------------
 	for x in 4:
-		grabCard(common, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, common, 1, counter, false)
 	
 	for x in 3:
-		grabCard(uncommon, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+		Lib.grabCardEasy(set_name, uncommon, 1, counter, false)
 	
 	$Wot_data.getWithRarity("uncommon", 0, counter, false)
 	counter += 1
@@ -122,21 +114,21 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 	counter += 1
 	
 	packs = [rare, mythic]
-	odds = [85.7, 14.3 + collector_luck]
+	odds = [85.7, Lib.pLuck(14.3 + collector_luck)]
 	
 	grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
 	counter += 1
 	
 	packs = ["extendedRare", "extendedMythic"]
-	odds = [84, 16 + collector_luck]
+	odds = [84, Lib.pLuck(16 + collector_luck)]
 	
-	var foil = getRarityByWeight([0, 1], [50, 50 + collector_luck])
+	var foil = getRarityByWeight([0, 1], [60, Lib.pLuck(40 + collector_luck)])
 	packs = getRarityByWeight(packs, odds)
 	if packs == "extendedRare":
 		var card = extendedRare.pick_random()
 		print("card", card)
 		if card >= 370:
-			grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
+			grabCardExtra(card, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
 		else:
 			grabCardExtra(card, foil, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false, false)
 	else:
@@ -147,14 +139,12 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 	$Wot_data.getWithRarity(rarity, 1, counter, false)
 	counter += 1
 	
-	
-	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, 4 + collector_luck, 16.2, 7.7, 24.4, 3.3 + collector_luck, 1.1 + collector_luck, 1.7 + collector_luck, 1.1 + confetti_luck + collector_luck, 1.7 + confetti_luck + collector_luck])
+	rarity = getRarityByWeight(["extendedRare", extendedMythic, showcase, boarderless, "rare", "mythic", "animeRare", "animeMythic", "confettiRare", "confettiMythic"], [38.8, Lib.pLuck(4 + collector_luck), 16.2, 7.7, 24.4, Lib.pLuck(3.3 + collector_luck), Lib.pLuck(1.1 + collector_luck), Lib.pLuck(1.7 + collector_luck), Lib.pLuck(0.7 + collector_luck + confetti_luck), Lib.pLuck(1.1 + collector_luck + confetti_luck)])
 	if rarity is String:
 		if (rarity == "confettiRare" || rarity == "confettiMythic"):
 			$Wot_data.getWithRarity(rarity, 3, counter, !doubleOpen)
 		elif rarity == "extendedRare":
 			var card = extendedRare.pick_random()
-			print("card", card)
 			if card >= 370:
 				grabCardExtra(card, false, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !openAgain, false)
 			else:
@@ -163,84 +153,71 @@ func createCollectorPack (doubleOpen: bool = false, dCounter: int = 1) -> void:
 			$Wot_data.getWithRarity(rarity, 1, counter, !openAgain)
 	else:
 		grabCard(rarity, 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !openAgain)
-	
+	# finish ---------------------------------------------------------------------
 	if openAgain:
 		createCollectorPack(true, dCounter+1)
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.startShowBar()
-	$"..".drawBackButton();
-	pass
+	else:
+		Lib.finish()
+	# finish collector--------------------------------------------------------
 
 func createSetPack () -> void:
 	$"../../Achievements".outsideCall("woe", 15)
 	var odds
 	var packs
 	var list = false
-	if randi() - (set_luck + Player.list_luck) <= list_Chance:
+	if Lib.getLuck(set_luck) > 100 - list_Chance:
 		list = true
 
 	var counter = 0
 	for x in 3:
-		grabCard(common, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, common, 0, counter, false)
 		counter += 1
 	
 	for x in 3:
-		grabCard(uncommon, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, uncommon, 0, counter, false)
+	
+	odds = [60, 30, 7 + (Lib.getLuck(set_luck) / 2), 3 + Lib.getLuck(set_luck)]
+	packs = [common, uncommon, rare, mythic]
+	
+	if (Lib.getLuck(set_luck) >= 95):
+		$Wot_data.grabETCardDraft(counter, 0, false)
 		counter += 1
-	
-	if ($"..".getLuck() >= 95):
-		$Wot_data.grabETCardDraft(counter, 0, false)
 	else:
-		odds = [60, 30, 7, 3]
-		packs = [common, uncommon, rare, mythic]
-		grabCard(getRarityByWeight(packs, odds), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight(packs, odds), 0, counter, false)
 	
-	counter += 1
-	
-	if ($"..".getLuck() >= 95):
+	if (Lib.getLuck(set_luck) >= 95):
 		$Wot_data.grabETCardDraft(counter, 0, false)
+		counter += 1
 	else:
-		odds = [60, 30, 7, 3]
-		packs = [common, uncommon, rare, mythic]
-		grabCard(getRarityByWeight(packs, odds), 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight(packs, odds), 0, counter, false)
 	
-	counter += 1
-	
-	if ($"..".getLuck() >= 95):
+	if (Lib.getLuck(set_luck) >= 95):
 		$Wot_data.grabETCardDraft(counter, 1, false)
+		counter += 1
 	else:
-		odds = [60, 30, 7, 3]
-		packs = [common, uncommon, rare, mythic]
-		grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-	counter += 1
+		Lib.grabCardEasy(set_name, Lib.getRarityByWeight(packs, odds), 1, counter, false)
 	
 	
 	if $"..".getLuck() < set_bonus_foil:
 		if ($"..".getLuck() >= 95):
 			$Wot_data.grabETCardDraft(counter, 1, false)
+			counter += 1
 		else:
-			odds = [60, 30, 7, 3]
-			packs = [common, uncommon, rare, mythic]
-			grabCard(getRarityByWeight(packs, odds), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, false)
-		counter += 1
+			Lib.grabCardEasy(set_name, Lib.getRarityByWeight(packs, odds), 1, counter, false)
 	
 	$Wot_data.grabETCardDraft(counter, 0, false)
 	counter += 1
 	
-	if ($"..".getLuck() >= 84):
-		grabCard(mythic, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+	if (Lib.getLuck(set_luck) >= 84):
+		Lib.grabCardEasy(set_name, mythic, 0, counter, !list)
 	else:
-		grabCard(rare, 0, $"..".getPosition(counter).x, $"..".getPosition(counter).y, !list)
+		Lib.grabCardEasy(set_name, rare, 0, counter, !list)
 	
 	if list:
 		var listCard = P_list.new(counter, true)
 		add_child(listCard)
 	
+	# final --------------------------------------------------------
 	await HttpData.Finished
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
@@ -249,7 +226,7 @@ func createSetPack () -> void:
 	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
 	levelLabel.startShowBar()
 	$"..".drawBackButton();
-	pass
+	# end set pack ----------------------------------------------------------
 
 func getRarityByWeight(arrays: Array, weights: Array):
 	var random = RandomNumberGenerator.new()
