@@ -85,7 +85,7 @@ func createDraftPack () -> void:
 
 func createCollectorPack (doubleOpen: bool = false, doubleCounter: int = 1):
 	var openAgain = false
-	if (Lib.doesPass(0, 100-col_double_open)):
+	if (Lib.doesPass(0, 100 - (col_double_open / doubleCounter))):
 		openAgain = true
 	var counter = 0;
 	
@@ -118,6 +118,6 @@ func createCollectorPack (doubleOpen: bool = false, doubleCounter: int = 1):
 		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([specialUncommon, specialRare, specialMythic], [50, 34, 16]), 1, counter, !openAgain)
 	
 	if openAgain:
-		createCollectorPack(true)
+		createCollectorPack(true, doubleCounter + 1)
 	else:
 		Lib.finish()

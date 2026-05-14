@@ -69,10 +69,10 @@ var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 func _ready() -> void:
 	Lib.ensure_directory_exists(set_name)
 	Lib.ensure_directory_exists("rex")
-	for x in range(1, 19):
-		Lib.grabCardExtra("spg", x, 0, 0, 0, false, true)
-		await get_tree().create_timer(0.5).timeout
-	Lib.grabCardExtra("spg", 1, 0, 0, 0, true, true)
+	#for x in range(1, 19):
+		#Lib.grabCardExtra("spg", x, 0, 0, 0, false, true)
+		#await get_tree().create_timer(0.5).timeout
+	#Lib.grabCardExtra("spg", 1, 0, 0, 0, true, true)
 	print("trans common ", Player.common_trans)
 	print("trans uncommon ", Player.uncommon_trans)
 	print("trans rare ", Player.rare_trans)

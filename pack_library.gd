@@ -1,11 +1,15 @@
 extends Node2D
 var packScreen
+var levelLabel
+var backButton
 func _ready() -> void:
 	packScreen = get_node("/root/Main/Pack_Screen")
+	levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
+	backButton = get_node("/root/Main/CanvasLayer/Back_Button")
 
 #returns luck as float with an input for added bonus
 func getLuck (inputLuck: float) -> float:
-	return randf_range(0, 100) + inputLuck + Player.luck
+	return min(randf_range(0, 100) + inputLuck + Player.luck, 100)
 #returns input + player luck
 func pLuck (inputLuck: float) -> float:
 	return inputLuck + Player.luck
@@ -20,9 +24,8 @@ func finish() -> void: # function at the end of all pack draws
 	while HttpData.get_child_count() > 0:
 			print("waiting", HttpData.get_child_count())
 			await get_tree().process_frame
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
 	levelLabel.startShowBar()
-	$"..".drawBackButton();
+	backButton.draw()
 
 # formula for returning card position at count x
 func getPosition(x: int) -> Vector2:

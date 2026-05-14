@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 class_name PackManager
 static var instance = null
@@ -30,8 +30,26 @@ class Pack:
 # Main variables
 var packs: Array[Pack] = []
 @onready var money_manager = Player # Assume you have a node tracking money
+@onready var grid = get_node("/root/Main/Pack_Screen/Open_Packs_Screen_scroller/MarginContainer/GridContainer")
+@onready var scroll = $Open_Packs_Screen_scroller
+@onready var margin_container = $Open_Packs_Screen_scroller/MarginContainer
 
+	
 func _ready():
+	get_viewport().size_changed.connect(_on_viewport_resized)
+	size = get_viewport_rect().size
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin_container.add_theme_constant_override("margin_top", 30)
+	margin_container.add_theme_constant_override("margin_bottom", 30)
+	margin_container.add_theme_constant_override("margin_left", 20)
+	margin_container.add_theme_constant_override("margin_right", 20)
+	scroll.offset_left = 200
+	scroll.offset_top = 0
+	scroll.offset_right = 0
+	scroll.offset_bottom = 0
+	grid.add_theme_constant_override("h_separation", 20)
+	grid.add_theme_constant_override("v_separation", 30)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	# Initialize some example packs
 	create_pack("mat_ep", 4, preload("res://sprites/Packs/MOTM-E-pack.png"), 2)
 	unlock_pack("mat_ep");
@@ -80,77 +98,77 @@ func create_pack(id: String, price: float, texture: Texture2D, xp: int):
 	var new_pack = Pack.new(id, price, texture, xp)
 	packs.append(new_pack)
 	# Uncomment if you want packs unlocked by default
-	#new_pack.unlocked = true
+
+var button_width = 200
+var button_height = 280
 
 func layout_pack_buttons():
-	var start_x = 220
-	var start_y = 20
-	var columns = floor((get_viewport_rect().size.x - 180) / 250)
-	var button_width = 220
-	var button_height = 320
-	var horizontal_spacing = 20
-	var vertical_spacing = 30
-	$"../Open_Packs_Screen_scroller".visible = true
-	var row = 0
-	var col = 0
 	
-	# Clear existing buttons first
-	for child in get_children():
-		if child is Button:
-			child.queue_free()
+	size = get_viewport_rect().size
+	print(scroll)
+	print(grid)
+	_on_viewport_resized()
+	# Remove old buttons
+	for child in grid.get_children():
+		child.queue_free()
+
+	
+
+	# Automatically calculate columns
+
 	for pack in packs:
-		if pack.unlocked || Player.godMode:
-			# Create button
+
+		if pack.unlocked or Player.godMode:
+
 			var button = Button.new()
 			button.custom_minimum_size = Vector2(button_width, button_height)
-			button.position = Vector2(
-				start_x + col * (button_width + horizontal_spacing),
-				start_y + row * (button_height + vertical_spacing)
-			)
-			
-			# Create container for centered content
+
+			# Main vertical container
 			var container = VBoxContainer.new()
-			container.size = Vector2(button_width, button_height)
+			container.custom_minimum_size = Vector2(button_width, button_height)
 			container.alignment = BoxContainer.ALIGNMENT_CENTER
-			
-			# Create texture rect for sprite
+
+			# Pack image
 			var texture_rect = TextureRect.new()
 			texture_rect.texture = pack.sprite_texture
 			texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			texture_rect.custom_minimum_size = Vector2(button_width - 30, button_height - 70)
-			
-			# Create price label (centered)
+			texture_rect.custom_minimum_size = Vector2(
+				button_width - 30,
+				button_height - 70
+			)
+
+			# Price label
 			var price_label = Label.new()
-			price_label.text = "cost: " + "$%.2f" % pack.price
+			price_label.text = "Cost: $%.2f" % pack.price
 			price_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			
-			# Create owned label (centered)
+
+			# Owned label
 			var owned_label = Label.new()
 			owned_label.name = "OwnedLabel"
 			owned_label.text = "Owned: %d" % pack.owned
 			owned_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			
-			# Add elements to container
+
+			# Add UI elements
 			container.add_child(texture_rect)
 			container.add_child(price_label)
 			container.add_child(owned_label)
-			
-			# Add container to button
+
 			button.add_child(container)
-			
-			# Connect button press
-			button.pressed.connect(_on_pack_button_pressed.bind(pack))
-			
-			# Store button reference
+
+			# Button signal
+			button.pressed.connect(
+				_on_pack_button_pressed.bind(pack)
+			)
+
 			pack.button = button
-			add_child(button)
-			
-			# Update grid position
-			col += 1
-			if col >= columns:
-				col = 0
-				row += 1
+
+			# Add to grid container
+			grid.add_child(button)
+	self.show()
+	print("Children in grid: ", grid.get_child_count())
+	print("Grid size: ", grid.size)
+	print("Scroll size: ", scroll.size)
 
 func _on_pack_button_pressed(pack: Pack):
 	if Player.godMode:
@@ -174,12 +192,23 @@ func unlock_pack(pack_id: String):
 			break
 			
 func deleteChildren():
-	for child in get_children():
-		if child is Button:
-			child.queue_free()
+	self.hide()
 
 func getPack (ID: String, amount: int):
 	for pack in packs:
 		if pack.id == ID:
 			pack.owned += amount
 			break
+
+func _on_viewport_resized():
+
+	size = get_viewport_rect().size
+	
+	var columns = max(1, floor((size.x - 200) / (button_width + 20)))
+
+	grid.columns = columns
+	
+	scroll.size = Vector2(
+		size.x - 200,
+		size.y 
+	)

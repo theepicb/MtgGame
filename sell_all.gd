@@ -16,3 +16,5 @@ func _pressed() -> void:
 		Player.money += amount
 		Player.cardInventory.clear()
 		$"../Inventory_Button".loadInventory()
+		$"../level_Label".setText()
+		$"../../Money_Clicker".updateText()

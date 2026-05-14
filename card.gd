@@ -191,6 +191,7 @@ func loadImage ():
 
 
 func _unhandled_input(event):
+	print(event)
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and Player.inInventory == true:
 		for child in self.get_children():
 			if child is Button:

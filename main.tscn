@@ -85,16 +85,22 @@ script = ExtResource("4_7mycd")
 [node name="Upgrade_Data" type="Node2D" parent="Upgrades" unique_id=1746136560]
 script = ExtResource("7_yaehf")
 
-[node name="Pack_Screen" type="Node2D" parent="." unique_id=417454719]
+[node name="Pack_Screen" type="Control" parent="." unique_id=937758324]
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("5_272bh")
 
-[node name="Open_Packs_Screen_scroller" type="VScrollBar" parent="." unique_id=1703153294]
-z_index = 2
-offset_left = 1100.0
-offset_top = 179.0
-offset_right = 1108.0
-offset_bottom = 423.0
+[node name="Open_Packs_Screen_scroller" type="ScrollContainer" parent="Pack_Screen" unique_id=285053090]
+layout_mode = 1
 script = ExtResource("10_qnost")
+
+[node name="MarginContainer" type="MarginContainer" parent="Pack_Screen/Open_Packs_Screen_scroller" unique_id=2141246039]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Pack_Screen/Open_Packs_Screen_scroller/MarginContainer" unique_id=983208331]
+layout_mode = 2
 
 [node name="Achievements" type="Node2D" parent="." unique_id=185860097]
 script = ExtResource("9_1u8w0")

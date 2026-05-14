@@ -63,8 +63,9 @@ func createDraftPack () -> void:
 	# init-----------------------------------------------------
 	$"../../Achievements".outsideCall("woe", 10)
 	var list = false
-	if Lib.getLuck(draft_luck + Player.list_luck) <= 100 - list_Chance:
+	if Lib.getLuck(draft_luck + Player.list_luck) < 100 - list_Chance:
 		list = true
+		print("list: %d", list_Chance)
 	
 	var counter = 0
 	# Draft pack draw ----------------------------------------
