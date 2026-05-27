@@ -108,10 +108,9 @@ func firstPing(result: int, response_code: int, headers: PackedStringArray, body
 
 func process_card_json(json: Dictionary) -> void:
 	if grabbingRarity:
-		var type = json.get("type_line")
-		print("type: ", type)
+		#var type = json.get("type_line")
 		var value = json.get("name")
-		if typeof(value) == TYPE_STRING:
+		if typeof(value) == TYPE_STRING && false:
 			match json.get("rarity"):
 				"common": Player.common_trans.append(number)
 				"uncommon": Player.uncommon_trans.append(number)

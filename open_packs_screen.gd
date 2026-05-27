@@ -1,39 +1,40 @@
-extends Button
+extends Control
 
 @onready var pack_manager =  $"../../Pack_Screen";
 var nodesToShow = ["Click_Screen_button", "Upgrades_Button", "Pack_Screen_Button", "Open_Packs_Screen", "Inventory_Button", "level_Label"]
 
-func _ready():
-	size = Vector2(180, 60)
-	position = Vector2(2, 185)
-	text = "open packs"
-	pass 
+func _ready() -> void:
+	hide()
+	_on_viewport_resized()
+	get_viewport().size_changed.connect(_on_viewport_resized)
+	size = get_viewport_rect().size
+	offset_left = 200
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	margin_container.add_theme_constant_override("margin_top", 30)
+	margin_container.add_theme_constant_override("margin_bottom", 30)
+	margin_container.add_theme_constant_override("margin_left", 20)
+	margin_container.add_theme_constant_override("margin_right", 20)
+	scroll.offset_top = 0
+	scroll.offset_right = 0
+	scroll.offset_bottom = 0
+	grid.add_theme_constant_override("h_separation", 20)
+	grid.add_theme_constant_override("v_separation", 30)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+		
 
-func _pressed() -> void:
-	$"../../Money_Clicker".visible = false;
-	$"../../Pack_Clicker".visible = false;
-	$"../../Upgrades".deleteChildren();
-	$"../../Pack_Screen".deleteChildren();
-	$"../Inventory_Button".leaveInventory();
-	display_owned_packs();
-	pass
 
+@onready var grid = $"ScrollContainer/MarginContainer/GridContainer"
+@onready var margin_container = $"ScrollContainer/MarginContainer"
+@onready var scroll = $"ScrollContainer"
+var button_width = 220
+var button_height = 320
 func display_owned_packs():
 	# Clear existing buttons
-	for child in get_children():
-		if child is Button:
-			child.queue_free()
-	
-	var start_x = 220
-	var start_y = -180
-	var columns = 4
-	var button_width = 220
-	var button_height = 320
-	var spacing = 30
-	
-	var row = 0
-	var col = 0
-	
+	for child in grid.get_children():
+		child.queue_free()
+	print(scroll.visible)
+	print(grid)
 	# Filter packs you own more than 1 of
 	var owned_packs = pack_manager.packs.filter(func(p): return p.owned > 0)
 	
@@ -41,11 +42,7 @@ func display_owned_packs():
 		# Create button
 		var button = Button.new()
 		button.custom_minimum_size = Vector2(button_width, button_height)
-		button.position = Vector2(
-			start_x + col * (button_width + spacing),
-			start_y + row * (button_height + spacing)
-		)
-		
+
 		# Create container
 		var container = VBoxContainer.new()
 		container.size = Vector2(button_width, button_height)
@@ -76,13 +73,12 @@ func display_owned_packs():
 		
 		# Connect press signal
 		button.pressed.connect(_on_pack_opened.bind(pack))
-		add_child(button)
+		grid.add_child(button)
 		
 		# Update grid position
-		col += 1
-		if col >= columns:
-			col = 0
-			row += 1
+	show()
+	$ScrollContainer.show()
+	_on_viewport_resized()
 
 
 func _on_pack_opened(pack):
@@ -134,18 +130,35 @@ func open_pack_contents(pack_id: String):
 	# You might call something like:
 	# card_reward_system.generate_rewards(pack_id)
 func deleteChildren():
-	for child in get_children():
+	print("hiding")
+	print($ScrollContainer.visible)
+	hide()
+	for child in grid.get_children():
 		child.queue_free()
 
 func hideUI () -> void:
 	deleteChildren()
-	for child in $"..".get_children():
-		child.visible = false
+	$ScrollContainer.hide()
+	$ScrollContainer/MarginContainer/GridContainer.hide()
+	$"../Inventory_Button".hide()
+	$"../Open_Pack_Button".hide()
+	$"../Click_Screen_button".hide()
+	$"../Upgrades_Button".hide()
+	$"../Pack_Screen_Button".hide()
+	
 	print("children: ", get_children())
 
 func showUI () -> void:
-	for child in $"..".get_children():
-		if nodesToShow.has(child.name):
-			child.visible = true
-	
+	$ScrollContainer/MarginContainer/GridContainer.show()
+	$"../Click_Screen_button".show()
+	$"../Upgrades_Button".show()
+	$"../Pack_Screen_Button".show()
+	$"../Inventory_Button".show()
+	$"../Open_Pack_Button".show()
 	display_owned_packs();
+
+
+func _on_viewport_resized():
+	
+	var viewport_size = get_viewport_rect().size
+	grid.columns = max(1, floor((viewport_size.x - 200) / (button_width + 20)))

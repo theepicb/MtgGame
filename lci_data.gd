@@ -38,7 +38,7 @@ var uncommon = [5, 8, 10, 16, 17, 19, 21, 22, 23, 25, 33, 42, 48, 50, 51, 54, 58
 
 var rare = [1, 12, 14, 20, 34, 43, 44, 52, 61, 63, 80, 81, 94, 98, 113, 115, 121, 122, 123, 127, 137, 153, 156, 157, 161, 171, 176, 181, 191, 193, 196, 208, 211, 219, 221, 223, 225, 228, 234, 237, 241, 244, 258, 264, 265, 271, 280, 281, 282, 283, 284, 285]
 
-var mythic = [32, 92, 134, 185, 212, 222, 229, 235, 238, 239, 240, 243, 249, 257, 269]
+var mythic = [26, 32, 67, 88, 92, 134, 158, 185, 204, 212, 222, 229, 235, 238, 239, 240, 243, 249, 257, 269]
 
 var trans_common = [29, 60, 128, 155, 197]
 
@@ -52,11 +52,17 @@ var show_unc = [298, 301, 302, 303, 304, 306, 310, 312]
 
 var show_rare = [292, 293, 294, 295, 297, 299, 300]
 
-var show_mythic = [305, 307, 308, 309, 311, 319]
+var show_mythic = [305, 307, 308, 309, 311, 314, 315, 316, 317, 318, 319]
 
 var rare_oltec = ["333", "335", "337", "338", "342", "343", "344", "346", "347", "350", "349", "351", "348"]
 
 var mythic_oltec = ["334", "336", "340", "345"]
+
+var rare_extended = ["353", "354", "355", "356", "357", "358", "359", "360", "361", "363", "364", "365", "366", "367", "368", "369", "370", "371", "372", "373", "374", "375", "376", "377", "378", "379", "380", "381", "382", "383", "384", "385", "386", "387", "389", "390", "391"]
+
+var mythic_extended= ["362", "388"]
+
+var classic_dinos = [320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 332]
 
 var spg_unc = ["2", "5", "6", "7", "18"]
 
@@ -69,10 +75,7 @@ var rex = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 func _ready() -> void:
 	Lib.ensure_directory_exists(set_name)
 	Lib.ensure_directory_exists("rex")
-	#for x in range(1, 19):
-		#Lib.grabCardExtra("spg", x, 0, 0, 0, false, true)
-		#await get_tree().create_timer(0.5).timeout
-	#Lib.grabCardExtra("spg", 1, 0, 0, 0, true, true)
+	
 	print("trans common ", Player.common_trans)
 	print("trans uncommon ", Player.uncommon_trans)
 	print("trans rare ", Player.rare_trans)
@@ -112,13 +115,7 @@ func createDraftPack ():
 	if spg:
 		Lib.grabCardEasy("spg", Lib.getRarityByWeight([spg_unc, spg_rare, spg_mythic], [60, 30 + (0.5 * spg_luck), 10 + spg_luck]), 0, counter, true)
 	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	levelLabel.startShowBar()
-	
-	$"..".drawBackButton();
+	Lib.finish()
 
 func createSetPack():
 	var spg = (randf_range(0, 100) < Player.spg_luck)
@@ -138,7 +135,7 @@ func createSetPack():
 		if Lib.doesPass(set_luck, 93):
 			Lib.grabCardEasy("rex", rex, 0, counter, false)
 		else:
-			Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic + Lib.getLuck(set_luck), show_unc, show_rare , show_mythic],[40, 20, 10+ (Lib.getLuck(set_luck)/2), 5 + Lib.getLuck(set_luck), 15, 7 + (Lib.getLuck(set_luck)/2), 3 + Lib.getLuck(set_luck)]), 0, counter, false)
+			Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic, show_unc, show_rare , show_mythic, classic_dinos],[40, 20, 10+ (Lib.getLuck(set_luck)/2), 5 + Lib.getLuck(set_luck), 15, 7 + (Lib.getLuck(set_luck)/2), 3 + Lib.getLuck(set_luck), 15]), 0, counter, false)
 	
 	Lib.grabCardEasy(set_name, Lib.getRarityByWeight([common, uncommon, rare, mythic], [60, 30, 7, 3]), 1, counter, false)
 	
@@ -154,3 +151,13 @@ func createSetPack():
 	levelLabel.startShowBar()
 	
 	$"..".drawBackButton();
+
+func createCollectorPack ():
+	
+	Lib.finish()
+
+
+#func getNeonInk (type:Array, setName:String, counter:int):
+	#var input;
+	#
+	#Lib.grabCardExtra(set_name, )

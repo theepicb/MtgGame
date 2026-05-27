@@ -52,9 +52,7 @@ func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: 
 	pass
 
 func _ready() -> void:
-	#grabCard(halouncommon, 1, 0, 0, true)
 	$"..".ensure_directory_exists("user://Cards/mat")
-	#grabCardExtra(94,1, 0, 0, true, false)
 	pass
 
 func createDraftPack () -> void: 

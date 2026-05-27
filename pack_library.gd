@@ -45,7 +45,7 @@ func grabCard (setName: String, list: Array, foilEnum: int, posX: float, posY: f
 	pass
 # extended function to contruct and start grabbing cards, allows for specific card grabbing and advanced card types such as
 # serial cards
-func grabCardExtra (setName: String, number: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
+func grabCardExtra (setName: String, number: Variant, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
 	var pos = Vector2(posX, posY)
 	var grab = Card_Grabber.new(number, setName, foilEnum, "user://Cards/" + setName, pos, isLast, isGrabbing);
 	add_child(grab)

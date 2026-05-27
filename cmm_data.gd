@@ -50,21 +50,7 @@ var texturedMythic = [1057, 1058, 1059, 1060, 1061, 1062, 1063, 1064, 1065, 1066
 
 func _ready() -> void:
 	$"..".ensure_directory_exists("user://Cards/cmm")
-	#for x in range(1, 5):
-		#grabCardExtra(x, 0, 0, 0, false, false)
-		#await get_tree().create_timer(0.5).timeout
-	#grabCardExtra(1, 0, 0, 0, true, false)
-	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			#print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	print(("common: "),Player.common)
-	print(("uncommon: "),Player.uncommon)
-	print(("rare: "),Player.rare)
-	print(("mythic: "),Player.mythic)
-	
-	
+
 func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: bool) -> void:
 	var pos = Vector2(posX, posY)
 	var num = list.pick_random();
@@ -72,7 +58,6 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 	print("started")
 	add_child(grab)
 	pass
-
 
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing) -> void:
 	var pos = Vector2(posX, posY)
@@ -101,33 +86,9 @@ func createDraftPack () -> void:
 func createSetPack () -> void:
 	
 	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.showBar()
-	
-	print("Inventory ", Player.IDInventory)
-	$"..".drawBackButton();
+	Lib.finish()
 
 func createCollectorPack ():
 	
-	await HttpData.Finished
-	while HttpData.get_child_count() > 0:
-			print("waiting", HttpData.get_child_count())
-			await get_tree().process_frame
-	
-	var levelLabel = get_node("/root/Main/CanvasLayer/VScrollBar_PackOpening")
-	levelLabel.showBar()
-	
-	print("Inventory ", Player.IDInventory)
-	$"..".drawBackButton();
+	Lib.finish()
 	pass
-
-
-func getRarityByWeight(arrays: Array, weights: Array):
-	var random = RandomNumberGenerator.new()
-	
-	return arrays[random.rand_weighted(weights)]

@@ -470,7 +470,7 @@ var UpgradeMain = {
 	"increases you card sell value by +0.05%",
 	5,
 	func ():
-		Player.sell_multi += 0.05
+		Player._sell_multi += 0.05
 		return true
 ],
 
@@ -479,7 +479,7 @@ var UpgradeMain = {
 	"increases you card sell value by +0.05%",
 	17,
 	func ():
-		Player.sell_multi += 0.05
+		Player._sell_multi += 0.05
 		return true
 ],
 "SM3": [
@@ -487,7 +487,7 @@ var UpgradeMain = {
 	"increases you card sell value by +0.05%",
 	32,
 	func ():
-		Player.sell_multi += 0.05
+		Player._sell_multi += 0.05
 		return true
 ],
 

@@ -100,7 +100,7 @@ func _ready() -> void:
 	$Pack_Clicker.visible = false
 	$CanvasLayer/Upgrades_Button.visible = false
 	$CanvasLayer/Pack_Screen_Button.visible = false
-	$CanvasLayer/Open_Packs_Screen.visible = false
+	$CanvasLayer/Open_Pack_Button.visible = false
 	$CanvasLayer/Inventory_Button.visible = false
 	$CanvasLayer/level_Label.visible = false
 	$CanvasLayer/Upgrade_Tree_button.visible = false
@@ -119,7 +119,7 @@ func _ready() -> void:
 	$CanvasLayer/Upgrades_Button.visible = true
 	$CanvasLayer/Upgrades_Button.visible = true
 	$CanvasLayer/Pack_Screen_Button.visible = true
-	$CanvasLayer/Open_Packs_Screen.visible = true
+	$CanvasLayer/Open_Pack_Button.visible = true
 	$CanvasLayer/Inventory_Button.visible = true
 	$CanvasLayer/level_Label.visible = true
 	#$CanvasLayer/Upgrade_Tree_button.visible = true

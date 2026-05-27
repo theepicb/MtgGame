@@ -1,7 +1,16 @@
 extends Node2D
 
 var money = 0;
-var luck = 0;
+
+var luck = 0
+var _bonus_luck = 0
+
+var _sell_multi:float = 0.25
+var _bonus_sell_multi = 0
+
+func sell_multi() -> float:
+	return _sell_multi
+
 var spg_luck = 2
 var list_luck = 2
 
@@ -12,7 +21,7 @@ var godMode = true
 var level = 1;
 var xpToLevelUp = [0, 5, 20, 50, 90, 150, 250, 400, 600, 850, 1200, 9999999]
 var xp = 0;
-var sell_multi = 0.25
+
 
 var common = []
 var uncommon = []
@@ -127,7 +136,7 @@ func returnDictionary() -> Dictionary:
 		"money": money,
 		"xp": xp,
 		"level": level,
-		"sell_multi": sell_multi,
+		"sell_multi": _sell_multi,
 		"specialGuestLuck": spg_luck,
 		"list_luck": list_luck,
 	}
@@ -142,7 +151,7 @@ func setDictionary (dict: Dictionary):
 	var bin = dict.get("binder", [])
 	loadBinder(bin)
 	Player.IDbinder = dict.get("IDbinder", [])
-	Player.sell_multi = dict.get("sell_multi", 0.25)
+	Player._sell_multi = dict.get("sell_multi", 0.25)
 	Player.spg_luck = dict.get("specialGuestLuck", spg_luck)
 	Player.list_luck = dict.get("list_luck", 2)
 	pass

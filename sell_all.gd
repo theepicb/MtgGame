@@ -11,7 +11,7 @@ func _pressed() -> void:
 		var amount = 0
 		for key in Player.cardInventory:
 			var card = Player.cardInventory[key]
-			amount += card.price * card.count * Player.sell_multi
+			amount += card.price * card.count * Player.sell_multi()
 			card.visible = false
 		Player.money += amount
 		Player.cardInventory.clear()

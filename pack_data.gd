@@ -1,8 +1,13 @@
 extends Node2D
 var path = "user://Cards/";
-
+var gettingCards = true
 func _ready() -> void:
 	ensure_directory_exists(path)
+	if gettingCards:
+		for x in range(353, 392):
+			Lib.grabCardExtra("lci", x, 0, 0, 0, false, true)
+			await get_tree().create_timer(0.5).timeout
+		Lib.grabCardExtra("lci", 1, 0, 0, 0, true, false)
 	pass
 	
 func ensure_directory_exists(dir_path: String) -> void:
