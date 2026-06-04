@@ -144,7 +144,7 @@ func grabCard (list: Array, foilEnum: int, posX: float, posY: float, isLast: boo
 
 func grabCardExtra (list: int, foilEnum: int, posX: float, posY: float, isLast: bool, isGrabbing, serialNum) -> void:
 	var pos = Vector2(posX, posY)
-	var grab = Card_Grabber.new(str(list) + "z", "rvr", foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
+	var grab = Card_Grabber.new(str(list), "rvr", foilEnum, "user://Cards/" + set_name, pos, isLast, isGrabbing, true, serialNum, serial_max);
 	print("started")
 	add_child(grab)
 	pass
@@ -217,7 +217,7 @@ func createCollectorPack ():
 			serial[key].append(number)
 	
 	if isSerial:
-		grabCardExtra(int(key), 1, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false, number)
+		grabCardExtra(int(key), 5, $"..".getPosition(counter).x, $"..".getPosition(counter).y, true, false, number)
 	else:
 		Lib.grabCardEasy(set_name, Lib.getRarityByWeight([retro_rare, retro_mythic, col_rares, col_mythics, boarderless_rare, boarderless_planes, boarderless_mythic, boarderless_shocks],[55.2,5.3 + total_luck,10.6,2.1 + total_luck,13.4,1.4 + total_luck,4,7 + total_luck]), 1, counter, true)
 	# finish --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

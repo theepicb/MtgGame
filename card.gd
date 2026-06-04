@@ -310,7 +310,6 @@ func returnDictionary()->Dictionary:
 
 func serialise (number: int = serial_number, maxNumber: int = max_number) -> void:
 	self.serial_number = number
-	self.price = (pow(self.price + 5 , 1.5) * 4) + 80
 	self.serial = true
 	self.max_number = maxNumber
 	drawSerial(self.serial_number)

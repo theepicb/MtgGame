@@ -38,9 +38,7 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 	self.isLast = isLast
 	self.grabbingRarity = gettingRarity
 	self.isSerial = isSerial
-	extraLetter = ""
 	if isSerial:
-		extraLetter = "z"
 		self.serialNum = serialNum
 		self.serialMaxNum = serialMaxNum
 	self.cardID = createID()
@@ -57,7 +55,7 @@ func _init(number, set_name: String, foilEnum: int, save_path: String, position:
 
 func generateCard () -> void:
 	if (!Player.cardInventory.has(self.cardID) || self.isSerial || self.grabbingRarity):
-		print("new card found")
+		print("new card found " + self.cardID)
 		self.new_card = Card.new(1,  cardID, self.isFoil, ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png"), pos)
 		Player.add_child(new_card)
 		if !grabbingRarity:
@@ -127,6 +125,7 @@ func process_card_json(json: Dictionary) -> void:
 	new_card.setName(cardname)
 
 	var prices = json.get("prices", {})
+	
 	var specialPrices = ["mom338z", "mom339z", "mom340z", "mom341z", "mom342z"]
 	print("card substring ", cardID.substr(0, 7))
 	if specialPrices.has(cardID.substr(0, 7)):
@@ -138,13 +137,16 @@ func process_card_json(json: Dictionary) -> void:
 			"mom342z": card_value = 41 
 	else:
 		match isFoil:
-			0: card_value = get_safe_float(prices, "usd", ID)
-			1: card_value = get_safe_float(prices, "usd_foil", ID)
-			2: card_value = get_safe_float(prices, "usd_etched", ID)
-			3, 4: card_value = get_safe_float(prices, "usd_foil", ID)
-			5: card_value = get_safe_float(prices, "usd_foil", ID)
+			0: card_value = get_safe_float(prices, "usd")
+			1: card_value = get_safe_float(prices, "usd_foil")
+			2: card_value = get_safe_float(prices, "usd_etched")
+			3, 4: card_value = get_safe_float(prices, "usd_foil")
+			5: card_value = get_safe_float(prices, "usd_foil")
 			_: card_value = 0.0
-
+	if isSerial:
+		new_card.serialise(self.serialNum, self.serialMaxNum)
+		card_value = serialPriceAduster(self.serialNum, card_value)
+	
 	var image_uris = json.get("image_uris", {})
 	if image_uris.is_empty() and json.has("card_faces"):
 		var card_faces = json["card_faces"]
@@ -160,7 +162,7 @@ func process_card_json(json: Dictionary) -> void:
 	imageURL = image_uris["png"]
 	new_card.setPrice(card_value)
 
-	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + extraLetter + ".png")):
+	if FileAccess.file_exists(ProjectSettings.globalize_path(save_path + "/" + str(number) + ".png")):
 		print("image exists!")
 		new_card.call_deferred("loadImage")
 		finished()
@@ -189,10 +191,6 @@ func secondPing (result: int, response_code: int, headers: PackedStringArray, bo
 		print("Failed to save image. Error code:", imageResult)
 	else:
 		print("Saved to:", ProjectSettings.globalize_path(save_path + str(number) + ".png"))
-	
-	if isSerial:
-		new_card.serialise(self.serialNum, self.serialMaxNum)
-		new_card.setPrice(serialPriceAduster(self.serialNum, new_card.price))
 	
 	new_card.call_deferred("loadImage")
 	finished();
@@ -231,32 +229,33 @@ func startPing ():
 	httpRequest1.request(url);
 	pass
 
-func serialPriceAduster (number, price) -> float:
-	
+func serialPriceAduster (number, priceIn) -> float:
+	print("card with original price " +(str(priceIn)) + " " + self.cardID)
+	priceIn = 128 * pow(priceIn + 5, 0.65)
 	match number:
 		100, 200, 300, 400, 500:
-			price = price * 1.35
+			priceIn = priceIn * 1.35
 		1:
-			price = pow(price, 1.1) * 1.4
+			priceIn = pow(priceIn, 1.1) * 1.4
 		2: 
-			price = price * 1.4
+			priceIn = priceIn * 1.4
 		3:
-			price = price * 1.34
+			priceIn = priceIn * 1.34
 		4:
-			price = price * 1.32
+			priceIn = priceIn * 1.32
 		5:
-			price = price * 1.31
+			priceIn = priceIn * 1.31
 		10, 20, 30, 40, 50, 150, 250, 350, 450:
-			price = price * 1.2
+			priceIn = priceIn * 1.2
 		69: 
-			price = price * 1.35
+			priceIn = priceIn * 1.35
 		169, 269, 369, 469:
-			price = price * 1.15
+			priceIn = priceIn * 1.15
 		111,222,333,444:
-			price = price * 1.25
-	return price + sin(serialNum)
+			priceIn = priceIn * 1.25
+	return priceIn + sin(serialNum)
 
-func get_safe_float(prices: Dictionary, key: String, ID: String) -> float:
+func get_safe_float(prices: Dictionary, key: String) -> float:
 	
 	if self.cardID == "spg17af":
 		return 3111.74

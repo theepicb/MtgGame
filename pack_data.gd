@@ -4,10 +4,10 @@ var gettingCards = true
 func _ready() -> void:
 	ensure_directory_exists(path)
 	if gettingCards:
-		for x in range(353, 392):
+		for x in range(0, 0):
 			Lib.grabCardExtra("lci", x, 0, 0, 0, false, true)
 			await get_tree().create_timer(0.5).timeout
-		Lib.grabCardExtra("lci", 1, 0, 0, 0, true, false)
+		Lib.grabCardExtra("lci", 1, 0, 0, 0, true, true)
 	pass
 	
 func ensure_directory_exists(dir_path: String) -> void:
@@ -35,7 +35,7 @@ func drawBackButton ():
 	$"../CanvasLayer/Back_Button".draw()
 
 func chooseSerialNumber (max_num: int, array: Array) -> int:
-	var number = randi_range(0, max_num)
+	var number = randi_range(1, max_num)
 	if !array.has(number):
 		return number
 	else:
