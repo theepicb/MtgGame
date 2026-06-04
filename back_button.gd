@@ -26,6 +26,9 @@ func _pressed():
 	for child in Player.cardsToDelete:
 		if is_instance_valid(child):
 			child.queue_free()
+	for child in Lib.get_children():
+		if (child is Node):
+			child.queue_free()
 	Player.cardsToDelete.clear()
 	Player.cardsToShow.clear();
 	$"../level_Label".setText()
